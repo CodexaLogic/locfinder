@@ -1,0 +1,173 @@
+@use "../../common/scss/styles" as *;
+
+/**
+ * Editor-only styles for the Location Finder block.
+ */
+
+.locfinder-block {
+	border: 1px dashed var(--locfinder-gray-300);
+	border-radius: var(--locfinder-radius-md);
+	padding: var(--locfinder-space-3);
+}
+
+.locfinder-block__summary {
+	background: var(--locfinder-gray-100);
+	border-radius: var(--locfinder-radius-sm);
+	display: flex;
+	flex-direction: column;
+	font-size: var(--locfinder-font-size-xs);
+	gap: var(--locfinder-space-1);
+	margin-bottom: var(--locfinder-space-3);
+	padding: var(--locfinder-space-2);
+
+	&-row {
+		align-items: baseline;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-1) var(--locfinder-space-2);
+	}
+
+	&-label {
+		color: var(--locfinder-gray-700);
+		flex-shrink: 0;
+		font-size: 0.65rem;
+		font-weight: var(--locfinder-fw-semibold);
+		letter-spacing: var(--locfinder-ls-wide);
+		min-width: 55px;
+		text-transform: uppercase;
+	}
+
+	&-value {
+		color: var(--locfinder-body);
+	}
+
+	&-empty {
+		color: var(--locfinder-text-muted);
+		font-style: italic;
+	}
+
+	&-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem;
+	}
+
+	&-chip {
+		background: color-mix(
+			in srgb,
+			var(--locfinder-primary) 10%,
+			transparent
+		);
+		border-radius: var(--locfinder-radius-pill);
+		color: var(--locfinder-primary);
+		font-weight: var(--locfinder-fw-semibold);
+		padding: 0.1rem 0.5rem;
+	}
+}
+
+.locfinder-block .locfinder__map {
+	align-items: center;
+	background: var(--locfinder-gray-100);
+	border: 1px dashed var(--locfinder-gray-400);
+	border-radius: var(--locfinder-radius-md);
+	color: var(--locfinder-text-muted);
+	display: flex;
+	font-size: var(--locfinder-font-size-sm);
+	height: 240px;
+	justify-content: center;
+
+	&::after {
+		content: "Map preview, not rendered in the editor";
+	}
+}
+
+.locfinder-block .locfinder-form {
+	align-items: center;
+	background-color: var(--locfinder-white);
+	border: var(--locfinder-border);
+	border-radius: var(--locfinder-radius-sm);
+	box-shadow: var(--locfinder-shadow-lg);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--locfinder-space-2);
+	padding: var(--locfinder-space-2);
+
+	&__label {
+		color: var(--locfinder-gray-700);
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-semibold);
+		white-space: nowrap;
+	}
+
+	&__field {
+		appearance: none;
+		-webkit-appearance: none;
+		background-color: var(--locfinder-gray-100);
+		border: 1px solid transparent;
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-body);
+		height: var(--locfinder-field-height);
+		padding: 0 var(--locfinder-space-3);
+
+		&::placeholder {
+			color: var(--locfinder-text-muted);
+			font-size: var(--locfinder-font-size-sm);
+		}
+	}
+
+	&__keyword {
+		min-width: 140px;
+	}
+
+	&__address-group {
+		align-items: stretch;
+		display: flex;
+	}
+
+	&__address {
+		border-radius: var(--locfinder-radius-sm) 0 0 var(--locfinder-radius-sm);
+		flex: 1;
+		min-width: 220px;
+	}
+
+	&__geolocate {
+		align-items: center;
+		background-color: var(--locfinder-gray-100);
+		border: 1px solid transparent;
+		border-radius: 0 var(--locfinder-radius-sm) var(--locfinder-radius-sm) 0;
+		color: var(--locfinder-primary);
+		display: flex;
+		height: var(--locfinder-field-height);
+		justify-content: center;
+		padding: 0 var(--locfinder-space-2);
+		width: 2.5rem;
+	}
+
+	&__radius,
+	&__category {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		background-position: right var(--locfinder-space-2) center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		min-width: 120px;
+		padding-right: var(--locfinder-space-5);
+	}
+
+	&__submit {
+		background-color: var(--locfinder-primary);
+		border: none;
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-white);
+		cursor: pointer;
+		font-size: var(--locfinder-font-size-md);
+		font-weight: var(--locfinder-fw-semibold);
+		height: var(--locfinder-field-height);
+		padding: 0 var(--locfinder-space-3);
+		white-space: nowrap;
+	}
+}
+
+.locfinder-block .locfinder__results,
+.locfinder-block .locfinder-pagination {
+	display: none;
+}

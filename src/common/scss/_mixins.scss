@@ -1,0 +1,55 @@
+/**
+ * SCSS Mixins
+ *
+ * Reusable patterns shared across public, common, and admin SCSS files.
+ */
+
+/* Visually Hidden */
+@mixin visually-hidden {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+@mixin sr-only {
+	@include visually-hidden;
+}
+
+@mixin focus-ring($color: var(--locfinder-focus)) {
+	outline: 3px solid color-mix(in srgb, #{$color} 40%, transparent);
+	outline-offset: 2px;
+}
+
+@mixin focus-shadow($color: var(--locfinder-focus)) {
+	box-shadow: 0 0 0 3px color-mix(in srgb, #{$color} 15%, transparent);
+}
+
+@mixin bp-tablet {
+	@media (min-width: 768px) {
+		@content;
+	}
+}
+
+@mixin bp-desktop {
+	@media (min-width: 992px) {
+		@content;
+	}
+}
+
+@mixin bp-below-tablet {
+	@media (max-width: 767.98px) {
+		@content;
+	}
+}
+
+@mixin bp-below-desktop {
+	@media (max-width: 991.98px) {
+		@content;
+	}
+}

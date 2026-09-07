@@ -1,0 +1,140 @@
+/**
+ * Locfinder design tokens.
+ *
+ * Naming convention: --locfinder-{category}-{variant}
+ */
+
+:root {
+	/* Brand Colors */
+	--locfinder-primary: #00606b;
+	--locfinder-secondary: color-mix(
+		in srgb,
+		var(--locfinder-primary) 80%,
+		black
+	);
+	--locfinder-accent: #13c9de;
+
+	/* Semantic Colors */
+	--locfinder-success: #1a7162;
+	--locfinder-error: #dc2626; /* red-600 */
+	--locfinder-warning: #d97706; /* amber-600 */
+	--locfinder-alert: #991b1b; /* red-800 */
+
+	/* Neutral Colors */
+	--locfinder-white: #ffffff;
+	--locfinder-body: #141f26;
+	--locfinder-gray-100: #f8fafc;
+	--locfinder-gray-200: #f1f5f9;
+	--locfinder-gray-300: #e2e8f0;
+	--locfinder-gray-400: #cbd5e1;
+	--locfinder-gray-500: #94a3b8;
+	--locfinder-gray-600: #64748b;
+	--locfinder-gray-700: #475569;
+	--locfinder-gray-800: #1e293b;
+	--locfinder-gray-900: #0f172a;
+	--locfinder-text-muted: var(--locfinder-gray-700);
+
+	/* Backgrounds */
+	--locfinder-bg: var(--locfinder-white);
+	--locfinder-bg-muted: var(--locfinder-gray-100);
+
+	/* Typography */
+	--locfinder-font-mono:
+		ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+		"Liberation Mono", monospace;
+
+	--locfinder-font-size-xs: 0.75rem; /* 12px */
+	--locfinder-font-size-sm: 0.875rem; /* 14px */
+	--locfinder-font-size-md: 1rem; /* 16px */
+	--locfinder-font-size-lg: 1.25rem; /* 20px */
+	--locfinder-font-size-xl: 1.5rem; /* 24px */
+
+	--locfinder-fw-normal: 400;
+	--locfinder-fw-semibold: 600;
+	--locfinder-fw-bold: 700;
+
+	--locfinder-lh-tight: 1.25;
+	--locfinder-lh-normal: 1.5;
+	--locfinder-lh-relaxed: 1.75;
+
+	/* Spacing (Gutenberg-aligned) */
+	--locfinder-space-1: 0.44rem; /* ~7px, wp --preset--spacing--20 */
+	--locfinder-space-2: 0.75rem; /* 12px, wp --preset--spacing--30 */
+	--locfinder-space-3: 1rem; /* 16px, wp --preset--spacing--40 */
+	--locfinder-space-4: 1.5rem; /* 24px, wp --preset--spacing--50 */
+	--locfinder-space-5: 2rem; /* 32px, wp --preset--spacing--60 */
+	--locfinder-space-6: 3rem; /* 48px, wp --preset--spacing--70 */
+	--locfinder-space-7: 5rem; /* 80px, wp --preset--spacing--80 */
+
+	/* Border Radius */
+	--locfinder-radius-sm: 0.25rem;
+	--locfinder-radius-md: 0.5rem;
+	--locfinder-radius-lg: 0.75rem;
+	--locfinder-radius-xl: 1rem;
+	--locfinder-radius-xxl: 1.5rem;
+	--locfinder-radius-pill: 50rem;
+
+	/* Borders */
+	--locfinder-border: 1px solid var(--locfinder-gray-300);
+	--locfinder-border-muted: 1px solid var(--locfinder-gray-200);
+	--locfinder-border-focus: 1px solid var(--locfinder-primary);
+
+	/* Shadows */
+	--locfinder-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+	--locfinder-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+	--locfinder-shadow-lg: 0 20px 48px rgba(15, 23, 42, 0.12);
+
+	/* Component-specific measurements */
+	--locfinder-textarea-min-height: 8rem;
+	--locfinder-color-input-height: 2.5rem;
+	--locfinder-color-input-width: 4rem;
+	--locfinder-tab-border-width: 3px;
+	--locfinder-meta-map-height: 250px;
+	--locfinder-results-min-height: 200px;
+
+	/* Table */
+	--locfinder-border-color: var(--locfinder-gray-300);
+	--locfinder-ls-wide: 0.05em;
+
+	/* Overlays and insets */
+	--locfinder-shadow-inset: rgba(15, 23, 42, 0.04);
+	--locfinder-error-bg: color-mix(
+		in srgb,
+		var(--locfinder-error) 5%,
+		var(--locfinder-white)
+	);
+	--locfinder-overlay-bg: color-mix(
+		in srgb,
+		var(--locfinder-white) 75%,
+		transparent
+	);
+
+	/* Forms */
+	--locfinder-field-width: 540px;
+	--locfinder-field-height: 2.75rem;
+	--locfinder-focus: var(--locfinder-accent);
+
+	/* Z-index */
+	--locfinder-z-map: 0;
+	--locfinder-z-form: 1;
+	--locfinder-z-spinner: 9999;
+
+	/* Motion */
+	--locfinder-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+	--locfinder-ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+	--locfinder-ease-linear: linear;
+
+	--locfinder-duration-1: 150ms;
+	--locfinder-duration-2: 250ms;
+	--locfinder-duration-3: 400ms;
+
+	/* Transitions */
+	--locfinder-transition-fast: var(--locfinder-duration-1)
+		var(--locfinder-ease-standard);
+	--locfinder-transition-base: var(--locfinder-duration-2)
+		var(--locfinder-ease-standard);
+	--locfinder-transition-slow: var(--locfinder-duration-3)
+		var(--locfinder-ease-standard);
+	--locfinder-transition-emphasis: var(--locfinder-duration-3)
+		var(--locfinder-ease-emphasized);
+}

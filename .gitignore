@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+build/
+packaged/
+
+# Source maps
+*.map
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+
+*.log
+npm-debug.log*

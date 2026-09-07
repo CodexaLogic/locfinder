@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+# Build artifacts
+build
+packaged
+
+# Generated / not ours to reformat
+package-lock.json
+
+# OS files
+.DS_Store

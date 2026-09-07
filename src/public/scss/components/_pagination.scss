@@ -1,0 +1,62 @@
+/**
+ * Pagination styles.
+ */
+.locfinder-pagination {
+	align-items: center;
+	display: flex;
+	gap: var(--locfinder-space-1);
+	justify-content: center;
+	margin-top: var(--locfinder-space-5);
+	padding: var(--locfinder-space-3) 0;
+
+	button {
+		background: transparent;
+		border: none;
+		border-radius: var(--locfinder-radius-pill);
+		color: var(--locfinder-gray-700);
+		cursor: pointer;
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-bold);
+		line-height: 1;
+		padding: var(--locfinder-space-2) var(--locfinder-space-3);
+		transition:
+			background-color var(--locfinder-transition-fast),
+			color var(--locfinder-transition-fast);
+
+		&:hover:not(:disabled) {
+			color: var(--locfinder-primary);
+		}
+
+		/* Current page */
+		&[aria-current="page"] {
+			align-items: center;
+			aspect-ratio: 1;
+			background-color: color-mix(
+				in srgb,
+				var(--locfinder-primary) 12%,
+				transparent
+			);
+			color: var(--locfinder-primary);
+			cursor: default;
+			display: inline-flex;
+			justify-content: center;
+			padding: 0;
+			width: var(--locfinder-space-5);
+		}
+
+		&.locfinder-pagination__nav:disabled {
+			cursor: default;
+			opacity: 0.35;
+		}
+	}
+
+	&__ellipsis {
+		align-items: flex-end;
+		color: var(--locfinder-text-muted);
+		display: flex;
+		font-size: var(--locfinder-font-size-lg);
+		line-height: 1;
+		padding: 0 var(--locfinder-space-1);
+		user-select: none;
+	}
+}

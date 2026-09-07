@@ -1,0 +1,353 @@
+@use "../../../common/scss/styles" as *;
+
+/**
+ * Result card and location information styles.
+ */
+.locfinder-result {
+	background: var(--locfinder-white);
+	border: 1px solid var(--locfinder-gray-300);
+	border-radius: var(--locfinder-radius-sm);
+	display: flex;
+	flex-direction: column;
+	gap: var(--locfinder-space-3);
+	overflow: hidden;
+	transition:
+		border-color var(--locfinder-transition-fast),
+		box-shadow var(--locfinder-transition-fast),
+		transform var(--locfinder-transition-fast);
+
+	&:hover {
+		border-color: var(--locfinder-primary);
+		box-shadow: var(--locfinder-shadow);
+		transform: translateY(-1px);
+	}
+
+	&--active {
+		border-color: var(--locfinder-primary);
+		box-shadow:
+			0 0 0 3px
+				color-mix(in srgb, var(--locfinder-primary) 15%, transparent),
+			var(--locfinder-shadow);
+		transform: translateY(-1px);
+	}
+
+	&__thumbnail {
+		width: 100%;
+
+		img {
+			aspect-ratio: 16 / 9;
+			display: block;
+			height: auto;
+			object-fit: cover;
+			width: 100%;
+		}
+
+		&--empty {
+			aspect-ratio: 16 / 9;
+			background-color: var(--locfinder-bg-muted);
+		}
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--locfinder-space-1);
+		min-width: 0;
+		padding: 0 var(--locfinder-space-4) var(--locfinder-space-4);
+
+		a,
+		a:visited {
+			font-weight: var(--locfinder-fw-semibold);
+		}
+
+		&:first-child {
+			padding-top: var(--locfinder-space-4);
+		}
+	}
+
+	&__title-row {
+		align-items: flex-start;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-2);
+		justify-content: space-between;
+
+		.locfinder-location__open-badge {
+			margin-bottom: 0;
+		}
+	}
+
+	&__title {
+		font-size: var(--locfinder-font-size-md);
+		font-weight: var(--locfinder-fw-semibold);
+		line-height: var(--locfinder-lh-tight);
+		margin: 0;
+
+		a {
+			color: var(--locfinder-body);
+			text-decoration: none;
+			transition: color var(--locfinder-transition-fast);
+
+			&:hover {
+				color: var(--locfinder-primary);
+			}
+		}
+	}
+
+	&__distance {
+		align-items: center;
+		background-color: color-mix(
+			in srgb,
+			var(--locfinder-accent) 12%,
+			transparent
+		);
+		border-radius: var(--locfinder-radius-pill);
+		color: var(--locfinder-primary);
+		display: inline-flex;
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-semibold);
+		gap: 0.25rem;
+		padding: 0.2rem var(--locfinder-space-2);
+		width: fit-content;
+	}
+
+	&__excerpt {
+		color: var(--locfinder-text-muted);
+		font-size: var(--locfinder-font-size-sm);
+		line-height: var(--locfinder-lh-relaxed);
+		margin: 0;
+	}
+
+	&__fallback-text {
+		color: var(--locfinder-text-muted);
+		font-size: var(--locfinder-font-size-sm);
+		font-style: italic;
+	}
+
+	&__actions {
+		display: flex;
+		gap: var(--locfinder-space-2);
+		margin: var(--locfinder-space-1) 0;
+	}
+
+	&__locate {
+		align-self: flex-start;
+		background: var(--locfinder-primary);
+		border: none;
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-white);
+		cursor: pointer;
+		font-size: var(--locfinder-font-size-xs);
+		font-weight: var(--locfinder-fw-bold);
+		margin-top: var(--locfinder-space-3);
+		padding: 0.5rem var(--locfinder-space-3);
+
+		&:hover {
+			background: var(--locfinder-secondary);
+		}
+
+		&:not(:focus) {
+			@include visually-hidden;
+		}
+	}
+}
+
+.locfinder__results--list .locfinder-result {
+	flex-direction: row;
+	padding: var(--locfinder-space-4);
+
+	&__thumbnail {
+		flex-shrink: 0;
+		width: 96px;
+
+		img {
+			aspect-ratio: 1 / 1;
+			border-radius: var(--locfinder-radius-sm);
+		}
+
+		&--empty {
+			aspect-ratio: 1 / 1;
+			border-radius: var(--locfinder-radius-sm);
+		}
+	}
+
+	&__body {
+		justify-content: center;
+		padding: 0;
+	}
+}
+
+/* Location information */
+.locfinder-location {
+	&__icon {
+		flex-shrink: 0;
+		margin-right: var(--locfinder-space-1);
+	}
+
+	&__address,
+	&__phone,
+	&__email,
+	&__website,
+	&__directions {
+		align-items: center;
+		color: var(--locfinder-body);
+		display: flex;
+		font-size: var(--locfinder-font-size-sm);
+		line-height: var(--locfinder-lh-normal);
+
+		a {
+			color: var(--locfinder-primary);
+			text-decoration: none;
+			transition: color var(--locfinder-transition-fast);
+
+			&:hover {
+				color: var(--locfinder-secondary);
+			}
+		}
+	}
+
+	&__phone a {
+		color: var(--locfinder-primary);
+
+		&:hover {
+			color: inherit;
+		}
+	}
+
+	.locfinder-result__actions &__directions,
+	.lf-marker-info__actions &__directions {
+		padding-left: 0;
+
+		a {
+			align-items: center;
+			background: var(--locfinder-primary);
+			border-radius: var(--locfinder-radius-sm);
+			color: var(--locfinder-white);
+			display: flex;
+			font-size: var(--locfinder-font-size-xs);
+			font-weight: var(--locfinder-fw-bold);
+			justify-content: center;
+			padding: 0.35rem var(--locfinder-space-2);
+			text-align: center;
+
+			&:hover {
+				background: var(--locfinder-secondary);
+				color: var(--locfinder-white);
+				text-decoration: none;
+			}
+		}
+
+		.locfinder-location__icon {
+			display: none;
+		}
+	}
+
+	.locfinder-result__actions &__view-details a,
+	.lf-marker-info__actions &__view-details a {
+		align-items: center;
+		background: var(--locfinder-white);
+		border: 1px solid var(--locfinder-primary);
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-primary);
+		display: flex;
+		font-size: var(--locfinder-font-size-xs);
+		font-weight: var(--locfinder-fw-bold);
+		justify-content: center;
+		padding: 0.35rem var(--locfinder-space-2);
+		text-align: center;
+		text-decoration: none;
+		transition: background var(--locfinder-transition-fast);
+
+		&:hover {
+			background: color-mix(
+				in srgb,
+				var(--locfinder-primary) 8%,
+				transparent
+			);
+		}
+	}
+
+	&__open-badge {
+		align-self: flex-start;
+		border-radius: var(--locfinder-radius-pill);
+		display: inline-block;
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-semibold);
+		margin-bottom: var(--locfinder-space-1);
+		padding: 0.2rem var(--locfinder-space-2);
+
+		&--open {
+			background-color: color-mix(
+				in srgb,
+				var(--locfinder-success) 12%,
+				transparent
+			);
+			color: var(--locfinder-success);
+		}
+
+		&--closed {
+			background-color: color-mix(
+				in srgb,
+				var(--locfinder-error) 12%,
+				transparent
+			);
+			color: var(--locfinder-error);
+			font-size: var(--locfinder-font-size-xs);
+		}
+	}
+
+	&__hours {
+		border-collapse: collapse;
+		border-top: var(--locfinder-border-muted);
+		font-size: var(--locfinder-font-size-sm);
+		margin-top: var(--locfinder-space-3);
+		width: 100%;
+	}
+
+	&__hours-row {
+		th,
+		td {
+			padding: 0.15rem var(--locfinder-space-1) 0.15rem 0;
+			text-align: left;
+		}
+
+		th {
+			color: var(--locfinder-body);
+			font-weight: var(--locfinder-fw-semibold);
+			white-space: nowrap;
+		}
+
+		td {
+			color: var(--locfinder-text-muted);
+		}
+
+		&:first-child {
+			th,
+			td {
+				padding-top: var(--locfinder-space-2);
+			}
+		}
+	}
+
+	&__categories {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-1);
+		list-style: none;
+		margin: var(--locfinder-space-2) 0 0;
+		padding: 0;
+
+		li {
+			background: color-mix(
+				in srgb,
+				var(--locfinder-primary) 8%,
+				transparent
+			);
+			border-radius: var(--locfinder-radius-sm);
+			color: var(--locfinder-primary);
+			font-size: var(--locfinder-font-size-xs);
+			font-weight: var(--locfinder-fw-bold);
+			padding: 0.2rem var(--locfinder-space-2);
+		}
+	}
+}

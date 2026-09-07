@@ -1,0 +1,215 @@
+@use "../../../common/scss/styles" as *;
+@use "../components/map-base";
+
+/**
+ * Locfinder root block and structural elements.
+ *
+ * BEM naming convention:
+ *   .locfinder                    root block
+ *   .locfinder__element           element of root block
+ *   .locfinder-subblock           self-contained sub-block
+ *   .locfinder-subblock__element  element of sub-block
+ *   .locfinder-subblock--modifier modifier of sub-block
+ */
+%locfinder-content-width {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--locfinder-search-max-width, 1200px);
+	padding-left: var(--locfinder-space-4);
+	padding-right: var(--locfinder-space-4);
+}
+
+.locfinder {
+	max-width: none;
+	position: relative;
+	width: 100%;
+
+	@include bp-desktop {
+		padding: 0;
+	}
+}
+
+.locfinder__search {
+	@extend %locfinder-content-width;
+	position: relative;
+	z-index: var(--locfinder-z-form);
+}
+
+.locfinder__body {
+	@extend %locfinder-content-width;
+}
+
+.locfinder[data-results-position="left"],
+.locfinder[data-results-position="right"] {
+	@include bp-desktop {
+		.locfinder__search,
+		.locfinder__body {
+			margin-left: calc(
+				50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+			);
+			margin-right: calc(
+				50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+			);
+			max-width: calc(100vw - var(--locfinder-scrollbar-width, 0px));
+		}
+
+		.locfinder__body {
+			display: flex;
+			gap: var(--locfinder-space-4);
+			height: var(--locfinder-map-height, 100vh);
+		}
+
+		.locfinder__map {
+			flex: 1 1 var(--locfinder-map-width, 50%);
+			height: 100%;
+			min-width: 0;
+		}
+
+		.locfinder__results-panel {
+			flex: 1 1 50%;
+			height: 100%;
+			min-width: 280px;
+			overflow-y: auto;
+			-ms-overflow-style: none;
+			scrollbar-width: none;
+
+			&:focus-visible {
+				@include focus-ring;
+			}
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		.locfinder-form {
+			justify-content: flex-start;
+			margin-left: 0;
+			margin-top: 0;
+			width: 100%;
+
+			&__keyword {
+				flex: 1;
+				max-width: 360px;
+			}
+
+			&__address-group {
+				flex: 1;
+				max-width: 460px;
+			}
+		}
+	}
+}
+
+.locfinder[data-results-position="bottom"] {
+	@include bp-desktop {
+		display: flex;
+		flex-direction: column;
+
+		@media (min-width: 992px) {
+			.locfinder-form {
+				margin-top: -1.25rem;
+			}
+		}
+
+		.locfinder__body {
+			display: contents;
+		}
+
+		.locfinder__map {
+			height: var(--locfinder-map-height, 100vh) !important;
+			order: 1;
+			width: 100%;
+		}
+
+		.locfinder__search {
+			order: 2;
+			width: 100%;
+			margin-top: 0;
+		}
+
+		.locfinder__results-panel {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: var(--locfinder-search-max-width, 1200px);
+			padding-left: var(--locfinder-space-4);
+			padding-right: var(--locfinder-space-4);
+			order: 3;
+			width: 100%;
+		}
+	}
+}
+
+.locfinder[data-results-position="right"] {
+	@include bp-desktop {
+		.locfinder__body {
+			flex-direction: row-reverse;
+		}
+	}
+}
+
+.locfinder__total {
+	align-items: center;
+	color: var(--locfinder-primary);
+	display: flex;
+	font-size: var(--locfinder-font-size-md);
+	font-weight: var(--locfinder-fw-bold);
+	gap: 0.25rem;
+	margin-bottom: var(--locfinder-space-4);
+	min-height: 1.5em;
+
+	&::before {
+		background-color: currentColor;
+		content: "";
+		flex-shrink: 0;
+		height: 14px;
+		width: 14px;
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E");
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-size: contain;
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E");
+		mask-repeat: no-repeat;
+		mask-size: contain;
+	}
+
+	&:empty::before {
+		display: none;
+	}
+}
+
+.locfinder__results {
+	display: grid;
+	gap: var(--locfinder-space-4);
+	grid-template-columns: repeat(var(--grid-cols, 3), minmax(0, 1fr));
+
+	&--list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--locfinder-space-2);
+	}
+
+	@include bp-below-tablet {
+		grid-template-columns: 1fr;
+	}
+
+	@include bp-tablet {
+		@include bp-below-desktop {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+}
+
+.locfinder__results-wrap {
+	min-height: var(--locfinder-results-min-height);
+	position: relative;
+}
+
+.locfinder__results-panel {
+	container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+	.locfinder__results-panel .locfinder__results {
+		grid-template-columns: 1fr;
+	}
+}

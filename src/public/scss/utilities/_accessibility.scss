@@ -1,0 +1,51 @@
+/**
+ * Accessibility utilities.
+ */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.locfinder-spinner__indicator::after,
+	.locfinder-form__geolocate--loading svg {
+		animation: none;
+	}
+}
+
+/* High-visibility focus outline */
+.locfinder--focus-high :focus-visible {
+	box-shadow: none;
+	outline: 3px solid var(--locfinder-focus);
+	outline-offset: 3px;
+}
+
+/* Marker drop animation */
+@keyframes locfinder-marker-drop {
+	from {
+		opacity: 0;
+		transform: translateY(-16px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.lf-marker {
+	animation: locfinder-marker-drop 0.3s ease-out;
+}
+
+.locfinder--reduced-motion .lf-marker {
+	animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lf-marker {
+		animation: none;
+	}
+}
+
+.lf-marker--active {
+	filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.6))
+		drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
+	z-index: 1;
+}

@@ -1,0 +1,1682 @@
+# Copyright (C) 2026 Codexa
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: LocFinder 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/locfinder\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-07T13:45:55+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: locfinder\n"
+
+#. Plugin Name of the plugin
+#: locfinder.php
+msgid "LocFinder"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: locfinder.php
+msgid "https://codexalogic.com/products/locfinder"
+msgstr ""
+
+#. Description of the plugin
+#: locfinder.php
+msgid "Display locations on an interactive Google Map, with keyword, category, and radius \"near me\" search and results in a list or grid layout."
+msgstr ""
+
+#. Author of the plugin
+#: locfinder.php
+msgid "Codexa"
+msgstr ""
+
+#. Author URI of the plugin
+#: locfinder.php
+msgid "https://codexalogic.com"
+msgstr ""
+
+#: includes/Admin/Admin.php:108
+#: includes/Admin/Admin.php:109
+msgid "Location Finder"
+msgstr ""
+
+#: includes/Admin/Admin.php:324
+msgid "Clearing cache…"
+msgstr ""
+
+#: includes/Admin/Admin.php:325
+msgid "Cache cleared."
+msgstr ""
+
+#: includes/Admin/Admin.php:326
+msgid "An error occurred."
+msgstr ""
+
+#: includes/Admin/Admin.php:327
+msgid "Request failed. Check your connection."
+msgstr ""
+
+#: includes/Admin/Admin.php:336
+msgid "Select Icon"
+msgstr ""
+
+#: includes/Admin/Admin.php:337
+msgid "Use this icon"
+msgstr ""
+
+#: includes/Admin/Admin.php:338
+#: includes/Admin/FieldRenderer.php:76
+msgid "No icon set."
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing <a> tags.
+#: includes/Admin/Admin.php:394
+#, php-format
+msgid "This feature is available in the %1$sPro version of Locfinder%2$s."
+msgstr ""
+
+#: includes/Admin/FieldRenderer.php:93
+msgid "Upload / Select"
+msgstr ""
+
+#: includes/Admin/FieldRenderer.php:94
+msgid "Clear"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:29
+msgid "Accessibility & Privacy"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:36
+msgid "Keyboard & Focus"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:43
+msgid "Screen Reader Announcements"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:50
+msgid "Visual Aids"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:57
+msgid "Map Loading & Privacy"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:64
+msgid "Focus Style"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:73
+msgid "Results Announcement (ARIA live)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:82
+msgid "Announce Results Count"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:90
+msgid "High-Contrast Pins"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:99
+msgid "Reduce Motion (no marker drop)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:108
+msgid "Load Map on Click (Privacy)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:117
+msgid "Load Map Button Label"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:143
+msgid "Browser default"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:145
+msgid "High-visibility outline"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:171
+msgid "Polite (recommended)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:173
+msgid "Assertive"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:175
+msgid "Off"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:176
+msgid "How screen readers are notified when results update."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:200
+msgid "Announce \"N results found\""
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:225
+msgid "Use high-contrast pin/focus styles"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:249
+msgid "Reduce motion (disable marker drop/animations)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:275
+msgid "Delay Google Maps until user clicks button"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Accessibility.php:288
+#: includes/Utilities/Options.php:742
+msgid "Load Map"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:28
+msgid "Data & Geocoding"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:35
+msgid "Geocoding Performance"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:42
+msgid "Geocode Cache TTL (seconds)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:51
+msgid "Coordinate Precision"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:76
+msgid "Controls how long geocoding results are cached. Minimum 60. Default is one week (604800)."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Data.php:97
+msgid "Decimal places stored for lat/lng coordinates. 4–7. Default is 6 (~11cm accuracy)."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:32
+msgid "General Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:39
+msgid "Branding"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:46
+msgid "Google Maps"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:53
+msgid "Map Defaults"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:60
+#: includes/Admin/Settings/Pages/General.php:127
+msgid "Locations Page"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:67
+msgid "Performance"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:74
+msgid "Google Maps API Key"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:83
+msgid "Map ID"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:92
+#: includes/Admin/Settings/Pages/General.php:205
+msgid "Primary Color"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:101
+msgid "Distance Unit"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:110
+msgid "Default Center (Lat, Lng)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:118
+msgid "Default Zoom Level"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:136
+msgid "Load Assets"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:158
+msgid "Enter Google Maps API key"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:159
+msgid "Get a Google Maps API key"
+msgstr ""
+
+#. translators: %1$s opening <a> tag, %2$s closing </a> tag
+#: includes/Admin/Settings/Pages/General.php:177
+#, php-format
+msgid "For the best map experience, %1$screate a free Map ID%2$s. Choose <strong>JavaScript</strong> as the platform and <strong>Raster</strong> as the map type, then paste the ID above."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:187
+msgid "Enter Map ID"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:229
+msgid "Miles"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:231
+msgid "Kilometers"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:266
+msgid "Latitude"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:270
+msgid "Longitude"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:274
+msgid "Leave blank to center the map using the average of your saved locations."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:314
+msgid "— Select a page —"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:322
+msgid "View page"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:328
+msgid "A \"Locations\" page was created automatically when the plugin is activated, but you can select a different page here."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:351
+msgid "Only on pages with the shortcode"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/General.php:353
+msgid "Site-wide (not recommended)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:31
+msgid "Map Display"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:38
+msgid "Map Height & Behavior"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:45
+msgid "Map Pins"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:52
+msgid "Map Height"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:61
+msgid "Minimum Map Height"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:70
+msgid "Map Width"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:79
+msgid "Auto-Fit Map to Markers"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:87
+msgid "Map Controls"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:95
+msgid "Marker Clustering"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:103
+msgid "Cluster Max Zoom"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:112
+msgid "Map Style"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:121
+msgid "Default Pin Color & Icon"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:130
+msgid "Category Pin Colors & Icons"
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/MapDisplay.php:209
+#, php-format
+msgid "Customize the map's visual style with the %1$sPro add-on%2$s."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/MapDisplay.php:211
+#, php-format
+msgid "Use a custom pin icon with the %1$sPro add-on%2$s."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/MapDisplay.php:216
+#: includes/Admin/Settings/Pages/Results.php:209
+#, php-format
+msgid "Unlock this option with the %1$sPro add-on%2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:240
+msgid "Automatically adjusts the map view to include all visible markers"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:254
+msgid "Zoom Control"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:255
+msgid "Fullscreen"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:256
+msgid "Street View"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:257
+msgid "Map Type"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:301
+msgid "Groups nearby markers into clusters to reduce map clutter"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:334
+#: build/blocks/locfinder-map/index.js:6
+msgid "Pin Color"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/MapDisplay.php:352
+msgid "Make your map more visual by color coding pins or using custom icons for each location taxonomy term."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/MapDisplay.php:368
+#, php-format
+msgid "Make your map more visual with color-coded pins or use custom icons for each location taxonomy term with the %1$sPro add-on%2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:30
+msgid "Results List"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:37
+msgid "Layout Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:39
+msgid "Choose how location results are displayed beneath the map and which fields are shown for each entry."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:46
+msgid "Results Position"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:48
+msgid "Choose where location results appear relative to the map."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:55
+msgid "Distance Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:57
+msgid "Control how distance appears between the address entered and each location."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:68
+msgid "Behavior Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:70
+msgid "Configure how result links behave when clicked."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:77
+msgid "Template Customization"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:79
+msgid "Customize the HTML structure used to render each result item. Use available tokens to dynamically insert data."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:90
+#: includes/Admin/Settings/Pages/Results.php:174
+msgid "No Results Message"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:92
+msgid "Set the message displayed when no locations are found for a given search."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:99
+#: build/blocks/locfinder-map/index.js:3
+msgid "Layout"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:108
+#: build/blocks/locfinder-map/index.js:6
+msgid "Results Per Page"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:117
+#: build/blocks/locfinder-map/index.js:4
+msgid "Position"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:126
+msgid "Columns (Left or Right Only)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:146
+msgid "Open Now Badge"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:154
+msgid "Link Behavior"
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/Results.php:202
+#, php-format
+msgid "Unlock distance display with the %1$sPro add-on%2$s."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/Results.php:204
+#, php-format
+msgid "Customize the result item template with the %1$sPro add-on%2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:250
+#: build/blocks/locfinder-map/index.js:4
+msgid "Grid"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:252
+#: build/blocks/locfinder-map/index.js:4
+msgid "List"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:276
+#: build/blocks/locfinder-map/index.js:5
+msgid "Bottom (below the map)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:278
+#: build/blocks/locfinder-map/index.js:5
+msgid "Left of the map"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:280
+#: build/blocks/locfinder-map/index.js:5
+msgid "Right of the map"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:304
+#: build/blocks/locfinder-map/index.js:6
+msgid "1 column"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:306
+#: build/blocks/locfinder-map/index.js:6
+msgid "2 columns"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:307
+msgid "Only applies when Position above is Left or Right."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/Results.php:327
+#, php-format
+msgid "Unlock the live \"Open Now\" / \"Closed Now\" badge with the %1$sPro add-on%2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:349
+msgid "Open in same tab"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:351
+msgid "Open in new tab"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Results.php:364
+#: includes/Utilities/Options.php:674
+msgid "No locations found."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:31
+msgid "Search & Filters"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:38
+msgid "Radius Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:40
+msgid "Configure the radius filter shown in the search form."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:47
+msgid "Category Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:49
+msgid "Configure the category filter shown in the search form."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:56
+#: build/blocks/locfinder-map/index.js:3
+msgid "Labels & Placeholders"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:58
+msgid "Customize the labels and placeholders shown in the search form. Labels are read by screen readers for accessibility."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:65
+msgid "Dropdown Defaults"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:67
+msgid "Customize the text shown as the first option in each dropdown when no selection has been made."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:74
+msgid "Results Settings"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:81
+#: build/blocks/locfinder-map/index.js:3
+msgid "Default Radius"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:90
+msgid "Radius Options"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:99
+msgid "Category Filter"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:107
+msgid "Labels and Placeholders"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:115
+msgid "Radius Default Option"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:124
+msgid "Category Default Option"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:133
+#: build/blocks/locfinder-map/index.js:3
+msgid "Sort Results By"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:152
+#: includes/Frontend/views/map.php:220
+msgid "km"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:152
+#: includes/Frontend/views/map.php:220
+msgid "mi"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:158
+#: includes/Admin/Settings/Pages/SearchFilters.php:246
+#: includes/Utilities/Options.php:430
+msgid "Any Distance"
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/SearchFilters.php:191
+#, php-format
+msgid "Custom radius distances are available in the %1$sPro add-on%2$s. The free version uses 10, 25, 50 and 75."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:205
+#: build/blocks/locfinder-map/index.js:3
+msgid "Keyword Placeholder"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:206
+#: build/blocks/locfinder-map/index.js:3
+msgid "Address Placeholder"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:207
+#: build/blocks/locfinder-map/index.js:3
+msgid "Search Button Label"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:208
+msgid "Radius Label"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:209
+msgid "Category Label"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:247
+msgid "Shown as the first option in the radius dropdown when no distance is selected."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:268
+#: includes/Utilities/Options.php:440
+msgid "All Categories"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:269
+msgid "Shown as the first option in the category dropdown when no category is selected."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:281
+msgid "The free version filters by the built-in Category taxonomy."
+msgstr ""
+
+#. translators: %1$s: opening <a> tag, %2$s: closing </a> tag
+#: includes/Admin/Settings/Pages/SearchFilters.php:291
+#, php-format
+msgid "Filter by any taxonomy you've registered for locations with the %1$sPro add-on%2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:307
+#: build/blocks/locfinder-map/index.js:3
+msgid "Title (A-Z)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:308
+msgid "Date (Newest)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:309
+msgid "Distance (Nearest)"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/SearchFilters.php:328
+msgid "Distance sorting only applies when a radius search is performed."
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Shortcodes.php:28
+msgid "Shortcodes"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:29
+msgid "Tools"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:36
+msgid "Debugging & Maintenance Tools"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:43
+msgid "Debug Mode"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:51
+#: includes/Admin/Settings/Pages/Tools.php:115
+msgid "Clear Geocode Cache"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:59
+msgid "Uninstall"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:66
+msgid "Delete Data on Uninstall"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:95
+msgid "Enable debug logs for admins on the front end"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:142
+msgid "Permanently delete all location data when the plugin is uninstalled"
+msgstr ""
+
+#: includes/Admin/Settings/Pages/Tools.php:143
+msgid "Warning: This will permanently delete all locations, contacts, hours, and plugin settings. This cannot be undone."
+msgstr ""
+
+#. translators: %s: plugin version number, e.g. "1.0.0"
+#: includes/Admin/views/options-display.php:26
+#, php-format
+msgid "Version: %s"
+msgstr ""
+
+#: includes/Admin/views/options-display.php:31
+msgid "Locfinder settings tabs"
+msgstr ""
+
+#: includes/Admin/views/options-display.php:52
+msgid "Settings saved."
+msgstr ""
+
+#: includes/Admin/views/options-display.php:57
+msgid "Save Settings"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:16
+msgid "Site setting"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:17
+msgid "Available with the Pro add-on"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:22
+msgid "Use the shortcode below to display the search form, map, and results on any page or post. Attributes can override the settings you saved in the admin."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:25
+msgid "Basic shortcode"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:28
+msgid "Examples with attributes"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:37
+msgid "Attribute Reference"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:38
+msgid "Booleans accept 1/0, true/false, or yes/no. Any attribute left out falls back to the matching site-wide setting."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:44
+msgid "Attribute"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:45
+msgid "Default"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:46
+msgid "Description"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:47
+msgid "Example"
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:54
+msgid "Show or hide the keyword search input."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:60
+msgid "Show or hide the address search input."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:66
+msgid "Show or hide the radius dropdown."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:72
+msgid "Show or hide the category dropdown."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:78
+msgid "Placeholder text for the keyword search input."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:84
+msgid "Placeholder text for the address search input."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:90
+msgid "Label for the search form's submit button."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:96
+msgid "Screen-reader label for the radius dropdown."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:102
+msgid "Screen-reader label for the category dropdown."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:108
+msgid "Text shown as the first option in the radius dropdown when no distance is selected."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:114
+msgid "Text shown as the first option in the category dropdown when no category is selected."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:120
+msgid "Pre-selects a radius in the dropdown on page load (0 = \"Any distance\"). If the value isn't one of the configured radius options, the closest available option is used instead."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:126
+msgid "Results layout: \"grid\" or \"list\". Any other value (including omitting the attribute) uses the site-wide setting."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:132
+msgid "Where results appear relative to the map: \"bottom\", \"left\", or \"right\". Any other value (including omitting the attribute) uses the site-wide setting."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:138
+msgid "Number of columns in the results grid. Has no effect when results_layout resolves to \"list\"."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:144
+msgid "Number of result columns when results_position is \"left\" or \"right\" (1 or 2). Has no effect when Position is \"bottom\"."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:150
+msgid "Number of results shown per page."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:156
+msgid "Show a short excerpt for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:162
+msgid "Show or hide the thumbnail image for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:168
+msgid "Show or hide the address for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:174
+msgid "Show or hide the directions link for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:180
+msgid "Show or hide the phone number for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:186
+msgid "Show or hide the email address for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:192
+msgid "Show or hide the website link for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:198
+msgid "Show or hide the hours for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:204
+msgid "Show or hide the category list for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:211
+msgid "Show or hide the open/closed status badge for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:220
+msgid "Taxonomy used for the category dropdown and filtering."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:221
+msgid "Values other than locfinder_category are available with the Pro add-on, and the taxonomy must be registered against the locfinder_location post type. To also appear in the block editor, register it with show_in_rest set to true."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:228
+msgid "Sort direction, used together with orderby."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:234
+msgid "Field to sort results by: post_title, date, meta_value, or rand."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:240
+msgid "Sets the map pin color for this instance."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:248
+msgid "Tip: When placing shortcodes inside block editors or attributes, wrap with double quotes and escape inner quotes as needed."
+msgstr ""
+
+#: includes/Api/AjaxController.php:159
+#: includes/Api/AjaxController.php:514
+msgid "Too many requests, please slow down."
+msgstr ""
+
+#: includes/Api/AjaxController.php:524
+msgid "Location not found."
+msgstr ""
+
+#: includes/Api/AjaxController.php:684
+msgid "Permission denied."
+msgstr ""
+
+#: includes/Api/AjaxController.php:690
+msgid "Geocode cache cleared."
+msgstr ""
+
+#: includes/Api/AjaxController.php:725
+msgid "No location information available."
+msgstr ""
+
+#: includes/Blocks/BlockRegistrar.php:37
+msgid "Location Details (Locfinder)"
+msgstr ""
+
+#: includes/Core/Activator.php:31
+msgid "Location Finder could not create its required database tables. Please check your database permissions and try again."
+msgstr ""
+
+#: includes/Core/Activator.php:32
+msgid "Plugin Activation Error"
+msgstr ""
+
+#: includes/Core/LocationsPage.php:52
+#: includes/PostTypes/LocationPostType.php:37
+#: includes/PostTypes/LocationPostType.php:39
+#: includes/PostTypes/LocationPostType.php:82
+msgid "Locations"
+msgstr ""
+
+#. translators: %1$s opening <a> tag, %2$s closing </a> tag
+#: includes/Core/LocationsPage.php:124
+#, php-format
+msgid "Location Finder's \"Locations\" page no longer exists. %1$sChoose or create a new one%2$s in General Settings."
+msgstr ""
+
+#: includes/Frontend/Frontend.php:59
+msgid "Add a Google Maps API key to display the map."
+msgstr ""
+
+#: includes/Frontend/Frontend.php:61
+msgid "Add API key"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:68
+msgid "Create your first location to begin displaying results."
+msgstr ""
+
+#: includes/Frontend/Frontend.php:70
+msgid "Add location"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:162
+msgid "Finish setting up Location Finder"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:167
+msgid "Visible only to administrators"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:430
+#: includes/Utilities/Options.php:821
+msgid "View Details"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:504
+#: includes/Utilities/Options.php:823
+msgid "Send Email"
+msgstr ""
+
+#. translators: %s: location name
+#: includes/Frontend/Frontend.php:513
+#, php-format
+msgid "View site for %s (opens in a new tab)"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:518
+#: includes/Utilities/Options.php:822
+msgid "Visit Website"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:533
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:554
+msgid "Get Directions"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:678
+#: includes/Frontend/Frontend.php:689
+#: includes/PostTypes/LocationMeta.php:186
+msgid "Closed"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:680
+#: includes/PostTypes/LocationMeta.php:187
+msgid "Open 24 Hours"
+msgstr ""
+
+#. translators: 1: opening time, 2: closing time
+#: includes/Frontend/Frontend.php:684
+#, php-format
+msgid "%1$s to %2$s"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:822
+msgid "Location details"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:833
+msgid "Map"
+msgstr ""
+
+#. translators: %s: location name
+#: includes/Frontend/Frontend.php:844
+#, php-format
+msgid "Map for %s"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:848
+msgid "Loading map…"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:852
+msgid "JavaScript is required to display the map."
+msgstr ""
+
+#: includes/Frontend/Frontend.php:891
+msgid "Single Location"
+msgstr ""
+
+#: includes/Frontend/Frontend.php:892
+msgid "Displays a single Location Finder location."
+msgstr ""
+
+#. translators: %s: unique instance ID, used to distinguish multiple search forms on the same page for screen readers.
+#: includes/Frontend/views/map.php:164
+#, php-format
+msgid "Location search %s"
+msgstr ""
+
+#: includes/Frontend/views/map.php:195
+msgid "Use my location"
+msgstr ""
+
+#: includes/Frontend/views/map.php:302
+msgid "Location search results"
+msgstr ""
+
+#: includes/Frontend/views/map.php:308
+msgid "Search results pagination"
+msgstr ""
+
+#. translators: %s: unique instance ID for this map
+#: includes/Frontend/views/map.php:313
+#, php-format
+msgid "Location map %s"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:74
+msgid "Location Details"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:113
+#: build/blocks/locfinder-map/index.js:1
+msgid "Address"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:121
+msgid "Start typing and select an address in the dropdown."
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:124
+msgid "Powered by Google Places autocomplete. Select a result to set the full address and coordinates."
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:130
+msgid "Suite / Unit / Apt"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:151
+msgid "Choose an autocomplete result to set coordinates. The map preview updates automatically."
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:155
+#: build/blocks/locfinder-map/index.js:1
+msgid "Phone"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:162
+msgid "(555) 555-1234 or +44 20 7123 4567"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:166
+msgid "For international numbers, include the country code with a leading +."
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:171
+#: build/blocks/locfinder-map/index.js:1
+msgid "Email"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:176
+msgid "Website URL"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:181
+#: build/blocks/locfinder-map/index.js:1
+msgid "Hours"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:185
+msgid "Day"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:188
+msgid "Opens"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:189
+msgid "Closes"
+msgstr ""
+
+#: includes/PostTypes/LocationMeta.php:218
+msgid "Check \"Closed\" for days the location is not open. Check \"Open 24 Hours\" to skip setting specific times. Checking either disables the time fields, since whatever they contain is not saved."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:38
+#: includes/PostTypes/LocationPostType.php:40
+msgid "Location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:42
+#: includes/PostTypes/LocationPostType.php:43
+msgid "Add New Location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:44
+msgid "New Location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:45
+msgid "Edit Location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:46
+msgid "View Location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:47
+msgid "View Locations"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:48
+msgid "All Locations"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:49
+msgid "Search Locations"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:51
+msgid "Parent Location:"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:53
+msgid "No locations found"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:54
+msgid "No locations found in Trash"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:56
+msgid "Location Archives"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:57
+msgid "Location Attributes"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:59
+msgid "Featured Image"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:60
+msgid "Set featured image"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:61
+msgid "Remove featured image"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:62
+msgid "Use as featured image"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:64
+msgid "Insert into location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:65
+msgid "Uploaded to this location"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:67
+msgid "Locations list"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:68
+msgid "Locations list navigation"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:69
+msgid "Filter locations list"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:71
+msgid "Location published."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:72
+msgid "Location published privately."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:73
+msgid "Location reverted to draft."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:74
+msgid "Location scheduled."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:75
+msgid "Location updated."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:77
+msgid "Location Link"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:78
+msgid "A link to a location."
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:114
+#: build/blocks/locfinder-map/index.js:1
+msgid "Categories"
+msgstr ""
+
+#: includes/PostTypes/LocationPostType.php:115
+#: build/blocks/locfinder-map/index.js:1
+msgid "Category"
+msgstr ""
+
+#. translators: %s: taxonomy plural name, e.g. "Categories"
+#: includes/PostTypes/LocationPostType.php:124
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#. translators: %s: taxonomy singular name, e.g. "Category"
+#: includes/PostTypes/LocationPostType.php:126
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#. translators: %s: taxonomy singular name, e.g. "Category"
+#: includes/PostTypes/LocationPostType.php:128
+#, php-format
+msgid "View %s"
+msgstr ""
+
+#. translators: %s: taxonomy singular name, e.g. "Category"
+#: includes/PostTypes/LocationPostType.php:130
+#, php-format
+msgid "Update %s"
+msgstr ""
+
+#. translators: %s: taxonomy singular name, e.g. "Category"
+#: includes/PostTypes/LocationPostType.php:132
+#, php-format
+msgid "Add New %s"
+msgstr ""
+
+#. translators: %s: taxonomy singular name, e.g. "Category"
+#: includes/PostTypes/LocationPostType.php:134
+#, php-format
+msgid "New %s Name"
+msgstr ""
+
+#. translators: %s: taxonomy plural name, e.g. "Categories"
+#: includes/PostTypes/LocationPostType.php:136
+#, php-format
+msgid "Search %s"
+msgstr ""
+
+#: includes/Utilities/Helper.php:232
+msgid "Monday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:233
+msgid "Tuesday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:234
+msgid "Wednesday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:235
+msgid "Thursday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:236
+msgid "Friday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:237
+msgid "Saturday"
+msgstr ""
+
+#: includes/Utilities/Helper.php:238
+msgid "Sunday"
+msgstr ""
+
+#: includes/Utilities/Options.php:380
+#: build/blocks/locfinder-map/index.js:1
+msgid "Keyword"
+msgstr ""
+
+#: includes/Utilities/Options.php:390
+msgid "Address or Zip Code"
+msgstr ""
+
+#: includes/Utilities/Options.php:400
+#: build/blocks/locfinder-map/index.js:3
+msgid "Search"
+msgstr ""
+
+#: includes/Utilities/Options.php:410
+msgid "Select Radius"
+msgstr ""
+
+#: includes/Utilities/Options.php:420
+msgid "Select Category"
+msgstr ""
+
+#: includes/Utilities/Options.php:808
+msgid "Please select an address from the dropdown"
+msgstr ""
+
+#. translators: %d: number of results. Used for both the singular (%d = 1) and plural (%d = 0 or 2+) count — the number itself distinguishes the two, so the surrounding text is identical.
+#: includes/Utilities/Options.php:810
+#: includes/Utilities/Options.php:812
+#, php-format
+msgid "Results returned (%d)"
+msgstr ""
+
+#: includes/Utilities/Options.php:813
+msgid "Prev"
+msgstr ""
+
+#: includes/Utilities/Options.php:814
+msgid "Next"
+msgstr ""
+
+#: includes/Utilities/Options.php:815
+msgid "Show on map"
+msgstr ""
+
+#. translators: %s: location title
+#: includes/Utilities/Options.php:817
+#, php-format
+msgid "Show %s on map"
+msgstr ""
+
+#: includes/Utilities/Options.php:818
+msgid "Map is not configured."
+msgstr ""
+
+#: includes/Utilities/Options.php:819
+msgid "No coordinates are set for this location."
+msgstr ""
+
+#: includes/Utilities/Options.php:820
+msgid "The map could not be loaded."
+msgstr ""
+
+#: includes/Utilities/Options.php:824
+msgid "Loading…"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "Image"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "Directions"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "Website"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "Excerpt"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "Radius"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+#: build/blocks/locfinder-map/index.js:6
+msgid "Open/Closed Status"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+#: build/blocks/locfinder-map/index.js:5
+msgid "Bottom"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+#: build/blocks/locfinder-map/index.js:5
+msgid "Left"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+#: build/blocks/locfinder-map/index.js:5
+msgid "Right"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:1
+msgid "site default"
+msgstr ""
+
+#. translators: 1: results position (Bottom/Left/Right). 2: results per page, either a number or the words "site default".
+#: build/blocks/locfinder-map/index.js:2
+#, js-format
+msgid "%1$s, List, %2$s per page"
+msgstr ""
+
+#. translators: 1: results position (Bottom/Left/Right). 2: number of grid columns. 3: results per page, either a number or the words "site default".
+#: build/blocks/locfinder-map/index.js:3
+#, js-format
+msgid "%1$s, Grid, %2$d columns, %3$s per page"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "No filters enabled"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Showing"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "No fields explicitly enabled"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Search Options"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Keyword Search"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Address Search"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Radius Search"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "-1 = use the site default. 0 = pre-select \"Any distance.\" No maximum is enforced on the server — this field's 500 cap is just a practical UI limit for the slider."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Category Search"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Category Taxonomy"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Use site default"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Filter by any custom taxonomy with the <a>Pro add-on</a>."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Leave blank to use the plugin default."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Radius Field Label"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Screen-reader label. Leave blank to use the plugin default."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "\"Any Distance\" Option Text"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Category Field Label"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "\"All Categories\" Option Text"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Results Display"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Use plugin default"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Date (Newest First)"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:3
+msgid "Random"
+msgstr ""
+
+#. translators: %s: the site-wide default value for this control — a layout name (Grid/List) or a position name (Bottom/Left/Right), depending on which dropdown this label appears in.
+#: build/blocks/locfinder-map/index.js:4
+#: build/blocks/locfinder-map/index.js:5
+#, js-format
+msgid "Use site default (%s)"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:4
+msgid "Overrides the site-wide Results List layout setting for this block only."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:5
+msgid "Overrides the site-wide Results Position setting for this block only."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:5
+msgid "Grid Columns"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:5
+msgid "Not used while the layout above is List."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:5
+msgid "Results Columns"
+msgstr ""
+
+#. translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting.
+#: build/blocks/locfinder-map/index.js:6
+#, js-format
+msgid "Use site default (%d)"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "Only used while Position above is Left or Right."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "0 = use the site default. Clamped to 100 on the server regardless of this value."
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "Map Pin"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "Reset to default"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "Show Fields"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+msgid "Show a live open/closed status with the <a>Pro add-on</a>."
+msgstr ""
+
+#: build/blocks/locfinder-map/block.json
+msgctxt "block title"
+msgid "Location Finder Map"
+msgstr ""
+
+#: build/blocks/locfinder-map/block.json
+msgctxt "block description"
+msgid "A block that displays a Location Finder map with search functionality."
+msgstr ""

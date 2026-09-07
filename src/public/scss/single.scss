@@ -1,0 +1,96 @@
+@use "../../common/scss/styles" as *;
+@use "components/map-base";
+@use "components/results";
+
+/**
+ * Single location page styles.
+ */
+
+.locfinder-single {
+	&__article {
+		margin: 0 auto;
+		max-width: var(--locfinder-search-max-width, 1200px);
+		padding: var(--locfinder-space-4);
+	}
+
+	&__layout {
+		&--has-thumbnail {
+			@include bp-tablet {
+				align-items: start;
+				display: grid;
+				gap: var(--locfinder-space-5);
+				grid-template-columns: 360px 1fr;
+			}
+		}
+	}
+
+	&__main {
+		min-width: 0;
+	}
+
+	&__header {
+		margin-bottom: var(--locfinder-space-4);
+	}
+
+	&__title {
+		font-size: var(--locfinder-font-size-xl);
+		font-weight: var(--locfinder-fw-bold);
+		line-height: var(--locfinder-lh-tight);
+		margin: 0;
+	}
+
+	&__address {
+		color: var(--locfinder-text-muted);
+		font-size: var(--locfinder-font-size-md);
+		margin: var(--locfinder-space-1) 0 0;
+	}
+
+	&__thumbnail {
+		border-radius: var(--locfinder-radius-lg);
+		margin-bottom: var(--locfinder-space-4);
+		overflow: hidden;
+
+		img {
+			aspect-ratio: 16 / 9;
+			display: block;
+			height: auto;
+			object-fit: cover;
+			width: 100%;
+		}
+	}
+
+	&__content {
+		color: var(--locfinder-body);
+		font-size: var(--locfinder-font-size-md);
+		line-height: var(--locfinder-lh-normal);
+	}
+
+	&__details {
+		margin-bottom: var(--locfinder-space-5);
+	}
+
+	&__map-section {
+		margin-top: var(--locfinder-space-5);
+	}
+
+	&__map-wrap {
+		position: relative;
+	}
+
+	&__map-loading {
+		align-items: center;
+		background-color: var(--locfinder-white);
+		color: var(--locfinder-text-muted);
+		display: flex;
+		font-size: var(--locfinder-font-size-sm);
+		inset: 0;
+		justify-content: center;
+		margin: 0;
+		position: absolute;
+		text-align: center;
+
+		&--error {
+			color: var(--locfinder-error);
+		}
+	}
+}

@@ -1,0 +1,45 @@
+@use "../../../common/scss/styles" as *;
+
+/**
+ * Base map container styles shared by the search widget map
+ * (layout/_locfinder.scss) and the single location map (single.scss).
+ */
+.locfinder__map {
+	min-height: 300px;
+	width: 100%;
+	z-index: var(--locfinder-z-map);
+
+	&[style^="width: 100vw"] {
+		margin-left: calc(
+			50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+		);
+		margin-right: calc(
+			50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+		);
+	}
+
+	&--pending {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.locfinder__load-map-button {
+	background-color: var(--locfinder-primary);
+	border: none;
+	border-radius: var(--locfinder-radius-lg);
+	color: var(--locfinder-white);
+	cursor: pointer;
+	font-size: var(--locfinder-font-size-md);
+	font-weight: var(--locfinder-fw-semibold);
+	padding: var(--locfinder-space-3) var(--locfinder-space-4);
+
+	&:hover {
+		background-color: var(--locfinder-secondary);
+	}
+
+	&:focus-visible {
+		@include focus-ring;
+	}
+}

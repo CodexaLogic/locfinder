@@ -1,0 +1,19 @@
+/**
+ * Base styles.
+ */
+.locfinder *,
+.locfinder *::before,
+.locfinder *::after {
+	box-sizing: border-box;
+}
+
+.locfinder img {
+	max-width: 100%;
+}
+
+.locfinder ul,
+.locfinder ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,116 @@
+/**
+ * Map component styles.
+ */
+
+@use "../mixins" as *;
+
+.lf-cluster {
+	align-items: center;
+	display: flex;
+	height: 52px;
+	justify-content: center;
+	position: relative;
+	width: 52px;
+}
+
+.lf-cluster__badge {
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.lf-cluster__count {
+	color: var(--locfinder-white);
+	font-size: 14px;
+	font-weight: var(--locfinder-fw-bold);
+	pointer-events: none;
+	position: relative;
+}
+
+.lf-marker-info {
+	max-width: 280px;
+}
+
+.lf-marker-info__title-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 4px;
+}
+
+.lf-marker-info__title {
+	font-weight: 700;
+	font-size: 1.05em;
+}
+
+.lf-marker-info__address {
+	color: var(--locfinder-gray-700);
+	margin-bottom: 8px;
+}
+
+.lf-marker-info__loading {
+	color: var(--locfinder-gray-700);
+	font-size: 0.875em;
+}
+
+.lf-marker-info__link {
+	font-size: 0.875em;
+}
+
+.lf-marker-info .locfinder-location__phone,
+.lf-marker-info .locfinder-location__website {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.875em;
+	padding: 4px 0;
+}
+
+.lf-marker-info .locfinder-location__icon {
+	flex: 0 0 auto;
+	height: 15px;
+	margin-right: 0;
+	margin-top: 0;
+	vertical-align: baseline;
+	width: 15px;
+}
+
+.lf-marker-info__divider {
+	border: none;
+	border-top: 1px solid var(--locfinder-gray-300);
+	margin: 8px 0;
+}
+
+.lf-marker-info__actions {
+	display: flex;
+	gap: var(--locfinder-space-2);
+	margin-top: var(--locfinder-space-1);
+}
+
+/* Google Maps InfoWindow close button. */
+.gm-ui-hover-effect {
+	background: none !important;
+	border: none !important;
+	border-radius: 50%;
+	padding: 4px !important;
+	opacity: 0.6;
+	outline: none;
+	transition:
+		opacity var(--locfinder-transition-fast),
+		background-color var(--locfinder-transition-fast);
+
+	&:hover,
+	&:focus-visible {
+		opacity: 1;
+		background: var(--locfinder-white) !important;
+	}
+
+	span,
+	img,
+	svg {
+		width: 16px !important;
+		height: 16px !important;
+		margin: 10px 12px 14px !important;
+	}
+}

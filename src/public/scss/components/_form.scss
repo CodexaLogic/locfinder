@@ -1,0 +1,204 @@
+@use "../../../common/scss/styles" as *;
+
+/**
+ * Search form styles.
+ */
+.locfinder-form {
+	align-items: stretch;
+	background-color: var(--locfinder-white);
+	border: var(--locfinder-border);
+	border-radius: var(--locfinder-radius-sm);
+	box-shadow: var(--locfinder-shadow);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--locfinder-space-2);
+	justify-content: center;
+	margin: var(--locfinder-space-5) auto var(--locfinder-space-4);
+	max-width: 100%;
+	padding: var(--locfinder-space-3);
+
+	@include bp-desktop {
+		flex-wrap: nowrap;
+		margin-bottom: var(--locfinder-space-5);
+		padding: var(--locfinder-space-2);
+		width: fit-content;
+	}
+
+	@include bp-below-desktop {
+		flex-direction: column;
+		gap: var(--locfinder-space-2);
+	}
+
+	&--empty {
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__label {
+		@include sr-only;
+	}
+
+	&__field {
+		appearance: none;
+		-webkit-appearance: none;
+		background-color: var(--locfinder-gray-100);
+		border: 1px solid transparent;
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-body);
+		font-size: var(--locfinder-font-size-md);
+		height: var(--locfinder-field-height);
+		padding: 0 var(--locfinder-space-3);
+		transition:
+			background-color var(--locfinder-transition-fast),
+			border-color var(--locfinder-transition-fast),
+			box-shadow var(--locfinder-transition-fast);
+
+		&::placeholder {
+			color: var(--locfinder-text-muted);
+		}
+
+		&:hover {
+			background-color: var(--locfinder-gray-200);
+		}
+
+		&:focus {
+			background-color: var(--locfinder-white);
+			border-color: var(--locfinder-primary);
+			outline: none;
+
+			@include focus-shadow;
+		}
+
+		&--invalid {
+			background-color: var(--locfinder-error-bg);
+			border-color: var(--locfinder-error);
+
+			&::placeholder {
+				color: var(--locfinder-error);
+			}
+
+			&:focus {
+				@include focus-shadow(var(--locfinder-error));
+			}
+		}
+
+		@include bp-below-desktop {
+			height: 3rem;
+			width: 100%;
+		}
+	}
+
+	&__keyword {
+		min-width: 140px;
+	}
+
+	&__address-group {
+		align-items: stretch;
+		display: flex;
+
+		.locfinder-form__address {
+			border-radius: var(--locfinder-radius-sm) 0 0
+				var(--locfinder-radius-sm);
+			flex: 1;
+		}
+
+		@include bp-below-desktop {
+			width: 100%;
+
+			.locfinder-form__address {
+				height: 3rem;
+			}
+		}
+	}
+
+	&__address {
+		min-width: 220px;
+
+		@include bp-desktop {
+			min-width: 260px;
+		}
+	}
+
+	&__geolocate {
+		align-items: center;
+		background-color: var(--locfinder-gray-100);
+		border: 1px solid transparent;
+		border-radius: 0 var(--locfinder-radius-sm) var(--locfinder-radius-sm) 0;
+		color: var(--locfinder-primary);
+		cursor: pointer;
+		display: flex;
+		height: var(--locfinder-field-height);
+		justify-content: center;
+		padding: 0 var(--locfinder-space-2);
+		transition: background-color var(--locfinder-transition-fast);
+		width: 2.5rem;
+
+		&:hover {
+			background-color: var(--locfinder-gray-200);
+		}
+
+		&:focus-visible {
+			@include focus-ring;
+		}
+
+		&--loading svg {
+			animation: locfinder-spin 0.75s linear infinite;
+		}
+
+		@include bp-below-desktop {
+			height: 3rem;
+		}
+	}
+
+	&__radius,
+	&__category {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		background-position: right var(--locfinder-space-2) center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		min-width: 120px;
+		padding-right: var(--locfinder-space-5);
+
+		&::-ms-expand {
+			display: none;
+		}
+	}
+
+	&__submit {
+		background-color: var(--locfinder-primary);
+		border: none;
+		border-radius: var(--locfinder-radius-sm);
+		color: var(--locfinder-white);
+		cursor: pointer;
+		font-size: var(--locfinder-font-size-md);
+		font-weight: var(--locfinder-fw-semibold);
+		height: var(--locfinder-field-height);
+		letter-spacing: 0.01em;
+		padding: 0 var(--locfinder-space-3);
+		transition:
+			background-color var(--locfinder-transition-fast),
+			box-shadow var(--locfinder-transition-fast),
+			transform var(--locfinder-transition-fast);
+		white-space: nowrap;
+
+		&:hover {
+			background-color: var(--locfinder-secondary);
+		}
+
+		&:focus-visible {
+			@include focus-ring;
+		}
+
+		&:active {
+			transform: translateY(1px);
+		}
+
+		@include bp-below-desktop {
+			height: 3rem;
+			width: 100%;
+		}
+	}
+}

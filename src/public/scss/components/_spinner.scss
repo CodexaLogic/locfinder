@@ -1,0 +1,38 @@
+/**
+ * Loading spinner styles.
+ */
+
+.locfinder-spinner {
+	align-items: center;
+	backdrop-filter: blur(2px);
+	background-color: var(--locfinder-overlay-bg);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	position: absolute;
+	z-index: var(--locfinder-z-spinner);
+
+	&[hidden],
+	&[aria-hidden="true"] {
+		opacity: 0;
+		pointer-events: none;
+		visibility: hidden;
+	}
+
+	&__indicator {
+		align-items: center;
+		display: flex;
+		height: 48px;
+		justify-content: center;
+
+		&::after {
+			animation: locfinder-spin 0.75s linear infinite;
+			border: 3px solid var(--locfinder-gray-300);
+			border-radius: 50%;
+			border-top-color: var(--locfinder-primary);
+			content: "";
+			height: 36px;
+			width: 36px;
+		}
+	}
+}
