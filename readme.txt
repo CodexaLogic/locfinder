@@ -1,4 +1,4 @@
-=== LocFinder ===
+=== Location Finder ===
 Contributors: codexalogic
 Donate link: https://buy.stripe.com/00wbJ3eAG6ePbaLbGQbEA00
 Tags: store locator, google maps, locations, directory, map
