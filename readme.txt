@@ -128,6 +128,16 @@ By default, nothing is removed. Your plugin settings and all location data are k
 = Is it translation ready? =
 Yes. Use the `locfinder` text domain and place translation files in the `/languages` folder.
 
+== Screenshots ==
+
+1. Search results with no image, to the left of the map.
+2. Search results including the image, to the left of the map.
+3. Search results in list view, to the left of the map.
+4. Search results below the map.
+5. Search results including hours, to the right of the map.
+6. The single location page, displaying whichever fields are enabled: phone, email, description, hours, categories, and map.
+7. The Location Finder block in the WordPress editor, with every display option easily configurable.
+
 == Changelog ==
 
 = 1.0.1 =
