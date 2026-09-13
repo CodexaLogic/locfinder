@@ -1,0 +1,11 @@
+/**
+ * Editor-only styling for the locfinder/location-details placeholder.
+ * None of this is output on the front end - the block has no `style`
+ * asset because the front end never renders the placeholder.
+ */
+
+.wp-block-locfinder-location-details {
+	.components-placeholder {
+		min-height: 120px;
+	}
+}

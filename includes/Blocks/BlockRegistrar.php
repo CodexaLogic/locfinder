@@ -33,9 +33,7 @@ class BlockRegistrar {
 			'render_callback' => [$this, 'renderLocationMapBlock'],
 		]);
 
-		register_block_type('locfinder/location-details', [
-			'title'           => __('Location Details (Locfinder)', 'locfinder'),
-			'category'        => 'widgets',
+		register_block_type(LOCFINDER_DIR . 'build/blocks/location-details', [
 			'render_callback' => [$this, 'renderLocationDetailsBlock'],
 		]);
 

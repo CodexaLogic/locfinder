@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "locfinder/location-details",
+	"title": "Location Details (Locfinder)",
+	"category": "widgets",
+	"icon": "location-alt",
+	"description": "Renders the address, hours, contact info, and categories for the current Location Finder location. Server-rendered; only meaningful inside the Single Location template.",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"inserter": false
+	},
+	"textdomain": "locfinder",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
+}

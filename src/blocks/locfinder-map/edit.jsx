@@ -86,6 +86,7 @@ function buildConfigSummary(attributes) {
 		left: __("Left", "locfinder"),
 		right: __("Right", "locfinder"),
 	};
+
 	const positionLabel =
 		positionLabels[effectivePosition] ?? positionLabels.bottom;
 
@@ -140,6 +141,7 @@ export default function Edit({ attributes, setAttributes }) {
 		addressSearch,
 		radiusSearch,
 		categorySearch,
+		showCategories,
 		defaultRadius,
 		keywordPlaceholder,
 		addressPlaceholder,
@@ -189,7 +191,7 @@ export default function Edit({ attributes, setAttributes }) {
 			<InspectorControls>
 				<PanelBody
 					title={__("Search Options", "locfinder")}
-					initialOpen={true}
+					initialOpen={false}
 				>
 					<ToggleControl
 						label={__("Keyword Search", "locfinder")}
@@ -198,6 +200,19 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ keywordSearch: value })
 						}
 					/>
+					{keywordSearch && (
+						<TextControl
+							label={__("Keyword Placeholder", "locfinder")}
+							help={__(
+								"Leave blank to use the plugin default.",
+								"locfinder"
+							)}
+							value={keywordPlaceholder}
+							onChange={(value) =>
+								setAttributes({ keywordPlaceholder: value })
+							}
+						/>
+					)}
 					<ToggleControl
 						label={__("Address Search", "locfinder")}
 						checked={!!addressSearch}
@@ -214,6 +229,17 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 					{addressSearch && (
 						<>
+							<TextControl
+								label={__("Address Placeholder", "locfinder")}
+								help={__(
+									"Leave blank to use the plugin default.",
+									"locfinder"
+								)}
+								value={addressPlaceholder}
+								onChange={(value) =>
+									setAttributes({ addressPlaceholder: value })
+								}
+							/>
 							<ToggleControl
 								label={__("Radius Search", "locfinder")}
 								checked={!!radiusSearch}
@@ -231,10 +257,46 @@ export default function Edit({ attributes, setAttributes }) {
 								max={500}
 								disabled={!radiusSearch}
 								help={__(
-									'-1 = use the site default. 0 = pre-select "Any distance." No maximum is enforced on the server — this field\'s 500 cap is just a practical UI limit for the slider.',
+									'-1 = use the site default. 0 = pre-select "Any distance." No maximum is enforced on the server, this field\'s 500 cap is just a UI limit for the slider.',
 									"locfinder"
 								)}
 							/>
+							{radiusSearch && (
+								<>
+									<TextControl
+										label={__(
+											"Radius Field Label",
+											"locfinder"
+										)}
+										help={__(
+											"Leave blank to use the plugin default.",
+											"locfinder"
+										)}
+										value={radiusLabel}
+										onChange={(value) =>
+											setAttributes({
+												radiusLabel: value,
+											})
+										}
+									/>
+									<TextControl
+										label={__(
+											'"Any Distance" Option Text',
+											"locfinder"
+										)}
+										help={__(
+											"Leave blank to use the plugin default.",
+											"locfinder"
+										)}
+										value={anyDistanceText}
+										onChange={(value) =>
+											setAttributes({
+												anyDistanceText: value,
+											})
+										}
+									/>
+								</>
+							)}
 						</>
 					)}
 					<ToggleControl
@@ -244,66 +306,69 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ categorySearch: value })
 						}
 					/>
-					<SelectControl
-						label={__("Category Taxonomy", "locfinder")}
-						value={taxonomy}
-						options={[
-							{
-								label: __("Use site default", "locfinder"),
-								value: "",
-							},
-							...taxonomyOptions,
-						]}
-						onChange={(value) => setAttributes({ taxonomy: value })}
-						help={
-							allowedTaxonomies.length > 1
-								? undefined
-								: createInterpolateElement(
-										__(
-											"Filter by any custom taxonomy with the <a>Pro add-on</a>.",
-											"locfinder"
-										),
-										{
-											a: (
-												<a
-													href={proUrl}
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													Pro add-on
-												</a>
-											),
-										}
-									)
-						}
-					/>
-				</PanelBody>
-
-				<PanelBody
-					title={__("Labels & Placeholders", "locfinder")}
-					initialOpen={false}
-				>
-					<TextControl
-						label={__("Keyword Placeholder", "locfinder")}
-						help={__(
-							"Leave blank to use the plugin default.",
-							"locfinder"
-						)}
-						value={keywordPlaceholder}
-						onChange={(value) =>
-							setAttributes({ keywordPlaceholder: value })
-						}
-					/>
-					{addressSearch && (
-						<TextControl
-							label={__("Address Placeholder", "locfinder")}
-							help={__(
-								"Leave blank to use the plugin default.",
-								"locfinder"
-							)}
-							value={addressPlaceholder}
+					{categorySearch && (
+						<>
+							<TextControl
+								label={__("Category Field Label", "locfinder")}
+								help={__(
+									"Leave blank to use the plugin default.",
+									"locfinder"
+								)}
+								value={categoryLabel}
+								onChange={(value) =>
+									setAttributes({ categoryLabel: value })
+								}
+							/>
+							<TextControl
+								label={__(
+									'"All Categories" Option Text',
+									"locfinder"
+								)}
+								help={__(
+									"Leave blank to use the plugin default.",
+									"locfinder"
+								)}
+								value={allCategoriesText}
+								onChange={(value) =>
+									setAttributes({ allCategoriesText: value })
+								}
+							/>
+						</>
+					)}
+					{(categorySearch || showCategories) && (
+						<SelectControl
+							label={__("Category Taxonomy", "locfinder")}
+							value={taxonomy}
+							options={[
+								{
+									label: __("Use site default", "locfinder"),
+									value: "",
+								},
+								...taxonomyOptions,
+							]}
 							onChange={(value) =>
-								setAttributes({ addressPlaceholder: value })
+								setAttributes({ taxonomy: value })
+							}
+							help={
+								allowedTaxonomies.length > 1
+									? undefined
+									: createInterpolateElement(
+											__(
+												"Filter by any custom taxonomy with the <a>Pro add-on</a>.",
+												"locfinder"
+											),
+											{
+												a: (
+													<a
+														href={proUrl}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														Pro add-on
+													</a>
+												),
+											}
+										)
 							}
 						/>
 					)}
@@ -316,57 +381,6 @@ export default function Edit({ attributes, setAttributes }) {
 						value={searchButtonLabel}
 						onChange={(value) =>
 							setAttributes({ searchButtonLabel: value })
-						}
-					/>
-					{addressSearch && radiusSearch && (
-						<>
-							<TextControl
-								label={__("Radius Field Label", "locfinder")}
-								help={__(
-									"Screen-reader label. Leave blank to use the plugin default.",
-									"locfinder"
-								)}
-								value={radiusLabel}
-								onChange={(value) =>
-									setAttributes({ radiusLabel: value })
-								}
-							/>
-							<TextControl
-								label={__(
-									'"Any Distance" Option Text',
-									"locfinder"
-								)}
-								help={__(
-									"Leave blank to use the plugin default.",
-									"locfinder"
-								)}
-								value={anyDistanceText}
-								onChange={(value) =>
-									setAttributes({ anyDistanceText: value })
-								}
-							/>
-						</>
-					)}
-					<TextControl
-						label={__("Category Field Label", "locfinder")}
-						help={__(
-							"Screen-reader label. Leave blank to use the plugin default.",
-							"locfinder"
-						)}
-						value={categoryLabel}
-						onChange={(value) =>
-							setAttributes({ categoryLabel: value })
-						}
-					/>
-					<TextControl
-						label={__('"All Categories" Option Text', "locfinder")}
-						help={__(
-							"Leave blank to use the plugin default.",
-							"locfinder"
-						)}
-						value={allCategoriesText}
-						onChange={(value) =>
-							setAttributes({ allCategoriesText: value })
 						}
 					/>
 				</PanelBody>
@@ -418,10 +432,6 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) =>
 							setAttributes({ resultsLayout: value })
 						}
-						help={__(
-							"Overrides the site-wide Results List layout setting for this block only.",
-							"locfinder"
-						)}
 					/>
 					<SelectControl
 						label={__("Position", "locfinder")}
@@ -459,55 +469,66 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) =>
 							setAttributes({ resultsPosition: value })
 						}
-						help={__(
-							"Overrides the site-wide Results Position setting for this block only.",
-							"locfinder"
-						)}
 					/>
-					<RangeControl
-						label={__("Grid Columns", "locfinder")}
-						value={gridCols}
-						onChange={(value) => setAttributes({ gridCols: value })}
-						min={1}
-						max={6}
-						disabled={effectiveLayout === "list"}
-						help={
-							effectiveLayout === "list"
-								? __(
-										"Not used while the layout above is List.",
-										"locfinder"
-									)
-								: undefined
-						}
-					/>
-					<SelectControl
-						label={__("Results Columns", "locfinder")}
-						value={String(resultsColumns)}
-						options={[
-							{
-								label: sprintf(
-									/* translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting. */
-									__("Use site default (%d)", "locfinder"),
-									defaultResultsSideColumns
-								),
-								value: "0",
-							},
-							{ label: __("1 column", "locfinder"), value: "1" },
-							{ label: __("2 columns", "locfinder"), value: "2" },
-						]}
-						disabled={effectivePosition === "bottom"}
-						onChange={(value) =>
-							setAttributes({ resultsColumns: Number(value) })
-						}
-						help={
-							effectivePosition === "bottom"
-								? __(
-										"Only used while Position above is Left or Right.",
-										"locfinder"
-									)
-								: undefined
-						}
-					/>
+					{effectivePosition === "bottom" && (
+						<RangeControl
+							label={__("Grid Columns", "locfinder")}
+							value={gridCols}
+							onChange={(value) =>
+								setAttributes({ gridCols: value })
+							}
+							min={1}
+							max={6}
+							disabled={effectiveLayout === "list"}
+							help={
+								effectiveLayout === "list"
+									? __(
+											"Not used while the layout above is List.",
+											"locfinder"
+										)
+									: undefined
+							}
+						/>
+					)}
+					{(effectivePosition === "left" ||
+						effectivePosition === "right") && (
+						<SelectControl
+							label={__("Results Columns", "locfinder")}
+							value={String(resultsColumns)}
+							options={[
+								{
+									label: sprintf(
+										/* translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting. */
+										__("Use site default (%d)", "locfinder"),
+										defaultResultsSideColumns
+									),
+									value: "0",
+								},
+								{
+									label: __("1 column", "locfinder"),
+									value: "1",
+								},
+								{
+									label: __("2 columns", "locfinder"),
+									value: "2",
+								},
+							]}
+							onChange={(value) =>
+								setAttributes({
+									resultsColumns: Number(value),
+								})
+							}
+							disabled={effectiveLayout === "list"}
+							help={
+								effectiveLayout === "list"
+									? __(
+											"Not used while the layout above is List.",
+											"locfinder"
+										)
+									: undefined
+							}
+						/>
+					)}
 					<RangeControl
 						label={__("Results Per Page", "locfinder")}
 						value={postsPerPage}
@@ -523,34 +544,9 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 
-				<PanelColorSettings
-					title={__("Map Pin", "locfinder")}
-					initialOpen={false}
-					colors={[]}
-					colorSettings={[
-						{
-							value: pinColor,
-							onChange: (value) =>
-								setAttributes({
-									pinColor: value || "",
-								}),
-							label: __("Pin Color", "locfinder"),
-						},
-					]}
-				>
-					{pinColor && (
-						<Button
-							variant="link"
-							onClick={() => setAttributes({ pinColor: "" })}
-						>
-							{__("Reset to default", "locfinder")}
-						</Button>
-					)}
-				</PanelColorSettings>
-
 				<PanelBody
 					title={__("Show Fields", "locfinder")}
-					initialOpen={false}
+					initialOpen={true}
 				>
 					{SHOW_FIELD_CONFIG.map(({ key, label }) => (
 						<ToggleControl
@@ -598,6 +594,31 @@ export default function Edit({ attributes, setAttributes }) {
 						</div>
 					)}
 				</PanelBody>
+
+				<PanelColorSettings
+					title={__("Map Pin", "locfinder")}
+					initialOpen={false}
+					colors={[]}
+					colorSettings={[
+						{
+							value: pinColor,
+							onChange: (value) =>
+								setAttributes({
+									pinColor: value || "",
+								}),
+							label: __("Pin Color", "locfinder"),
+						},
+					]}
+				>
+					{pinColor && (
+						<Button
+							variant="link"
+							onClick={() => setAttributes({ pinColor: "" })}
+						>
+							{__("Reset to default", "locfinder")}
+						</Button>
+					)}
+				</PanelColorSettings>
 			</InspectorControls>
 
 			<div {...blockProps} onSubmit={(event) => event.preventDefault()}>

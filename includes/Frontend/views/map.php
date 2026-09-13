@@ -263,7 +263,25 @@ $config = [
 				 */
 				$terms = apply_filters('locfinder_category_dropdown_terms', $terms, $requestedTaxonomy);
 
-				if ($terms && !is_wp_error($terms)) : ?>
+				if ($terms && !is_wp_error($terms)) :
+					// Order parent categories first then child categories can be indented with a dash.
+					$termsByParent = [];
+					foreach ($terms as $term) {
+						$termsByParent[$term->parent][] = $term;
+					}
+
+					$orderedTerms = [];
+					$flattenTerms = function (int $parentId, int $depth) use (&$flattenTerms, &$orderedTerms, $termsByParent): void {
+						if(empty($termsByParent[$parentId])) {
+							return;
+						}
+						foreach ($termsByParent[$parentId] as $term) {
+							$orderedTerms[] = ['term' => $term, 'depth' => $depth];
+							$flattenTerms($term->term_id, $depth + 1);
+						}
+					};
+					$flattenTerms(0, 0);
+					?>
 					<label for="<?php echo esc_attr($id . '-locfinder_category'); ?>" class="locfinder-form__label">
 						<?php echo esc_html($categoryLabel); ?>
 					</label>
@@ -274,8 +292,12 @@ $config = [
 						aria-label="<?php echo esc_attr($categoryLabel); ?>"
 					>
 						<option value="0"><?php echo esc_html($allCategoriesText); ?></option>
-						<?php foreach ($terms as $term) : ?>
-							<option value="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></option>
+						<?php foreach ($orderedTerms as $item) :
+							$term   = $item['term'];
+							$depth  = $item['depth'];
+							$prefix = $depth > 0 ? str_repeat('&nbsp;&nbsp;&nbsp;', $depth) . '&#8211; ' : '';
+						?>
+							<option value="<?php echo esc_attr($term->term_id); ?>"><?php echo $prefix . esc_html($term->name); ?></option>
 						<?php endforeach; ?>
 					</select>
 				<?php endif;

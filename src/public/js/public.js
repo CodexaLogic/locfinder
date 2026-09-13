@@ -200,12 +200,8 @@ function initLocfinderInstance(root) {
 	const mapElement = querySelector(".locfinder__map", root);
 
 	const mapWidth = window.locfinderConfig?.mapWidth || "";
-	if (mapWidth && mapElement) {
-		if (instanceConfig.resultsPosition === "bottom") {
-			mapElement.style.width = mapWidth;
-		} else {
-			mapElement.style.setProperty("--locfinder-map-width", mapWidth);
-		}
+	if (mapWidth && mapElement && instanceConfig.resultsPosition !== "bottom") {
+		mapElement.style.setProperty("--locfinder-map-width", mapWidth);
 	}
 
 	const totalCount = querySelector(".locfinder__total", root);

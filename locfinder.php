@@ -3,7 +3,7 @@
  * Plugin Name:       Location Finder
  * Plugin URI:        https://codexalogic.com/products/locfinder
  * Description:       Display locations on an interactive Google Map, with keyword, category, and radius "near me" search and results in a list or grid layout.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            Codexa
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 
 // Define plugin constants before registering the autoloader.
 if (!defined('LOCFINDER_VERSION')) {
-	define('LOCFINDER_VERSION', '1.0.0');
+	define('LOCFINDER_VERSION', '1.0.1');
 }
 if (!defined('LOCFINDER_NAME')) {
 	define('LOCFINDER_NAME', 'locfinder');

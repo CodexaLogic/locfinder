@@ -97,6 +97,18 @@
 		font-size: var(--locfinder-font-size-sm);
 		font-weight: var(--locfinder-fw-semibold);
 		white-space: nowrap;
+
+		&[for$="-locfinder_keyword"],
+		&[for$="-locfinder_address"] {
+			border: 0;
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+		}
 	}
 
 	&__field {

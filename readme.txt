@@ -6,7 +6,7 @@ Tags: store locator, google maps, locations, directory, map
 Requires at least: 6.5
 Requires PHP:      8.1
 Tested up to:      7.1
-Stable tag:        1.0.0
+Stable tag:        1.0.1
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,13 +14,14 @@ Display locations on an interactive Google Map, with keyword, category, and radi
 
 == Description ==
 
-Location Finder makes it easy to create and manage locations for any type of business or organization (stores, restaurants, offices, programs, nonprofits, etc.) and display them as pins on a dynamic Google Map. Visitors get a fast, intuitive search with built-in keyword, category, and radius-based "near me" filtering. The Pro version adds filtering by any custom taxonomy, your own distance choices, and deeper control over map styling and pins.
+Location Finder makes it easy to create and manage locations for any type of business or organization (stores, restaurants, offices, programs, nonprofits, etc.) and display them as pins on a dynamic Google Map. A Google Maps API key is optional; without one, it still works as a fully searchable directory using keyword and category filtering. Visitors get a fast, intuitive search with built-in keyword, category, and radius-based "near me" filtering. The Pro version adds filtering by any custom taxonomy, your own distance choices, and deeper control over map styling and pins.
 
 Full documentation and setup guide: [https://codexalogic.com/documentation/getting-started-with-location-finder/](https://codexalogic.com/documentation/getting-started-with-location-finder/)
 
 = Highlights =
 * Add locations via a friendly admin interface (Custom Post Type), with Google Places autocomplete for fast, accurate address entry.
 * Display locations as pins on a Google Map, plus a dedicated page for each location with its own map.
+* Works with or without a Google Maps API key — use it as a full interactive map locator, or skip the key and run it as a keyword/category-searchable directory.
 * Show address, phone (US and international formats), email, website, weekly hours, a "Get Directions" link, and categories for each location, each one individually shown or hidden.
 * Built-in keyword search for quick filtering.
 * Category filtering and radius-based "near me" search, with distance choices of 10, 25, 50, and 75.
@@ -48,7 +49,7 @@ Use cases:
 
 1. Upload the `locfinder` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the Plugins menu in WordPress.
-3. Add your Google Maps API key in Location Finder > General Settings.
+3. Add your Google Maps API key in Location Finder > General Settings, if you want to display an interactive map. This step is optional — the plugin works as a searchable directory without one.
 4. Add locations via Locations in the WordPress admin.
 5. Visit the Locations page created automatically on activation, or embed the map anywhere using the `[locfinder]` shortcode or the Location Finder block.
 
@@ -66,11 +67,11 @@ The Location Finder block offers the same options directly in the block editor s
 
 == External Services ==
 
-This plugin relies on the Google Maps JavaScript API to display maps, geocode addresses, and power address autocomplete in the location editor. It is required for the plugin to function, and you must supply your own Google Maps API key in the plugin settings.
+This plugin uses the Google Maps JavaScript API to display an interactive map, geocode addresses, and power address autocomplete in the location editor. A Google Maps API key is required only for those features; without one, Location Finder still works as a searchable directory, using keyword and category search against your saved location data, with no connection to Google at all. Add your own Google Maps API key in the plugin settings whenever you want the map or address-lookup features.
 
-When a page containing a map is loaded, the plugin loads a script from https://maps.googleapis.com and sends the data needed to render that map and resolve searches. This includes the location addresses and coordinates you have saved, any address a visitor types into the search field, and, only when a visitor uses the "Use my location" button and grants their browser's permission prompt, that visitor's coordinates.
+When a Google Maps API key is configured and a page containing a map is loaded, the plugin loads a script from https://maps.googleapis.com and sends the data needed to render that map and resolve address-based searches. This includes the location addresses and coordinates you have saved, any address a visitor types into the search field, and, only when a visitor uses the "Use my location" button and grants their browser's permission prompt, that visitor's coordinates (used to look up a readable address to show in the search field).
 
-No data is sent to Google unless a map is displayed or a search is performed. The plugin does not send data to codexalogic.com or to any service other than Google Maps.
+No data is sent to Google unless a Google Maps API key is configured and either a map is displayed or an address-based search or lookup is performed. The plugin does not send data to codexalogic.com or to any service other than Google Maps.
 
 Google Maps Platform Terms of Service: https://cloud.google.com/maps-platform/terms
 Google Privacy Policy: https://policies.google.com/privacy
@@ -89,7 +90,7 @@ Third-party libraries bundled in `build/`:
 == Frequently Asked Questions ==
 
 = Do I need a Google Maps API key? =
-Yes, a Google Maps API key is required to display the map. You can get one from the Google Cloud Console.
+Only if you want to display the interactive map. Without one, Location Finder still works as a full-featured directory, with keyword and category search and results in a list or grid layout, just without the map itself. You can get a free API key from the Google Cloud Console any time you want to add it.
 
 = Will this work for any kind of business or organization? =
 Yes. The Location post type works for shops, restaurants, offices, programs, and other businesses or organizations with an address or coordinates.
@@ -128,6 +129,15 @@ By default, nothing is removed. Your plugin settings and all location data are k
 Yes. Use the `locfinder` text domain and place translation files in the `/languages` folder.
 
 == Changelog ==
+
+= 1.0.1 =
+* Fix: Location Details block is properly recognized by the block editor, preventing it from being flagged as invalid content and accidentally removed from the Single Location template.
+* Fix: Results Columns setting disables when Layout is set to List, matching the existing Grid Columns behavior.
+* Fix: Map width is no longer applied when Results Position is set to below the map.
+* Improvement: Category dropdown shows parent and child categories as a nested, indented list.
+* Improvement: Keyword and Address search fields use placeholder text inside the input instead of a separate visible label, with the label kept for screen reader accessibility.
+* Improvement: Result card thumbnails are larger and card spacing is slightly increased.
+* Docs: Clarified that a Google Maps API key is optional. Search and directory features work fully without one.
 
 = 1.0.0 =
 * Initial release.
