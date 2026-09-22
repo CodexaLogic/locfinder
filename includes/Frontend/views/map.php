@@ -75,6 +75,7 @@ $addressSearch  = filter_var($atts['address_search'], FILTER_VALIDATE_BOOLEAN);
 $radiusSearch   = filter_var($atts['radius_search'], FILTER_VALIDATE_BOOLEAN);
 $categorySearch = filter_var($atts['category_search'], FILTER_VALIDATE_BOOLEAN);
 
+$addressSearch   = $addressSearch && Options::getMapEnabled();
 $radiusSearch    = $radiusSearch && $addressSearch;
 $hasSearchFields = $keywordSearch || $addressSearch || $radiusSearch || $categorySearch;
 
@@ -96,6 +97,10 @@ $resultsLayout = in_array($atts['results_layout'], ['grid', 'list'], true)
 $resultsPosition = in_array($atts['results_position'], ['bottom', 'left', 'right'], true)
 	? $atts['results_position']
 	: Options::getResultsPosition();
+
+if (!Options::getMapEnabled()) {
+	$resultsPosition = 'bottom';
+}
 
 $resultsColumns = in_array((int) $atts['results_columns'], [1, 2], true)
 	? (int) $atts['results_columns']
@@ -331,7 +336,16 @@ $config = [
 			></div>
 		</div>
 
-		<?php /* translators: %s: unique instance ID for this map */ ?>
-		<div class="locfinder__map" role="region" aria-label="<?php echo esc_attr(sprintf(__('Location map %s', 'locfinder'), $id)); ?>"></div>
+		<?php if (Options::getMapEnabled()) : ?>
+			<?php /* translators: %s: unique instance ID for this map */ ?>
+			<div class="locfinder__map" role="region" aria-label="<?php echo esc_attr(sprintf(__('Location map %s', 'locfinder'), $id)); ?>"></div>
+		<?php else : ?>
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped within renderMapDisabledNotice().
+			echo Frontend::renderMapDisabledNotice(
+				__('Visitors see this directory without a map. This note is only visible to editors and admins.', 'locfinder')
+			);
+			?>
+		<?php endif; ?>
 	</div>
 </div>

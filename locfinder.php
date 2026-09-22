@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name:       Location Finder
+ * Plugin Name:       Location Finder – Store Locator & Resource Directory
  * Plugin URI:        https://codexalogic.com/products/locfinder
- * Description:       Display locations on an interactive Google Map, with keyword, category, and radius "near me" search and results in a list or grid layout.
- * Version:           1.0.1
+ * Description:       Build searchable store locators, service directories, and resource finders with optional Google Maps, category and radius filters, and list or grid layouts.
+ * Version:           1.1.0
  * Requires at least: 6.5
- * Requires PHP:      8.1
+ * Requires PHP:      8.0
  * Author:            Codexa
  * Author URI:        https://codexalogic.com
  * License:           GPLv2 or later
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 
 // Define plugin constants before registering the autoloader.
 if (!defined('LOCFINDER_VERSION')) {
-	define('LOCFINDER_VERSION', '1.0.1');
+	define('LOCFINDER_VERSION', '1.1.0');
 }
 if (!defined('LOCFINDER_NAME')) {
 	define('LOCFINDER_NAME', 'locfinder');
@@ -35,7 +35,7 @@ if (!defined('LOCFINDER_URL')) {
 	define('LOCFINDER_URL', plugin_dir_url(__FILE__));
 }
 if (!defined('LOCFINDER_PRO_URL')) {
-	define('LOCFINDER_PRO_URL', 'https://codexalogic.com/#pricing');
+	define('LOCFINDER_PRO_URL', 'https://codexalogic.com/products/locfinder-pro');
 }
 
 require_once LOCFINDER_DIR . 'includes/Core/Autoloader.php';

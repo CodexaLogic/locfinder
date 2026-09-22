@@ -381,45 +381,47 @@ class Admin {
 	 * @param array $args {
 	 *     Optional. Display arguments.
 	 *
-	 *     @type string $message Message containing %1$s and %2$s link placeholders.
-	 *     @type string $url     Upgrade URL. Empty disables the link.
-	 *     @type string $class   Link CSS class.
-	 *     @type bool   $wrapP   Whether to wrap the message in a paragraph. Default true.
+	 *     @type string $message    Plain-text description of the locked feature.
+	 *     @type string $url        Upgrade URL. Empty disables the link.
+	 *     @type string $badgeLabel Pill text. Default 'Pro'.
+	 *     @type string $linkText   Link text before the arrow. Default 'Learn more'.
 	 * }
 	 * @return void
 	 */
 	public static function proUpsell(array $args = []): void {
 		$defaults = [
-			/* translators: %1$s and %2$s are the opening and closing <a> tags. */
-			'message' => __('This feature is available in the %1$sPro version of Locfinder%2$s.', 'locfinder'),
-			'url'     => defined('LOCFINDER_PRO_URL') ? LOCFINDER_PRO_URL : '',
-			'class'   => 'locfinder-upsell__link',
-			'wrapP'   => true,
+			'message'    => __('This feature is available in the Pro version of Locfinder.', 'locfinder'),
+			'url'        => defined('LOCFINDER_PRO_URL') ? LOCFINDER_PRO_URL : '',
+			'badgeLabel' => __('Pro', 'locfinder'),
+			'linkText'   => __('Learn more', 'locfinder'),
 		];
 
 		$args = array_merge($defaults, $args);
 
-		$message = (string) $args['message'];
-		$url     = (string) $args['url'];
-		$class   = (string) $args['class'];
-		$wrap    = (bool) $args['wrapP'];
+		$message    = (string) $args['message'];
+		$url        = (string) $args['url'];
+		$badgeLabel = (string) $args['badgeLabel'];
+		$linkText   = (string) $args['linkText'];
 
-		$open = $url !== ''
+		$link = $url !== ''
 			? sprintf(
-				'<a class="%s" href="%s" target="_blank" rel="noopener noreferrer">',
-				esc_attr($class),
-				esc_url($url)
+				'<a class="locfinder-pro-note__link" href="%s" target="_blank" rel="noopener noreferrer">%s <span aria-hidden="true">&rarr;</span></a>',
+				esc_url($url),
+				esc_html($linkText)
 			)
 			: '';
 
-		$close = $url !== '' ? '</a>' : '';
-
-		$raw  = sprintf($message, $open, $close);
-		$html = $wrap ? '<p>' . $raw . '</p>' : $raw;
+		$html = sprintf(
+			'<div class="locfinder-pro-note"><span class="locfinder-pro-badge"><span class="dashicons dashicons-lock" aria-hidden="true"></span>%s</span><span class="locfinder-pro-note__text">%s</span>%s</div>',
+			esc_html($badgeLabel),
+			esc_html($message),
+			$link
+		);
 
 		echo wp_kses($html, [
-			'p' => [],
-			'a' => [
+			'div'  => ['class' => true],
+			'span' => ['class' => true, 'aria-hidden' => true],
+			'a'    => [
 				'href'   => true,
 				'class'  => true,
 				'target' => true,

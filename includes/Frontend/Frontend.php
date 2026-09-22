@@ -53,7 +53,7 @@ class Frontend {
 
 		$issues = [];
 
-		if (Options::getApiKey() === '') {
+		if (Options::getMapEnabled() && Options::getApiKey() === '') {
 			$issues[] = [
 				'icon'    => 'key',
 				'message' => __('Add a Google Maps API key to display the map.', 'locfinder'),
@@ -172,6 +172,46 @@ class Frontend {
 			. $items
 			. '</ul>'
 			. '</div>';
+	}
+
+	/**
+	 * Renders a notice when the map is disabled for the current user.
+	 *
+	 * The notice is shown only to users who can edit other locations.
+	 *
+	 * @param  string $message  Notice message to display.
+	 * @return string           Notice HTML, or empty string if the current user can't edit other locations.
+	 */
+	public static function renderMapDisabledNotice(string $message): string {
+		if (!current_user_can('edit_others_locfinder_locations')) {
+			return '';
+		}
+
+		$canManageSettings = current_user_can('manage_options');
+
+		ob_start();
+		?>
+		<div class="locfinder__map locfinder__map--disabled-notice" role="region">
+			<div class="locfinder-notice-content">
+				<p class="locfinder-notice-title"><?php esc_html_e('Google Maps is turned off', 'locfinder'); ?></p>
+				<p class="locfinder-notice-body"><?php echo esc_html($message); ?></p>
+				<?php if (!$canManageSettings) : ?>
+					<p class="locfinder-notice-body"><?php esc_html_e('Ask your site administrator to check the Enable Google Maps setting if this wasn\'t intentional.', 'locfinder'); ?></p>
+				<?php endif; ?>
+			</div>
+			<?php if ($canManageSettings) : ?>
+				<a
+					class="locfinder-notice-button"
+					href="<?php echo esc_url(admin_url('admin.php?page=locfinder_general')); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<?php esc_html_e('Map Settings', 'locfinder'); ?>
+				</a>
+			<?php endif; ?>
+		</div>
+		<?php
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -830,29 +870,47 @@ class Frontend {
 
 			</div>
 
-			<section class="locfinder-single__map-section" aria-label="<?php echo esc_attr__('Map', 'locfinder'); ?>">
-				<script type="application/json" class="locfinder-config">
-					<?php echo wp_json_encode($locfinder_config, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG); ?>
-				</script>
+			<?php if (Options::getMapEnabled()) : ?>
+				<section class="locfinder-single__map-section" aria-label="<?php echo esc_attr__('Map', 'locfinder'); ?>">
+					<script type="application/json" class="locfinder-config">
+						<?php echo wp_json_encode($locfinder_config, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG); ?>
+					</script>
 
-				<div class="locfinder-single__map-wrap">
-					<div
-						class="locfinder__map"
-						data-locfinder-single
-						role="region"
-						<?php /* translators: %s: location name */ ?>
-						aria-label="<?php echo esc_attr(sprintf(__('Map for %s', 'locfinder'), html_entity_decode(get_the_title($post_id), ENT_QUOTES | ENT_HTML5, 'UTF-8'))); ?>"
-					></div>
+					<div class="locfinder-single__map-wrap">
+						<div
+							class="locfinder__map"
+							data-locfinder-single
+							role="region"
+							<?php /* translators: %s: location name */ ?>
+							aria-label="<?php echo esc_attr(sprintf(__('Map for %s', 'locfinder'), html_entity_decode(get_the_title($post_id), ENT_QUOTES | ENT_HTML5, 'UTF-8'))); ?>"
+						></div>
 
-					<p class="locfinder-single__map-loading" data-locfinder-single-loading>
-						<?php echo esc_html__('Loading map…', 'locfinder'); ?>
-					</p>
+						<p class="locfinder-single__map-loading" data-locfinder-single-loading>
+							<?php echo esc_html__('Loading map…', 'locfinder'); ?>
+						</p>
 
-					<noscript>
-						<p><?php echo esc_html__('JavaScript is required to display the map.', 'locfinder'); ?></p>
-					</noscript>
-				</div>
-			</section>
+						<noscript>
+							<p><?php echo esc_html__('JavaScript is required to display the map.', 'locfinder'); ?></p>
+						</noscript>
+					</div>
+				</section>
+			<?php else : ?>
+				<?php
+				$locfinder_disabledNotice = self::renderMapDisabledNotice(
+					__('Visitors don\'t see a map on location pages. This note is only visible to editors and admins.', 'locfinder')
+				);
+				?>
+				<?php if ($locfinder_disabledNotice !== '') : ?>
+					<section class="locfinder-single__map-section" aria-label="<?php echo esc_attr__('Map', 'locfinder'); ?>">
+						<div class="locfinder-single__map-wrap">
+							<?php
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped within renderMapDisabledNotice().
+							echo $locfinder_disabledNotice;
+							?>
+						</div>
+					</section>
+				<?php endif; ?>
+			<?php endif; ?>
 
 		</article>
 

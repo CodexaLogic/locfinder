@@ -118,6 +118,18 @@ class Options {
 	/* Typed getters */
 
 	/**
+	 * Gets whether Google Maps is enabled.
+	 *
+	 * When disabled, the plugin functions purely as a searchable directory
+	 * with no map, no API key prompt, and no map-related setup nagging.
+	 *
+	 * @return bool  True if Google Maps is enabled.
+	 */
+	public static function getMapEnabled(): bool {
+		return (bool) self::getOption('enable_map', true);
+	}
+
+	/**
 	 * Gets the Google Maps API key.
 	 *
 	 * Empty string is the valid "not configured" state, intentionally no fallback.
@@ -768,7 +780,7 @@ class Options {
 		return [
 
 			// General.
-			'googleMapsApiKey' => self::getApiKey(),
+			'googleMapsApiKey' => self::getMapEnabled() ? self::getApiKey() : '',
 			'mapId'            => self::getMapId(),
 			'distanceUnit'     => self::getDistanceUnit(),
 			'defaultLat'       => self::getDefaultLat(),

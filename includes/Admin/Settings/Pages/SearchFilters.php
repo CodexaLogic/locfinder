@@ -178,6 +178,10 @@ class SearchFilters extends Base {
 	/**
 	 * Renders any Search & Filters fields contributed by the Pro add-on.
 	 *
+	 * If the Pro add-on is active, its own fields render via the
+	 * 'locfinder/pro/render_search_filters_fields' action; otherwise this
+	 * renders a generic proUpsell() notice for the locked custom-radius field.
+	 *
 	 * @return void
 	 */
 	public function renderProSearchFiltersFields(): void {
@@ -187,8 +191,7 @@ class SearchFilters extends Base {
 		}
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => __('Custom radius distances are available in the %1$sPro add-on%2$s. The free version uses 10, 25, 50 and 75.', 'locfinder'),
+			'message' => __('Customize search radius distances beyond the standard 10, 25, 50, and 75 options.', 'locfinder'),
 		]);
 	}
 
@@ -273,6 +276,11 @@ class SearchFilters extends Base {
 	/**
 	 * Renders the taxonomy filter select field.
 	 *
+	 * Always shows a note on which taxonomy the free version filters by. If
+	 * the Pro add-on is active, its own field renders via the
+	 * 'locfinder/pro/render_taxonomy_filter_field' action; otherwise this
+	 * renders a generic proUpsell() notice for filtering by any taxonomy.
+	 *
 	 * @return void
 	 */
 	public function renderTaxonomyFilter(): void {
@@ -287,8 +295,7 @@ class SearchFilters extends Base {
 		}
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => __('Filter by any taxonomy you\'ve registered for locations with the %1$sPro add-on%2$s.', 'locfinder'),
+			'message' => __('Let visitors filter by any registered taxonomy.', 'locfinder'),
 		]);
 	}
 

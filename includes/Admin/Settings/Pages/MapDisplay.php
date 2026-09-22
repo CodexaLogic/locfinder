@@ -190,11 +190,19 @@ class MapDisplay extends Base {
 	}
 
 	/**
-	 * Renders any Map Display fields contributed by the Pro add-on.
+	 * Renders the Pro upsell notice for a locked Map Display field.
 	 *
-	 * If the Pro add-on is not active, renders an upsell message instead.
+	 * If the Pro add-on is active, its own renderer takes over via the
+	 * 'locfinder/pro/render_map_display_fields' action; otherwise this
+	 * renders a generic proUpsell() notice, using a context-specific message
+	 * when one is defined in $messages, or a generic fallback otherwise.
 	 *
-	 * @param  array $args  Field args, expects $args['context'] of 'map_style' or 'pin_icon'.
+	 * @param array $args {
+	 *     Optional. Display arguments.
+	 *
+	 *     @type string $context Which locked field this is for ('map_style',
+	 *                            'pin_icon'). Selects the message text.
+	 * }
 	 * @return void
 	 */
 	public function renderProMapDisplayFields(array $args = []): void {
@@ -206,15 +214,12 @@ class MapDisplay extends Base {
 		}
 
 		$messages = [
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'map_style' => __('Customize the map\'s visual style with the %1$sPro add-on%2$s.', 'locfinder'),
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'pin_icon' => __('Use a custom pin icon with the %1$sPro add-on%2$s.', 'locfinder'),
+			'map_style' => __('Customize your map colors, roads, labels, and points of interest to match your website.', 'locfinder'),
+			'pin_icon'  => __('Use a custom pin icon.', 'locfinder'),
 		];
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => $messages[$context] ?? __('Unlock this option with the %1$sPro add-on%2$s.', 'locfinder'),
+			'message' => $messages[$context] ?? __('Unlock this option.', 'locfinder'),
 		]);
 	}
 
@@ -341,10 +346,13 @@ class MapDisplay extends Base {
 	}
 
 	/**
-	 * Renders pins by term field.
+	 * Renders the Pro term-based pin customization UI, or its upsell notice.
 	 *
-	 * If the Pro add-on is active, this field allows users to color code pins
-	 * or use custom icons for each location taxonomy term.
+	 * If the Pro add-on is active, its own UI takes over via the
+	 * 'locfinder/pro/render_term_pins_ui' action, passed a taxonomy resolved
+	 * from the saved setting (falling back to the built-in Category taxonomy
+	 * if the saved value is invalid or no longer registered for locations).
+	 * Otherwise, renders a generic proUpsell() notice.
 	 *
 	 * @return void
 	 */
@@ -365,8 +373,7 @@ class MapDisplay extends Base {
 		}
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => __('Make your map more visual with color-coded pins or use custom icons for each location taxonomy term with the %1$sPro add-on%2$s.', 'locfinder'),
+			'message' => __('Customize your map with colors, images, or vector icons for each category, tag, or other taxonomy term.', 'locfinder'),
 		]);
 	}
 

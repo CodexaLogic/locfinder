@@ -180,13 +180,19 @@ class Results extends Base {
 	}
 
 	/**
-	 * Renders any Results-related fields contributed by the Pro add-on.
+	 * Renders the Pro upsell notice for a locked Results List field.
 	 *
-	 * If the Pro add-on is active, this method fires the
-	 * locfinder/pro/render_results_fields action to render its own fields
-	 * in the Results settings page; otherwise it renders an upsell message.
+	 * If the Pro add-on is active, its own renderer takes over via the
+	 * 'locfinder/pro/render_results_fields' action; otherwise this renders a
+	 * generic proUpsell() notice, using a context-specific message when one
+	 * is defined in $messages, or a generic fallback otherwise.
 	 *
-	 * @param  array $args  Field args, expects $args['context'] of 'distance' or 'templates'.
+	 * @param array $args {
+	 *     Optional. Display arguments.
+	 *
+	 *     @type string $context Which locked field this is for ('distance',
+	 *                            'templates'). Selects the message text.
+	 * }
 	 * @return void
 	 */
 	public function renderProResultsFields(array $args = []): void {
@@ -198,15 +204,12 @@ class Results extends Base {
 		}
 
 		$messages = [
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'distance' => __('Unlock distance display with the %1$sPro add-on%2$s.', 'locfinder'),
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'templates' => __('Customize the result item template with the %1$sPro add-on%2$s.', 'locfinder'),
+			'distance'  => __('Show visitors how far each location is from the address they searched, right on the result card.', 'locfinder'),
+			'templates' => __('Customize result cards with an HTML template, placing details wherever you want.', 'locfinder'),
 		];
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => $messages[$context] ?? __('Unlock this option with the %1$sPro add-on%2$s.', 'locfinder'),
+			'message' => $messages[$context] ?? __('Unlock this option.', 'locfinder'),
 		]);
 	}
 
@@ -323,8 +326,7 @@ class Results extends Base {
 		}
 
 		Admin::proUpsell([
-			/* translators: %1$s: opening <a> tag, %2$s: closing </a> tag */
-			'message' => __('Unlock the live "Open Now" / "Closed Now" badge with the %1$sPro add-on%2$s.', 'locfinder'),
+			'message' => __('Help visitors know when to go with a live "Open Now" / "Closed Now" badge.', 'locfinder'),
 		]);
 	}
 

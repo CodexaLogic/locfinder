@@ -57,13 +57,17 @@ $proRequired = __('Available with the Pro add-on', 'locfinder');
 				<tr>
 					<td><code>address_search</code></td>
 					<td>1</td>
-					<td><?php esc_html_e('Show or hide the address search input.', 'locfinder'); ?></td>
+					<td>
+						<?php esc_html_e('Show or hide the address search input (if Google Maps is enabled under Location Finder → General).', 'locfinder'); ?>
+					</td>
 					<td><code>address_search="0"</code></td>
 				</tr>
 				<tr>
 					<td><code>radius_search</code></td>
 					<td>1</td>
-					<td><?php esc_html_e('Show or hide the radius dropdown.', 'locfinder'); ?></td>
+					<td>
+						<?php esc_html_e('Show or hide the radius dropdown (if Google Maps is enabled under Location Finder → General).', 'locfinder'); ?>
+					</td>
 					<td><code>radius_search="0"</code></td>
 				</tr>
 				<tr>

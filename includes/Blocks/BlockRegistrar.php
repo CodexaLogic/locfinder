@@ -38,6 +38,7 @@ class BlockRegistrar {
 		]);
 
 		wp_localize_script('locfinder-locfinder-map-editor-script', 'locfinderBlockEditor', [
+			'mapsEnabled'       => Options::getMapEnabled(),
 			'allowedTaxonomies' => (array) apply_filters(
 				'locfinder_block_editor_allowed_taxonomies',
 				array_values(array_filter(

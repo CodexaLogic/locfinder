@@ -1,4 +1,5 @@
 @use "../../common/scss/styles" as *;
+@use "../../public/scss/components/disabled-notice" as *;
 
 /**
  * Editor-only styles for the Location Finder block.
@@ -8,6 +9,11 @@
 	border: 1px dashed var(--locfinder-gray-300);
 	border-radius: var(--locfinder-radius-md);
 	padding: var(--locfinder-space-3);
+
+	.locfinder__map--disabled-notice {
+		@include locfinder-disabled-notice;
+		margin-top: var(--locfinder-space-3);
+	}
 }
 
 .locfinder-block__summary {
@@ -65,7 +71,7 @@
 	}
 }
 
-.locfinder-block .locfinder__map {
+.locfinder-block .locfinder__map:not(.locfinder__map--disabled-notice) {
 	align-items: center;
 	background: var(--locfinder-gray-100);
 	border: 1px dashed var(--locfinder-gray-400);

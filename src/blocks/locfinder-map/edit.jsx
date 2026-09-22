@@ -36,6 +36,7 @@ const {
 	defaultResultsLayout = "grid",
 	defaultResultsPosition = "bottom",
 	defaultResultsSideColumns = 2,
+	mapsEnabled = true,
 } = window.locfinderBlockEditor ?? {};
 
 /**
@@ -76,8 +77,9 @@ function buildConfigSummary(attributes) {
 	const effectiveLayout =
 		resultsLayout === "default" ? defaultResultsLayout : resultsLayout;
 
-	const effectivePosition =
-		resultsPosition === "default"
+	const effectivePosition = !mapsEnabled
+		? "bottom"
+		: resultsPosition === "default"
 			? defaultResultsPosition
 			: resultsPosition;
 
@@ -164,8 +166,9 @@ export default function Edit({ attributes, setAttributes }) {
 	const effectiveLayout =
 		resultsLayout === "default" ? defaultResultsLayout : resultsLayout;
 
-	const effectivePosition =
-		resultsPosition === "default"
+	const effectivePosition = !mapsEnabled
+		? "bottom"
+		: resultsPosition === "default"
 			? defaultResultsPosition
 			: resultsPosition;
 
@@ -215,7 +218,16 @@ export default function Edit({ attributes, setAttributes }) {
 					)}
 					<ToggleControl
 						label={__("Address Search", "locfinder")}
-						checked={!!addressSearch}
+						checked={mapsEnabled && !!addressSearch}
+						disabled={!mapsEnabled}
+						help={
+							!mapsEnabled
+								? __(
+										"Requires Google Maps to be enabled in Location Finder plugin settings.",
+										"locfinder"
+									)
+								: undefined
+						}
 						onChange={(value) =>
 							setAttributes(
 								value
@@ -227,7 +239,7 @@ export default function Edit({ attributes, setAttributes }) {
 							)
 						}
 					/>
-					{addressSearch && (
+					{mapsEnabled && addressSearch && (
 						<>
 							<TextControl
 								label={__("Address Placeholder", "locfinder")}
@@ -354,7 +366,7 @@ export default function Edit({ attributes, setAttributes }) {
 									? undefined
 									: createInterpolateElement(
 											__(
-												"Filter by any custom taxonomy with the <a>Pro add-on</a>.",
+												"Let visitors filter by any registered taxonomy. <a>Learn more</a>",
 												"locfinder"
 											),
 											{
@@ -364,7 +376,10 @@ export default function Edit({ attributes, setAttributes }) {
 														target="_blank"
 														rel="noopener noreferrer"
 													>
-														Pro add-on
+														Learn more{" "}
+														<span aria-hidden="true">
+															→
+														</span>
 													</a>
 												),
 											}
@@ -433,43 +448,49 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ resultsLayout: value })
 						}
 					/>
-					<SelectControl
-						label={__("Position", "locfinder")}
-						value={resultsPosition}
-						options={[
-							{
-								label: sprintf(
-									/* translators: %s: the site-wide default value for this control — a layout name (Grid/List) or a position name (Bottom/Left/Right), depending on which dropdown this label appears in. */
-									__("Use site default (%s)", "locfinder"),
-									{
-										bottom: __("Bottom", "locfinder"),
-										left: __("Left", "locfinder"),
-										right: __("Right", "locfinder"),
-									}[defaultResultsPosition] ??
-										__("Bottom", "locfinder")
-								),
-								value: "default",
-							},
-							{
-								label: __(
-									"Bottom (below the map)",
-									"locfinder"
-								),
-								value: "bottom",
-							},
-							{
-								label: __("Left of the map", "locfinder"),
-								value: "left",
-							},
-							{
-								label: __("Right of the map", "locfinder"),
-								value: "right",
-							},
-						]}
-						onChange={(value) =>
-							setAttributes({ resultsPosition: value })
-						}
-					/>
+
+					{mapsEnabled && (
+						<SelectControl
+							label={__("Position", "locfinder")}
+							value={resultsPosition}
+							options={[
+								{
+									label: sprintf(
+										/* translators: %s: the site-wide default value for this control — a layout name (Grid/List) or a position name (Bottom/Left/Right), depending on which dropdown this label appears in. */
+										__(
+											"Use site default (%s)",
+											"locfinder"
+										),
+										{
+											bottom: __("Bottom", "locfinder"),
+											left: __("Left", "locfinder"),
+											right: __("Right", "locfinder"),
+										}[defaultResultsPosition] ??
+											__("Bottom", "locfinder")
+									),
+									value: "default",
+								},
+								{
+									label: __(
+										"Bottom (below the map)",
+										"locfinder"
+									),
+									value: "bottom",
+								},
+								{
+									label: __("Left of the map", "locfinder"),
+									value: "left",
+								},
+								{
+									label: __("Right of the map", "locfinder"),
+									value: "right",
+								},
+							]}
+							onChange={(value) =>
+								setAttributes({ resultsPosition: value })
+							}
+						/>
+					)}
 					{effectivePosition === "bottom" && (
 						<RangeControl
 							label={__("Grid Columns", "locfinder")}
@@ -499,7 +520,10 @@ export default function Edit({ attributes, setAttributes }) {
 								{
 									label: sprintf(
 										/* translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting. */
-										__("Use site default (%d)", "locfinder"),
+										__(
+											"Use site default (%d)",
+											"locfinder"
+										),
 										defaultResultsSideColumns
 									),
 									value: "0",
@@ -575,7 +599,7 @@ export default function Edit({ attributes, setAttributes }) {
 							<p className="components-base-control__help">
 								{createInterpolateElement(
 									__(
-										"Show a live open/closed status with the <a>Pro add-on</a>.",
+										'Help visitors know when to go with a live "Open Now" / "Closed Now" badge. <a>Learn more</a>',
 										"locfinder"
 									),
 									{
@@ -585,7 +609,10 @@ export default function Edit({ attributes, setAttributes }) {
 												target="_blank"
 												rel="noopener noreferrer"
 											>
-												Pro add-on
+												Learn more{" "}
+												<span aria-hidden="true">
+													→
+												</span>
 											</a>
 										),
 									}
@@ -595,30 +622,32 @@ export default function Edit({ attributes, setAttributes }) {
 					)}
 				</PanelBody>
 
-				<PanelColorSettings
-					title={__("Map Pin", "locfinder")}
-					initialOpen={false}
-					colors={[]}
-					colorSettings={[
-						{
-							value: pinColor,
-							onChange: (value) =>
-								setAttributes({
-									pinColor: value || "",
-								}),
-							label: __("Pin Color", "locfinder"),
-						},
-					]}
-				>
-					{pinColor && (
-						<Button
-							variant="link"
-							onClick={() => setAttributes({ pinColor: "" })}
-						>
-							{__("Reset to default", "locfinder")}
-						</Button>
-					)}
-				</PanelColorSettings>
+				{mapsEnabled && (
+					<PanelColorSettings
+						title={__("Map Pin", "locfinder")}
+						initialOpen={false}
+						colors={[]}
+						colorSettings={[
+							{
+								value: pinColor,
+								onChange: (value) =>
+									setAttributes({
+										pinColor: value || "",
+									}),
+								label: __("Pin Color", "locfinder"),
+							},
+						]}
+					>
+						{pinColor && (
+							<Button
+								variant="link"
+								onClick={() => setAttributes({ pinColor: "" })}
+							>
+								{__("Reset to default", "locfinder")}
+							</Button>
+						)}
+					</PanelColorSettings>
+				)}
 			</InspectorControls>
 
 			<div {...blockProps} onSubmit={(event) => event.preventDefault()}>

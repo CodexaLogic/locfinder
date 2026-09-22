@@ -185,6 +185,19 @@ export async function initLocfinderAddressMap(config = {}) {
 	}
 
 	if (addressInput) {
+		addressInput.addEventListener("input", () => {
+			if (addressInput.value.trim() !== "") {
+				return;
+			}
+
+			setInputValue(root.querySelector("#locfinder_city"), "");
+			setInputValue(root.querySelector("#locfinder_state"), "");
+			setInputValue(root.querySelector("#locfinder_postal_code"), "");
+			setInputValue(root.querySelector("#locfinder_country_code"), "");
+			setInputValue(latEl, "");
+			setInputValue(lngEl, "");
+			setInputValue(placeIdEl, "");
+		});
 		try {
 			await ensurePlaces({ apiKey, language, region });
 

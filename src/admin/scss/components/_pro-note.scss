@@ -1,0 +1,62 @@
+/**
+ * Pro-feature badge and inline note, used on locked admin settings.
+ */
+.locfinder-pro-note {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap; // so it wraps instead of overflowing on narrow admin screens
+	gap: 8px;
+	margin-top: 6px;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #50575e; // WP admin's standard secondary text gray
+}
+
+.locfinder-pro-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	justify-content: center;
+	flex-shrink: 0;
+	padding: 2px 10px;
+	border: 1px solid var(--locfinder-primary);
+	border-radius: 999px;
+	color: var(--locfinder-primary);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	line-height: 1.6;
+
+	.dashicons {
+		width: 12px;
+		height: 12px;
+		font-size: 12px;
+		line-height: 1;
+	}
+}
+
+.locfinder-pro-note__text {
+	color: inherit;
+}
+
+.locfinder-pro-note__link {
+	color: var(--locfinder-primary);
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap; // keep "Learn more →" from breaking mid-phrase
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+
+	// The arrow lives in its own span with text-decoration: none so the
+	// hover underline doesn't draw a line under the arrow glyph — that
+	// looks messy in most fonts since the arrow sits below the baseline.
+	span {
+		display: inline-block;
+		margin-left: 2px;
+		text-decoration: none;
+	}
+}

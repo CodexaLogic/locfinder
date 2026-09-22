@@ -1,5 +1,6 @@
 @use "../../../common/scss/styles" as *;
 @use "../components/map-base";
+@use "../components/disabled-notice" as *;
 
 /**
  * Locfinder root block and structural elements.
@@ -39,6 +40,10 @@
 	@extend %locfinder-content-width;
 }
 
+.locfinder__map--disabled-notice {
+	@include locfinder-disabled-notice;
+}
+
 .locfinder[data-results-position="left"],
 .locfinder[data-results-position="right"] {
 	@include bp-desktop {
@@ -59,7 +64,7 @@
 			height: var(--locfinder-map-height, 100vh);
 		}
 
-		.locfinder__map {
+		.locfinder__map:not(.locfinder__map--disabled-notice) {
 			flex: 1 1 var(--locfinder-map-width, 50%);
 			height: 100%;
 			min-width: 0;
@@ -101,7 +106,36 @@
 	}
 }
 
+.locfinder[data-results-position="left"]:has(.locfinder__map--disabled-notice),
+.locfinder[data-results-position="right"]:has(
+		.locfinder__map--disabled-notice
+	) {
+	.locfinder__body {
+		flex-direction: column;
+		height: auto;
+	}
+
+	.locfinder__map--disabled-notice {
+		order: 1;
+		width: 100%;
+	}
+
+	.locfinder__results-panel {
+		height: auto;
+		order: 2;
+		overflow-y: visible;
+		width: 100%;
+	}
+}
+
 .locfinder[data-results-position="bottom"] {
+	.locfinder__map--disabled-notice {
+		height: auto;
+		margin: auto;
+		max-width: 55rem;
+		width: auto;
+	}
+
 	@include bp-desktop {
 		display: flex;
 		flex-direction: column;
@@ -110,13 +144,17 @@
 			.locfinder-form {
 				margin-top: -1.25rem;
 			}
+
+			&:has(.locfinder__map--disabled-notice) .locfinder-form {
+				margin-top: var(--locfinder-space-3);
+			}
 		}
 
 		.locfinder__body {
 			display: contents;
 		}
 
-		.locfinder__map {
+		.locfinder__map:not(.locfinder__map--disabled-notice) {
 			height: var(--locfinder-map-height, 100vh) !important;
 			order: 1;
 			width: 100%;

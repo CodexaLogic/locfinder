@@ -1,0 +1,55 @@
+/**
+ * Shared styles for the "Google Maps is turned off" notice, rendered by
+ * Frontend::renderMapDisabledNotice() wherever a map would normally appear.
+ */
+@mixin locfinder-disabled-notice {
+	align-items: center;
+	background: color-mix(
+		in srgb,
+		var(--locfinder-primary) 6%,
+		var(--locfinder-white)
+	);
+	border: 1px solid var(--locfinder-border-color);
+	border-radius: var(--locfinder-radius-xl);
+	color: var(--locfinder-body);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--locfinder-space-3);
+	min-height: auto;
+	padding: var(--locfinder-space-4);
+	text-align: left;
+
+	.locfinder-notice-content {
+		flex: 1 1 auto;
+		min-width: 200px;
+	}
+
+	.locfinder-notice-title {
+		font-size: var(--locfinder-font-size-md);
+		font-weight: var(--locfinder-fw-bold);
+		margin: 0;
+	}
+
+	.locfinder-notice-body {
+		color: var(--locfinder-text-muted);
+		font-size: var(--locfinder-font-size-sm);
+		margin: var(--locfinder-space-1) 0 0;
+	}
+
+	.locfinder-notice-button {
+		background: var(--locfinder-primary);
+		border-radius: var(--locfinder-radius-md);
+		color: var(--locfinder-white);
+		flex-shrink: 0;
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-semibold);
+		padding: var(--locfinder-space-2) var(--locfinder-space-4);
+		text-decoration: none;
+		white-space: nowrap;
+
+		&:hover,
+		&:focus-visible {
+			background: var(--locfinder-secondary);
+		}
+	}
+}

@@ -70,6 +70,15 @@ class General extends Base {
 		);
 
 		add_settings_field(
+			'enable_map',
+			__('Enable Google Maps', 'locfinder'),
+			[$this, 'renderMap'],
+			$this->getSlug(),
+			'locfinder_google_maps_section',
+			['label_for' => 'enable_map']
+		);
+
+		add_settings_field(
 			'google_maps_api_key',
 			__('Google Maps API Key', 'locfinder'),
 			[$this, 'renderGoogleMapsApiKey'],
@@ -138,6 +147,28 @@ class General extends Base {
 			$this->getSlug(),
 			'locfinder_performance_section',
 			['label_for' => 'enqueue_on']
+		);
+	}
+
+	/**
+	 * Renders the map enable/disable checkbox.
+	 *
+	 * @return void
+	 */
+	public function renderMap(): void {
+		$on   = !empty($this->getPageOption('enable_map', 1));
+		$id   = 'enable_map';
+		$name = $this->getOptionName() . '[enable_map]';
+
+		printf(
+			'<input type="hidden" name="%1$s" value="0">
+			<label for="%2$s">
+				<input id="%2$s" type="checkbox" name="%1$s" value="1" %3$s> %4$s
+			</label>',
+			esc_attr($name),
+			esc_attr($id),
+			checked($on, true, false),
+			esc_html__('Uncheck if you\'re not using Google Maps. Location Finder still works as a searchable directory or resource library without it.', 'locfinder')
 		);
 	}
 
@@ -298,7 +329,7 @@ class General extends Base {
 	 * Renders the Locations page picker.
 	 *
 	 * Uses wp_dropdown_pages() to allow any existing page to be selected instead
-     * of the page created automatically on activation.
+	 * of the page created automatically on activation.
 	 *
 	 * @return void
 	 */
@@ -364,6 +395,8 @@ class General extends Base {
 			? (sanitize_hex_color($options['primary_color']) ?? (string) ($existing['primary_color'] ?? Options::DEFAULT_COLOR))
 			: (string) ($existing['primary_color'] ?? Options::DEFAULT_COLOR);
 
+		$out['enable_map'] = Sanitizer::checkboxKey($options, $existing, 'enable_map');
+
 		$out['google_maps_api_key'] = isset($options['google_maps_api_key'])
 			? Sanitizer::text($options['google_maps_api_key'], 120)
 			: (string) ($existing['google_maps_api_key'] ?? '');
@@ -387,7 +420,6 @@ class General extends Base {
 			? number_format(max(-180.0, min(180.0, (float) $rawLng)), 6, '.', '')
 			: '';
 
-		// Default zoom (1–20).
 		$zoom                = isset($options['default_zoom']) ? (int) $options['default_zoom'] : (int) ($existing['default_zoom'] ?? 11);
 		$out['default_zoom'] = max(1, min(20, $zoom));
 

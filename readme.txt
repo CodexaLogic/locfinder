@@ -1,12 +1,12 @@
-=== Location Finder ===
+=== Location Finder – Store Locator & Resource Directory ===
 Contributors: codexalogic
 Donate link: https://buy.stripe.com/00wbJ3eAG6ePbaLbGQbEA00
-Tags: store locator, google maps, locations, directory, map
+Tags: store locator, location finder, resource directory, business directory, google maps
 
 Requires at least: 6.5
-Requires PHP:      8.1
+Requires PHP:      8.0
 Tested up to:      7.1
-Stable tag:        1.0.1
+Stable tag:        1.1.0
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,12 @@ Yes. Use the `locfinder` text domain and place translation files in the `/langua
 7. The Location Finder block in the WordPress editor, with every display option easily configurable.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: An "Enable Google Maps" setting under Location Finder → General. Turn it off to run Location Finder as a pure searchable directory with no map or Address and Radius Search fields.
+* Improved: Redesigned the Pro upsell notices on locked settings fields with a clearer "Pro" badge and "Learn more" link, and rewrote the descriptions so each one explains what the feature actually does.
+* Fixed: The address field no longer leaves stale location data behind (city, state, postal code, coordinates) after it's manually cleared without picking a new autocomplete suggestion.
+* Changed: Lowered the minimum required PHP version to 8.0.
 
 = 1.0.1 =
 * Fix: Location Details block is properly recognized by the block editor, preventing it from being flagged as invalid content and accidentally removed from the Single Location template.
