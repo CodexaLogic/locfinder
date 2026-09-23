@@ -1,7 +1,7 @@
 @use "../../../common/scss/styles" as *;
 
 /**
- * Search form styles.
+ * Search form styles when the map is enabled.
  */
 .locfinder-form {
 	align-items: stretch;
@@ -45,7 +45,7 @@
 		appearance: none;
 		-webkit-appearance: none;
 		background-color: var(--locfinder-gray-100);
-		border: 1px solid transparent;
+		border: 1px solid var(--locfinder-gray-300);
 		border-radius: var(--locfinder-radius-sm);
 		color: var(--locfinder-body);
 		font-size: var(--locfinder-font-size-md);
@@ -158,6 +158,7 @@
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 		background-position: right var(--locfinder-space-2) center;
 		background-repeat: no-repeat;
+		color: var(--locfinder-text-muted);
 		cursor: pointer;
 		min-width: 120px;
 		padding-right: var(--locfinder-space-5);
@@ -199,6 +200,33 @@
 		@include bp-below-desktop {
 			height: 3rem;
 			width: 100%;
+		}
+	}
+}
+
+/**
+ * Search form and result card styles when the map is disabled.
+ */
+.locfinder--no-map {
+	.locfinder-form {
+		box-shadow: none;
+
+		@include bp-desktop {
+			width: 100%;
+
+			&__keyword {
+				flex: 1 1 auto;
+			}
+		}
+	}
+
+	.locfinder-result {
+		cursor: default;
+
+		&:hover {
+			border-color: var(--locfinder-gray-300);
+			box-shadow: none;
+			transform: none;
 		}
 	}
 }

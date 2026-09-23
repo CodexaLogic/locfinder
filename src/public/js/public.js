@@ -197,7 +197,10 @@ function initLocfinderInstance(root) {
 		spinner.classList.toggle("locfinder-hidden", !show);
 	}
 
-	const mapElement = querySelector(".locfinder__map", root);
+	const mapElement = querySelector(
+		".locfinder__map:not(.locfinder__map--disabled-notice)",
+		root
+	);
 
 	const mapWidth = window.locfinderConfig?.mapWidth || "";
 	if (mapWidth && mapElement && instanceConfig.resultsPosition !== "bottom") {
@@ -722,8 +725,8 @@ function initLocfinderInstance(root) {
 						${post.openBadgeHtml || ""}
 					</div>
 					${typeof post.distance === "number" ? `<div class="locfinder-result__distance">${formatDistance(post.distance, unit)}</div>` : ""}
-					${post.locationInfo}
 					${instanceConfig.showExcerpt && post.excerpt ? `<div class="locfinder-result__excerpt">${escapeHtml(post.excerpt)}</div>` : ""}
+					${post.locationInfo}
 					${getShowOnMapMarkup(post.postTitle)}
 				</div>
 		`;
@@ -740,12 +743,14 @@ function initLocfinderInstance(root) {
 				});
 			}
 
-			item.addEventListener("click", (e) => {
-				if (e.target.closest("a, button")) {
-					return;
-				}
-				selectResult(post.id);
-			});
+			if (mapElement) {
+				item.addEventListener("click", (e) => {
+					if (e.target.closest("a, button")) {
+						return;
+					}
+					selectResult(post.id);
+				});
+			}
 
 			results.appendChild(item);
 		});

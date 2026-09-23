@@ -88,6 +88,7 @@ class LocationMeta {
 	public function renderLocationMetaBox(WP_Post $post): void {
 		wp_nonce_field('locfinder_save_location_meta', 'locfinder_location_meta_nonce');
 
+		$mapEnabled  = Options::getMapEnabled();
 		$location    = $this->repo->getLocationByPostId($post->ID);
 		$city        = $location['city'] ?? '';
 		$state       = $location['state'] ?? '';
@@ -118,10 +119,18 @@ class LocationMeta {
 				name="locfinder_formatted_address"
 				value="<?php echo esc_attr($address); ?>"
 				class="widefat locfinder-meta__address"
-				placeholder="<?php esc_attr_e('Start typing and select an address in the dropdown.', 'locfinder'); ?>"
+				placeholder="<?php
+					echo $mapEnabled
+						? esc_attr__('Start typing and select an address in the dropdown.', 'locfinder')
+						: esc_attr__('Enter the full street address.', 'locfinder');
+				?>"
 			/>
 			<p class="description">
-				<?php esc_html_e('Powered by Google Places autocomplete. Select a result to set the full address and coordinates.', 'locfinder'); ?>
+				<?php
+				echo $mapEnabled
+					? esc_html__('Powered by Google Places autocomplete. Select a result to set the full address and coordinates.', 'locfinder')
+					: esc_html__('Enter the address manually. Turn on Google Maps under Location Finder → General to enable autocomplete and coordinates.', 'locfinder');
+				?>
 			</p>
 		</div>
 
@@ -146,10 +155,12 @@ class LocationMeta {
 		<input type="hidden" id="locfinder_longitude" name="locfinder_longitude" value="<?php echo esc_attr($longitude); ?>" />
 		<input type="hidden" id="locfinder_place_id" name="locfinder_place_id" value="<?php echo esc_attr($placeId); ?>" />
 
-		<div id="locfinder-map" class="locfinder-meta__map"></div>
-		<p class="description">
-			<?php esc_html_e('Choose an autocomplete result to set coordinates. The map preview updates automatically.', 'locfinder'); ?>
-		</p>
+		<?php if ($mapEnabled) : ?>
+			<div id="locfinder-map" class="locfinder-meta__map"></div>
+			<p class="description">
+				<?php esc_html_e('Choose an autocomplete result to set coordinates. The map preview updates automatically.', 'locfinder'); ?>
+			</p>
+		<?php endif; ?>
 
 		<div class="locfinder-meta__field">
 			<label for="locfinder_phone"><?php esc_html_e('Phone', 'locfinder'); ?></label>

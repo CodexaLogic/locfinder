@@ -7,6 +7,7 @@
 	background: var(--locfinder-white);
 	border: 1px solid var(--locfinder-gray-300);
 	border-radius: var(--locfinder-radius-sm);
+	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	gap: var(--locfinder-space-4);
@@ -15,6 +16,7 @@
 		border-color var(--locfinder-transition-fast),
 		box-shadow var(--locfinder-transition-fast),
 		transform var(--locfinder-transition-fast);
+	user-select: none;
 
 	&:hover {
 		border-color: var(--locfinder-primary);
@@ -29,6 +31,13 @@
 				color-mix(in srgb, var(--locfinder-primary) 15%, transparent),
 			var(--locfinder-shadow);
 		transform: translateY(-1px);
+	}
+
+	.locfinder-location__address,
+	.locfinder-location__phone,
+	.locfinder-location__email,
+	.locfinder-location__website {
+		user-select: text;
 	}
 
 	&__thumbnail {

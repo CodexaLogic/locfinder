@@ -3,7 +3,7 @@
  * Plugin Name:       Location Finder – Store Locator & Resource Directory
  * Plugin URI:        https://codexalogic.com/products/locfinder
  * Description:       Build searchable store locators, service directories, and resource finders with optional Google Maps, category and radius filters, and list or grid layouts.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Codexa
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 
 // Define plugin constants before registering the autoloader.
 if (!defined('LOCFINDER_VERSION')) {
-	define('LOCFINDER_VERSION', '1.1.0');
+	define('LOCFINDER_VERSION', '1.1.1');
 }
 if (!defined('LOCFINDER_NAME')) {
 	define('LOCFINDER_NAME', 'locfinder');

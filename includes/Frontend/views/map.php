@@ -152,7 +152,7 @@ $config = [
 
 <div
 	id="<?php echo esc_attr($id); ?>"
-	class="locfinder"
+	class="locfinder<?php echo Options::getMapEnabled() ? '' : ' locfinder--no-map'; ?>"
 	data-locfinder
 	data-results-position="<?php echo esc_attr($resultsPosition); ?>"
 >
@@ -300,9 +300,9 @@ $config = [
 						<?php foreach ($orderedTerms as $item) :
 							$term   = $item['term'];
 							$depth  = $item['depth'];
-							$prefix = $depth > 0 ? str_repeat('&nbsp;&nbsp;&nbsp;', $depth) . '&#8211; ' : '';
+							$prefix = $depth > 0 ? str_repeat("\u{00A0}\u{00A0}\u{00A0}", $depth) . "\u{2013} " : '';
 						?>
-							<option value="<?php echo esc_attr($term->term_id); ?>"><?php echo $prefix . esc_html($term->name); ?></option>
+							<option value="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($prefix . $term->name); ?></option>
 						<?php endforeach; ?>
 					</select>
 				<?php endif;
@@ -320,7 +320,7 @@ $config = [
 	</div>
 
 	<div class="locfinder__body">
-		<div class="locfinder__results-panel" tabindex="0">
+		<div class="locfinder__results-panel"<?php echo in_array($resultsPosition, ['left', 'right'], true) ? ' tabindex="0"' : ''; ?>>
 			<div class="locfinder__total" role="status" aria-live="<?php echo esc_attr(Options::getAriaLiveMode()); ?>" aria-atomic="true"></div>
 
 			<ul
