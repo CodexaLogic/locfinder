@@ -6,15 +6,15 @@ Tags: store locator, location finder, resource directory, business directory, go
 Requires at least: 6.5
 Requires PHP:      8.0
 Tested up to:      7.1
-Stable tag:        1.1.1
+Stable tag:        1.2.0
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-Build searchable store locators and resource directories with optional Google Maps, keyword search, category filters, and list or grid layouts.
+Launch a store locator, service directory, or resource finder in minutes with search, filters, flexible layouts, and optional Google Maps.
 
 == Description ==
 
-Location Finder lets you build searchable store locators, business directories, and resource directories—with or without Google Maps. List stores, services, programs, or online resources. Listings do not need a physical address when used as a directory.
+Launch a store locator, service directory, or resource finder in minutes. Customize it with keyword search, category filters, list or grid layouts, and optional Google Maps.
 
 Visitors can search by keyword, filter by category, and browse results in a list or grid layout. Enable Google Maps to add an interactive map, address search, and radius-based "near me" filtering.
 
@@ -37,7 +37,7 @@ Full documentation and setup guide: [https://codexalogic.com/documentation/getti
 * Built with accessibility in mind: semantic markup, screen reader announcements for search results, and support for reduced motion.
 * Translation-ready (i18n).
 
-Pro features (optional upgrade):
+= Location Finder Pro =
 * Set your own distance choices for radius search, in place of the built-in 10, 25, 50, and 75.
 * Filter listings by any registered taxonomy, beyond Location Categories, so visitors can narrow results by service area, amenity, or other custom terms.
 * Distance display on each result for geolocated or radius searches.
@@ -45,7 +45,7 @@ Pro features (optional upgrade):
 * Custom map styling (JSON), custom pin icons, and per-category pin colors and icons.
 * Show an "Open Now" or "Closed Now" badge based on each listing's hours and your site's timezone.
 
-Use cases:
+= Use Cases =
 * Store/branch locator
 * Program and service directories
 * Office/campus/venue maps
@@ -139,15 +139,23 @@ Yes. Use the `locfinder` text domain and place translation files in the `/langua
 
 == Screenshots ==
 
-1. Search results with no image, to the left of the map.
-2. Search results including the image, to the left of the map.
-3. Search results in list view, to the left of the map.
-4. Search results below the map.
-5. Search results including hours, to the right of the map.
-6. The single location page, displaying whichever fields are enabled: phone, email, description, hours, categories, and map.
-7. The Location Finder block in the WordPress editor, with every display option easily configurable.
+1. Resource directory with search results that include images.
+2. Location directory with search results and no image, positioned to the left of the map.
+3. Location directory with search results including images, positioned to the left of the map.
+4. Location directory with search results in list view, positioned to the left of the map.
+5. Location directory with search results positioned below the map.
+6. Location directory with search results including business hours, positioned to the right of the map.
+7. The single location page, displaying whichever fields are enabled: phone, email, description, hours, categories, and map.
+8. The Location Finder block in the WordPress editor, with every display option easily configurable.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: A "Full width" option for the Location Finder block and `[locfinder]` shortcode. By default the map and results stay within your theme's normal content width; enable it to stretch them edge-to-edge on desktop instead.
+* Improved: The block editor's Pro-feature upsell notices (e.g. Open/Closed Status) now use the same "Pro" badge and "Learn more" link styling as the admin settings screen, instead of a plain text link.
+* Improved: Search results can now be selected with a keyboard, not just a mouse. Tab to a result and press Enter or Space to highlight it and its map pin, with a visible focus indicator.
+* Fixed: The map could render as a blank, tile-less box in some contexts (e.g. a single Location page) if it initialized before its container had settled to its final size.
+* Changed: Renamed the "Location Finder Map" block to "Location Finder" and "Location Details (Locfinder)" to "Location Details," now that the block doesn't always show a map.
 
 = 1.1.1 =
 * Improved: Search form no longer shows a drop shadow and spans the full width of its container when Google Maps is disabled, with the keyword field growing to fill the row.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Location Finder map shortcode view.
+ * Location Finder shortcode view.
  *
  * Admin settings provide the defaults, while shortcode attributes can override
  * them per instance. Labels and placeholders can also be customized through
@@ -49,6 +49,7 @@ $atts = shortcode_atts([
 	'results_position' => 'default',
 	'grid_cols'        => 3,
 	'results_columns'  => 0,
+	'full_width'       => false,
 	'posts_per_page'   => Options::getResultsPerPage(),
 	'show_excerpt'     => false,
 	'show_image'       => false,
@@ -69,7 +70,7 @@ $atts = shortcode_atts([
 
 ], $atts);
 
-// Sanitize boolean toggle attributes.
+// Search settings.
 $keywordSearch  = filter_var($atts['keyword_search'], FILTER_VALIDATE_BOOLEAN);
 $addressSearch  = filter_var($atts['address_search'], FILTER_VALIDATE_BOOLEAN);
 $radiusSearch   = filter_var($atts['radius_search'], FILTER_VALIDATE_BOOLEAN);
@@ -79,17 +80,17 @@ $addressSearch   = $addressSearch && Options::getMapEnabled();
 $radiusSearch    = $radiusSearch && $addressSearch;
 $hasSearchFields = $keywordSearch || $addressSearch || $radiusSearch || $categorySearch;
 
-// Sanitize label and placeholder attributes, pulled from $atts so shortcode
-// overrides are respected. Options getters already provide translated defaults.
 $keywordPlaceholder = sanitize_text_field($atts['keyword_placeholder']);
 $addressPlaceholder = sanitize_text_field($atts['address_placeholder']);
-$searchButtonLabel  = sanitize_text_field($atts['search_button_label']);
 $radiusLabel        = sanitize_text_field($atts['radius_label']);
-$categoryLabel      = sanitize_text_field($atts['category_label']);
 $anyDistanceText    = sanitize_text_field($atts['any_distance_text']);
+$categoryLabel      = sanitize_text_field($atts['category_label']);
 $allCategoriesText  = sanitize_text_field($atts['all_categories_text']);
+$searchButtonLabel  = sanitize_text_field($atts['search_button_label']);
 
-// Sanitize remaining attributes.
+// Result settings.
+$order         = in_array(strtoupper($atts['order']), ['ASC', 'DESC'], true) ? strtoupper($atts['order']) : 'ASC';
+$orderby       = in_array($atts['orderby'], ['date', 'meta_value', 'post_title', 'rand'], true) ? sanitize_key($atts['orderby']) : 'post_title';
 $resultsLayout = in_array($atts['results_layout'], ['grid', 'list'], true)
 	? $atts['results_layout']
 	: Options::getResultsLayout();
@@ -101,26 +102,31 @@ $resultsPosition = in_array($atts['results_position'], ['bottom', 'left', 'right
 if (!Options::getMapEnabled()) {
 	$resultsPosition = 'bottom';
 }
-
+$gridCols       = absint($atts['grid_cols']);
 $resultsColumns = in_array((int) $atts['results_columns'], [1, 2], true)
 	? (int) $atts['results_columns']
 	: Options::getResultsSideColumns();
+$fullWidth    = filter_var($atts['full_width'], FILTER_VALIDATE_BOOLEAN);
+$postsPerPage = absint($atts['posts_per_page']);
 
-$gridCols          = absint($atts['grid_cols']);
-$order             = in_array(strtoupper($atts['order']), ['ASC', 'DESC'], true) ? strtoupper($atts['order']) : 'ASC';
-$orderby           = in_array($atts['orderby'], ['date', 'meta_value', 'post_title', 'rand'], true) ? sanitize_key($atts['orderby']) : 'post_title';
-$pinColor          = sanitize_hex_color($atts['pin_color']) ?: Options::getPinColor();
-$postsPerPage      = absint($atts['posts_per_page']);
+// Radius & taxonomy filters.
 $defaultRadius     = absint($atts['default_radius']);
 $requestedTaxonomy = sanitize_key($atts['taxonomy']);
-$showAddress       = filter_var($atts['show_address'], FILTER_VALIDATE_BOOLEAN);
-$showDirections    = filter_var($atts['show_directions'], FILTER_VALIDATE_BOOLEAN);
-$showPhone         = filter_var($atts['show_phone'], FILTER_VALIDATE_BOOLEAN);
-$showEmail         = filter_var($atts['show_email'], FILTER_VALIDATE_BOOLEAN);
-$showWebsite       = filter_var($atts['show_website'], FILTER_VALIDATE_BOOLEAN);
-$showHours         = filter_var($atts['show_hours'], FILTER_VALIDATE_BOOLEAN);
-$showCategories    = filter_var($atts['show_categories'], FILTER_VALIDATE_BOOLEAN);
-$showOpenBadge     = filter_var($atts['show_open_badge'], FILTER_VALIDATE_BOOLEAN);
+
+// Show field settings.
+$showExcerpt    = filter_var($atts['show_excerpt'], FILTER_VALIDATE_BOOLEAN);
+$showImage      = filter_var($atts['show_image'], FILTER_VALIDATE_BOOLEAN);
+$showAddress    = filter_var($atts['show_address'], FILTER_VALIDATE_BOOLEAN);
+$showDirections = filter_var($atts['show_directions'], FILTER_VALIDATE_BOOLEAN);
+$showPhone      = filter_var($atts['show_phone'], FILTER_VALIDATE_BOOLEAN);
+$showEmail      = filter_var($atts['show_email'], FILTER_VALIDATE_BOOLEAN);
+$showWebsite    = filter_var($atts['show_website'], FILTER_VALIDATE_BOOLEAN);
+$showHours      = filter_var($atts['show_hours'], FILTER_VALIDATE_BOOLEAN);
+$showCategories = filter_var($atts['show_categories'], FILTER_VALIDATE_BOOLEAN);
+$showOpenBadge  = filter_var($atts['show_open_badge'], FILTER_VALIDATE_BOOLEAN);
+
+// Map pin settings.
+$pinColor = sanitize_hex_color($atts['pin_color']) ?: Options::getPinColor();
 
 // Unique ID per shortcode instance on each page.
 $id = wp_unique_id('locfinder-');
@@ -135,8 +141,8 @@ $config = [
 	'orderby'         => $orderby,
 	'pinColor'        => $pinColor,
 	'postsPerPage'    => $postsPerPage,
-	'showExcerpt'     => filter_var($atts['show_excerpt'], FILTER_VALIDATE_BOOLEAN),
-	'showImage'       => filter_var($atts['show_image'], FILTER_VALIDATE_BOOLEAN),
+	'showExcerpt'     => $showExcerpt,
+	'showImage'       => $showImage,
 	'showAddress'     => $showAddress,
 	'showDirections'  => $showDirections,
 	'showPhone'       => $showPhone,
@@ -155,6 +161,7 @@ $config = [
 	class="locfinder<?php echo Options::getMapEnabled() ? '' : ' locfinder--no-map'; ?>"
 	data-locfinder
 	data-results-position="<?php echo esc_attr($resultsPosition); ?>"
+	data-full-bleed="<?php echo $fullWidth ? 'true' : 'false'; ?>"
 >
 	<?php
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- renderSetupNotice() escapes every dynamic value internally (esc_attr/esc_html/esc_url/esc_html__); the rest is static markup, including inline SVG icons that wp_kses_post() would strip.
@@ -320,7 +327,7 @@ $config = [
 	</div>
 
 	<div class="locfinder__body">
-		<div class="locfinder__results-panel"<?php echo in_array($resultsPosition, ['left', 'right'], true) ? ' tabindex="0"' : ''; ?>>
+		<div class="locfinder__results-panel">
 			<div class="locfinder__total" role="status" aria-live="<?php echo esc_attr(Options::getAriaLiveMode()); ?>" aria-atomic="true"></div>
 
 			<ul

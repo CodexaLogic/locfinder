@@ -2,10 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "locfinder/locfinder-map",
-	"title": "Location Finder Map",
+	"title": "Location Finder",
 	"category": "widgets",
 	"icon": "location-alt",
-	"description": "A block that displays a Location Finder map with search functionality.",
+	"description": "Displays a searchable Location Finder directory, with an optional map.",
 	"supports": {
 		"html": false
 	},
@@ -28,6 +28,7 @@
 		"resultsPosition": { "type": "string", "default": "default" },
 		"gridCols": { "type": "number", "default": 3 },
 		"resultsColumns": { "type": "number", "default": 0 },
+		"fullWidth": { "type": "boolean", "default": false },
 		"postsPerPage": { "type": "number", "default": 0 },
 		"pinColor": { "type": "string", "default": "" },
 		"showImage": { "type": "boolean", "default": false },

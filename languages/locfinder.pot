@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Location Finder – Store Locator & Resource Directory 1.1.1\n"
+"Project-Id-Version: Location Finder – Store Locator & Resource Directory 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/locfinder\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-23T20:37:34+00:00\n"
+"POT-Creation-Date: 2026-09-27T22:23:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: locfinder\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 #: locfinder.php
-msgid "Build searchable store locators, service directories, and resource finders with optional Google Maps, category and radius filters, and list or grid layouts."
+msgid "Launch a store locator, service directory, or resource finder in minutes with search, filters, flexible layouts, and optional Google Maps."
 msgstr ""
 
 #. Author of the plugin
@@ -78,10 +78,14 @@ msgid "This feature is available in the Pro version of Locfinder."
 msgstr ""
 
 #: includes/Admin/Admin.php:395
+#: build/blocks/locfinder-map/index.js:1
+#: src/blocks/shared/components/ProUpsell.jsx:17
 msgid "Pro"
 msgstr ""
 
 #: includes/Admin/Admin.php:396
+#: build/blocks/locfinder-map/index.js:1
+#: src/blocks/shared/components/ProUpsell.jsx:18
 msgid "Learn more"
 msgstr ""
 
@@ -421,7 +425,7 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/MapDisplay.php:340
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:637
+#: src/blocks/locfinder-map/edit.jsx:628
 msgid "Pin Color"
 msgstr ""
 
@@ -488,20 +492,20 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:99
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:127
-#: src/blocks/locfinder-map/edit.jsx:431
+#: src/blocks/locfinder-map/edit.jsx:128
+#: src/blocks/locfinder-map/edit.jsx:433
 msgid "Layout"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:108
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:557
+#: src/blocks/locfinder-map/edit.jsx:568
 msgid "Results Per Page"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:117
 #: build/blocks/locfinder-map/index.js:4
-#: src/blocks/locfinder-map/edit.jsx:454
+#: src/blocks/locfinder-map/edit.jsx:456
 msgid "Position"
 msgstr ""
 
@@ -527,45 +531,45 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:253
 #: build/blocks/locfinder-map/index.js:4
-#: src/blocks/locfinder-map/edit.jsx:440
-#: src/blocks/locfinder-map/edit.jsx:444
+#: src/blocks/locfinder-map/edit.jsx:442
+#: src/blocks/locfinder-map/edit.jsx:446
 msgid "Grid"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:255
 #: build/blocks/locfinder-map/index.js:4
-#: src/blocks/locfinder-map/edit.jsx:439
-#: src/blocks/locfinder-map/edit.jsx:445
+#: src/blocks/locfinder-map/edit.jsx:441
+#: src/blocks/locfinder-map/edit.jsx:447
 msgid "List"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:279
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:474
+#: src/blocks/locfinder-map/edit.jsx:476
 msgid "Bottom (below the map)"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:281
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:481
+#: src/blocks/locfinder-map/edit.jsx:483
 msgid "Left of the map"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:283
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:485
+#: src/blocks/locfinder-map/edit.jsx:487
 msgid "Right of the map"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:307
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:532
+#: src/blocks/locfinder-map/edit.jsx:535
 msgid "1 column"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/Results.php:309
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:536
+#: src/blocks/locfinder-map/edit.jsx:539
 msgid "2 columns"
 msgstr ""
 
@@ -632,7 +636,7 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:81
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:263
+#: src/blocks/locfinder-map/edit.jsx:265
 msgid "Default Radius"
 msgstr ""
 
@@ -658,17 +662,17 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:133
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:408
+#: src/blocks/locfinder-map/edit.jsx:410
 msgid "Sort Results By"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:152
-#: includes/Frontend/views/map.php:225
+#: includes/Frontend/views/map.php:232
 msgid "km"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:152
-#: includes/Frontend/views/map.php:225
+#: includes/Frontend/views/map.php:232
 msgid "mi"
 msgstr ""
 
@@ -684,19 +688,19 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:208
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:208
+#: src/blocks/locfinder-map/edit.jsx:210
 msgid "Keyword Placeholder"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:209
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:245
+#: src/blocks/locfinder-map/edit.jsx:247
 msgid "Address Placeholder"
 msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:210
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:391
+#: src/blocks/locfinder-map/edit.jsx:393
 msgid "Search Button Label"
 msgstr ""
 
@@ -731,7 +735,7 @@ msgstr ""
 
 #: includes/Admin/Settings/Pages/SearchFilters.php:314
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:416
+#: src/blocks/locfinder-map/edit.jsx:418
 msgid "Title (A-Z)"
 msgstr ""
 
@@ -915,70 +919,74 @@ msgid "Number of result columns when results_position is \"left\" or \"right\" (
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:154
-msgid "Number of results shown per page."
+msgid "Makes the map and results full width on desktop instead of following your theme's content width. Has no effect when results_position is \"bottom\"."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:160
-msgid "Show a short excerpt for each result."
+msgid "Number of results shown per page."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:166
-msgid "Show or hide the thumbnail image for each result."
+msgid "Show a short excerpt for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:172
-msgid "Show or hide the address for each result."
+msgid "Show or hide the thumbnail image for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:178
-msgid "Show or hide the directions link for each result."
+msgid "Show or hide the address for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:184
-msgid "Show or hide the phone number for each result."
+msgid "Show or hide the directions link for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:190
-msgid "Show or hide the email address for each result."
+msgid "Show or hide the phone number for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:196
-msgid "Show or hide the website link for each result."
+msgid "Show or hide the email address for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:202
-msgid "Show or hide the hours for each result."
+msgid "Show or hide the website link for each result."
 msgstr ""
 
 #: includes/Admin/views/shortcode-documentation.php:208
+msgid "Show or hide the hours for each result."
+msgstr ""
+
+#: includes/Admin/views/shortcode-documentation.php:214
 msgid "Show or hide the category list for each result."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:215
+#: includes/Admin/views/shortcode-documentation.php:221
 msgid "Show or hide the open/closed status badge for each result."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:224
+#: includes/Admin/views/shortcode-documentation.php:230
 msgid "Taxonomy used for the category dropdown and filtering."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:225
+#: includes/Admin/views/shortcode-documentation.php:231
 msgid "Values other than locfinder_category are available with the Pro add-on, and the taxonomy must be registered against the locfinder_location post type. To also appear in the block editor, register it with show_in_rest set to true."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:232
+#: includes/Admin/views/shortcode-documentation.php:238
 msgid "Sort direction, used together with orderby."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:238
+#: includes/Admin/views/shortcode-documentation.php:244
 msgid "Field to sort results by: post_title, date, meta_value, or rand."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:244
+#: includes/Admin/views/shortcode-documentation.php:250
 msgid "Sets the map pin color for this instance."
 msgstr ""
 
-#: includes/Admin/views/shortcode-documentation.php:252
+#: includes/Admin/views/shortcode-documentation.php:258
 msgid "Tip: When placing shortcodes inside block editors or attributes, wrap with double quotes and escape inner quotes as needed."
 msgstr ""
 
@@ -1142,30 +1150,30 @@ msgid "Displays a single Location Finder location."
 msgstr ""
 
 #. translators: %s: unique instance ID, used to distinguish multiple search forms on the same page for screen readers.
-#: includes/Frontend/views/map.php:169
+#: includes/Frontend/views/map.php:176
 #, php-format
 msgid "Location search %s"
 msgstr ""
 
-#: includes/Frontend/views/map.php:200
+#: includes/Frontend/views/map.php:207
 msgid "Use my location"
 msgstr ""
 
-#: includes/Frontend/views/map.php:329
+#: includes/Frontend/views/map.php:336
 msgid "Location search results"
 msgstr ""
 
-#: includes/Frontend/views/map.php:335
+#: includes/Frontend/views/map.php:342
 msgid "Search results pagination"
 msgstr ""
 
 #. translators: %s: unique instance ID for this map
-#: includes/Frontend/views/map.php:341
+#: includes/Frontend/views/map.php:348
 #, php-format
 msgid "Location map %s"
 msgstr ""
 
-#: includes/Frontend/views/map.php:346
+#: includes/Frontend/views/map.php:353
 msgid "Visitors see this directory without a map. This note is only visible to editors and admins."
 msgstr ""
 
@@ -1177,8 +1185,8 @@ msgstr ""
 
 #: includes/PostTypes/LocationMeta.php:114
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:22
-#: src/blocks/locfinder-map/edit.jsx:64
+#: src/blocks/locfinder-map/edit.jsx:23
+#: src/blocks/locfinder-map/edit.jsx:65
 msgid "Address"
 msgstr ""
 
@@ -1208,7 +1216,7 @@ msgstr ""
 
 #: includes/PostTypes/LocationMeta.php:166
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:24
+#: src/blocks/locfinder-map/edit.jsx:25
 msgid "Phone"
 msgstr ""
 
@@ -1222,7 +1230,7 @@ msgstr ""
 
 #: includes/PostTypes/LocationMeta.php:182
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:25
+#: src/blocks/locfinder-map/edit.jsx:26
 msgid "Email"
 msgstr ""
 
@@ -1232,7 +1240,7 @@ msgstr ""
 
 #: includes/PostTypes/LocationMeta.php:192
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:27
+#: src/blocks/locfinder-map/edit.jsx:28
 msgid "Hours"
 msgstr ""
 
@@ -1372,13 +1380,13 @@ msgstr ""
 
 #: includes/PostTypes/LocationPostType.php:114
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:28
+#: src/blocks/locfinder-map/edit.jsx:29
 msgid "Categories"
 msgstr ""
 
 #: includes/PostTypes/LocationPostType.php:115
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:66
+#: src/blocks/locfinder-map/edit.jsx:67
 msgid "Category"
 msgstr ""
 
@@ -1454,7 +1462,7 @@ msgstr ""
 
 #: includes/Utilities/Options.php:404
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:63
+#: src/blocks/locfinder-map/edit.jsx:64
 msgid "Keyword"
 msgstr ""
 
@@ -1464,7 +1472,7 @@ msgstr ""
 
 #: includes/Utilities/Options.php:424
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:121
+#: src/blocks/locfinder-map/edit.jsx:122
 msgid "Search"
 msgstr ""
 
@@ -1527,257 +1535,261 @@ msgid "Rendered automatically from the current location's address, hours, contac
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:21
+#: src/blocks/locfinder-map/edit.jsx:22
 msgid "Image"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:23
+#: src/blocks/locfinder-map/edit.jsx:24
 msgid "Directions"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:26
+#: src/blocks/locfinder-map/edit.jsx:27
 msgid "Website"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:29
+#: src/blocks/locfinder-map/edit.jsx:30
 msgid "Excerpt"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:65
+#: src/blocks/locfinder-map/edit.jsx:66
 msgid "Radius"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:74
-#: src/blocks/locfinder-map/edit.jsx:588
-#: src/blocks/locfinder-map/edit.jsx:597
+#: src/blocks/locfinder-map/edit.jsx:75
+#: src/blocks/locfinder-map/edit.jsx:599
 msgid "Open/Closed Status"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:87
-#: src/blocks/locfinder-map/edit.jsx:465
-#: src/blocks/locfinder-map/edit.jsx:469
+#: src/blocks/locfinder-map/edit.jsx:88
+#: src/blocks/locfinder-map/edit.jsx:467
+#: src/blocks/locfinder-map/edit.jsx:471
 msgid "Bottom"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:88
-#: src/blocks/locfinder-map/edit.jsx:466
+#: src/blocks/locfinder-map/edit.jsx:89
+#: src/blocks/locfinder-map/edit.jsx:468
 msgid "Left"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:89
-#: src/blocks/locfinder-map/edit.jsx:467
+#: src/blocks/locfinder-map/edit.jsx:90
+#: src/blocks/locfinder-map/edit.jsx:469
 msgid "Right"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:1
-#: src/blocks/locfinder-map/edit.jsx:101
+#: src/blocks/locfinder-map/edit.jsx:102
 msgid "site default"
 msgstr ""
 
 #. translators: 1: results position (Bottom/Left/Right). 2: results per page, either a number or the words "site default".
 #: build/blocks/locfinder-map/index.js:2
-#: src/blocks/locfinder-map/edit.jsx:107
+#: src/blocks/locfinder-map/edit.jsx:108
 #, js-format
 msgid "%1$s, List, %2$s per page"
 msgstr ""
 
 #. translators: 1: results position (Bottom/Left/Right). 2: number of grid columns. 3: results per page, either a number or the words "site default".
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:113
+#: src/blocks/locfinder-map/edit.jsx:114
 #, js-format
 msgid "%1$s, Grid, %2$d columns, %3$s per page"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:124
+#: src/blocks/locfinder-map/edit.jsx:125
 msgid "No filters enabled"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:132
+#: src/blocks/locfinder-map/edit.jsx:133
 msgid "Showing"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:135
+#: src/blocks/locfinder-map/edit.jsx:136
 msgid "No fields explicitly enabled"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:196
+#: src/blocks/locfinder-map/edit.jsx:198
 msgid "Search Options"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:200
+#: src/blocks/locfinder-map/edit.jsx:202
 msgid "Keyword Search"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:209
-#: src/blocks/locfinder-map/edit.jsx:246
-#: src/blocks/locfinder-map/edit.jsx:283
-#: src/blocks/locfinder-map/edit.jsx:299
-#: src/blocks/locfinder-map/edit.jsx:325
-#: src/blocks/locfinder-map/edit.jsx:339
-#: src/blocks/locfinder-map/edit.jsx:392
+#: src/blocks/locfinder-map/edit.jsx:211
+#: src/blocks/locfinder-map/edit.jsx:248
+#: src/blocks/locfinder-map/edit.jsx:285
+#: src/blocks/locfinder-map/edit.jsx:301
+#: src/blocks/locfinder-map/edit.jsx:327
+#: src/blocks/locfinder-map/edit.jsx:341
+#: src/blocks/locfinder-map/edit.jsx:394
 msgid "Leave blank to use the plugin default."
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:220
+#: src/blocks/locfinder-map/edit.jsx:222
 msgid "Address Search"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:225
+#: src/blocks/locfinder-map/edit.jsx:227
 msgid "Requires Google Maps to be enabled in Location Finder plugin settings."
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:256
+#: src/blocks/locfinder-map/edit.jsx:258
 msgid "Radius Search"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:271
+#: src/blocks/locfinder-map/edit.jsx:273
 msgid "-1 = use the site default. 0 = pre-select \"Any distance.\" No maximum is enforced on the server, this field's 500 cap is just a UI limit for the slider."
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:279
+#: src/blocks/locfinder-map/edit.jsx:281
 msgid "Radius Field Label"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:295
+#: src/blocks/locfinder-map/edit.jsx:297
 msgid "\"Any Distance\" Option Text"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:315
+#: src/blocks/locfinder-map/edit.jsx:317
 msgid "Category Search"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:324
+#: src/blocks/locfinder-map/edit.jsx:326
 msgid "Category Field Label"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:335
+#: src/blocks/locfinder-map/edit.jsx:337
 msgid "\"All Categories\" Option Text"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:352
+#: src/blocks/locfinder-map/edit.jsx:354
 msgid "Category Taxonomy"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:356
+#: src/blocks/locfinder-map/edit.jsx:358
 msgid "Use site default"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:368
+#: src/blocks/locfinder-map/edit.jsx:370
 msgid "Let visitors filter by any registered taxonomy. <a>Learn more</a>"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:404
+#: src/blocks/locfinder-map/edit.jsx:406
 msgid "Results Display"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:412
+#: src/blocks/locfinder-map/edit.jsx:414
 msgid "Use plugin default"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:420
+#: src/blocks/locfinder-map/edit.jsx:422
 msgid "Date (Newest First)"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:3
-#: src/blocks/locfinder-map/edit.jsx:424
+#: src/blocks/locfinder-map/edit.jsx:426
 msgid "Random"
 msgstr ""
 
 #. translators: %s: the site-wide default value for this control — a layout name (Grid/List) or a position name (Bottom/Left/Right), depending on which dropdown this label appears in.
 #: build/blocks/locfinder-map/index.js:4
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:437
-#: src/blocks/locfinder-map/edit.jsx:460
+#: src/blocks/locfinder-map/edit.jsx:439
+#: src/blocks/locfinder-map/edit.jsx:462
 #, js-format
 msgid "Use site default (%s)"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:496
+#: src/blocks/locfinder-map/edit.jsx:498
 msgid "Grid Columns"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:5
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:506
-#: src/blocks/locfinder-map/edit.jsx:548
+#: src/blocks/locfinder-map/edit.jsx:508
+#: src/blocks/locfinder-map/edit.jsx:551
 msgid "Not used while the layout above is List."
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:5
-#: src/blocks/locfinder-map/edit.jsx:517
+#: src/blocks/locfinder-map/edit.jsx:520
 msgid "Results Columns"
 msgstr ""
 
 #. translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting.
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:523
+#: src/blocks/locfinder-map/edit.jsx:526
 #, js-format
 msgid "Use site default (%d)"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:564
+#: src/blocks/locfinder-map/edit.jsx:559
+msgid "Full Width"
+msgstr ""
+
+#: build/blocks/locfinder-map/index.js:6
+#: src/blocks/locfinder-map/edit.jsx:575
 msgid "0 = use the site default. Clamped to 100 on the server regardless of this value."
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:572
+#: src/blocks/locfinder-map/edit.jsx:583
 msgid "Show Fields"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:601
-msgid "Help visitors know when to go with a live \"Open Now\" / \"Closed Now\" badge. <a>Learn more</a>"
+#: src/blocks/locfinder-map/edit.jsx:608
+msgid "Show an “Open Now” or “Closed Now” badge based on each location’s weekly hours"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:627
+#: src/blocks/locfinder-map/edit.jsx:618
 msgid "Map Pin"
 msgstr ""
 
 #: build/blocks/locfinder-map/index.js:6
-#: src/blocks/locfinder-map/edit.jsx:646
+#: src/blocks/locfinder-map/edit.jsx:637
 msgid "Reset to default"
 msgstr ""
 
 #: build/blocks/location-details/block.json
 #: src/blocks/location-details/block.json
 msgctxt "block title"
-msgid "Location Details (Locfinder)"
+msgid "Location Details"
 msgstr ""
 
 #: build/blocks/location-details/block.json
@@ -1789,11 +1801,11 @@ msgstr ""
 #: build/blocks/locfinder-map/block.json
 #: src/blocks/locfinder-map/block.json
 msgctxt "block title"
-msgid "Location Finder Map"
+msgid "Location Finder"
 msgstr ""
 
 #: build/blocks/locfinder-map/block.json
 #: src/blocks/locfinder-map/block.json
 msgctxt "block description"
-msgid "A block that displays a Location Finder map with search functionality."
+msgid "Displays a searchable Location Finder directory, with an optional map."
 msgstr ""

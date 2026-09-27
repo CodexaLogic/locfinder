@@ -16,6 +16,7 @@ import { createInterpolateElement } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import ServerSideRender from "@wordpress/server-side-render";
+import { ProUpsell } from "../shared/components/ProUpsell";
 
 const SHOW_FIELD_CONFIG = [
 	{ key: "showImage", label: __("Image", "locfinder") },
@@ -37,7 +38,7 @@ const {
 	defaultResultsPosition = "bottom",
 	defaultResultsSideColumns = 2,
 	mapsEnabled = true,
-} = window.locfinderBlockEditor ?? {};
+} = window.locfinderEditor ?? {};
 
 /**
  * Builds a short, human-readable summary of the block's active
@@ -157,6 +158,7 @@ export default function Edit({ attributes, setAttributes }) {
 		resultsPosition,
 		gridCols,
 		resultsColumns,
+		fullWidth,
 		postsPerPage,
 		showOpenBadge,
 		pinColor,
@@ -513,45 +515,54 @@ export default function Edit({ attributes, setAttributes }) {
 					)}
 					{(effectivePosition === "left" ||
 						effectivePosition === "right") && (
-						<SelectControl
-							label={__("Results Columns", "locfinder")}
-							value={String(resultsColumns)}
-							options={[
-								{
-									label: sprintf(
-										/* translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting. */
-										__(
-											"Use site default (%d)",
-											"locfinder"
+						<>
+							<SelectControl
+								label={__("Results Columns", "locfinder")}
+								value={String(resultsColumns)}
+								options={[
+									{
+										label: sprintf(
+											/* translators: %d: number of columns, 1 or 2, the site-wide Results Columns setting. */
+											__(
+												"Use site default (%d)",
+												"locfinder"
+											),
+											defaultResultsSideColumns
 										),
-										defaultResultsSideColumns
-									),
-									value: "0",
-								},
-								{
-									label: __("1 column", "locfinder"),
-									value: "1",
-								},
-								{
-									label: __("2 columns", "locfinder"),
-									value: "2",
-								},
-							]}
-							onChange={(value) =>
-								setAttributes({
-									resultsColumns: Number(value),
-								})
-							}
-							disabled={effectiveLayout === "list"}
-							help={
-								effectiveLayout === "list"
-									? __(
-											"Not used while the layout above is List.",
-											"locfinder"
-										)
-									: undefined
-							}
-						/>
+										value: "0",
+									},
+									{
+										label: __("1 column", "locfinder"),
+										value: "1",
+									},
+									{
+										label: __("2 columns", "locfinder"),
+										value: "2",
+									},
+								]}
+								onChange={(value) =>
+									setAttributes({
+										resultsColumns: Number(value),
+									})
+								}
+								disabled={effectiveLayout === "list"}
+								help={
+									effectiveLayout === "list"
+										? __(
+												"Not used while the layout above is List.",
+												"locfinder"
+											)
+										: undefined
+								}
+							/>
+							<ToggleControl
+								label={__("Full Width", "locfinder")}
+								checked={fullWidth}
+								onChange={(value) =>
+									setAttributes({ fullWidth: value })
+								}
+							/>
+						</>
 					)}
 					<RangeControl
 						label={__("Results Per Page", "locfinder")}
@@ -592,33 +603,13 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						/>
 					) : (
-						<div className="components-base-control">
-							<span className="components-base-control__label">
-								{__("Open/Closed Status", "locfinder")}
-							</span>
-							<p className="components-base-control__help">
-								{createInterpolateElement(
-									__(
-										'Help visitors know when to go with a live "Open Now" / "Closed Now" badge. <a>Learn more</a>',
-										"locfinder"
-									),
-									{
-										a: (
-											<a
-												href={proUrl}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												Learn more{" "}
-												<span aria-hidden="true">
-													→
-												</span>
-											</a>
-										),
-									}
-								)}
-							</p>
-						</div>
+						<ProUpsell
+							url={proUrl}
+							message={__(
+								"Show an “Open Now” or “Closed Now” badge based on each location’s weekly hours",
+								"locfinder"
+							)}
+						/>
 					)}
 				</PanelBody>
 

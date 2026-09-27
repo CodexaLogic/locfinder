@@ -37,7 +37,19 @@ class BlockRegistrar {
 			'render_callback' => [$this, 'renderLocationDetailsBlock'],
 		]);
 
-		wp_localize_script('locfinder-locfinder-map-editor-script', 'locfinderBlockEditor', [
+
+		$this->localizeEditorConfig();
+	}
+
+	/**
+	 * Localizes the editor configuration for all blocks.
+	 *
+	 * When a new block is added above, add its editor script handle to the $handles array below.
+	 *
+	 * @return void
+	 */
+	private function localizeEditorConfig(): void {
+		$config = [
 			'mapsEnabled'       => Options::getMapEnabled(),
 			'allowedTaxonomies' => (array) apply_filters(
 				'locfinder_block_editor_allowed_taxonomies',
@@ -51,7 +63,16 @@ class BlockRegistrar {
 			'defaultResultsLayout'      => Options::getResultsLayout(),
 			'defaultResultsPosition'    => Options::getResultsPosition(),
 			'defaultResultsSideColumns' => Options::getResultsSideColumns(),
-		]);
+		];
+
+		$handles = [
+			'locfinder-locfinder-map-editor-script',
+			'locfinder-location-details-editor-script',
+		];
+
+		foreach ($handles as $handle) {
+			wp_localize_script($handle, 'locfinderEditor', $config);
+		}
 	}
 
 	/**

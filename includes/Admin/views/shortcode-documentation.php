@@ -149,6 +149,12 @@ $proRequired = __('Available with the Pro add-on', 'locfinder');
 					<td><code>results_columns="1"</code></td>
 				</tr>
 				<tr>
+					<td><code>full_width</code></td>
+					<td>0</td>
+					<td><?php esc_html_e('Makes the map and results full width on desktop instead of following your theme\'s content width. Has no effect when results_position is "bottom".', 'locfinder'); ?></td>
+					<td><code>full_width="1"</code></td>
+				</tr>
+				<tr>
 					<td><code>posts_per_page</code></td>
 					<td><?php echo esc_html($siteSetting); ?></td>
 					<td><?php esc_html_e('Number of results shown per page.', 'locfinder'); ?></td>

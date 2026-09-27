@@ -258,6 +258,12 @@ export async function initMap(config = {}) {
 		styles: !useAdvanced && mapStyles.length > 0 ? mapStyles : undefined,
 	});
 
+	// Force the map to resize and recenter after initialization.
+	requestAnimationFrame(() => {
+		google.maps.event.trigger(map, "resize");
+		map.setCenter(map.getCenter());
+	});
+
 	if (typeof ResizeObserver !== "undefined") {
 		let lastSize = "";
 		const resizeObserver = new ResizeObserver((entries) => {

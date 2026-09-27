@@ -47,15 +47,17 @@
 .locfinder[data-results-position="left"],
 .locfinder[data-results-position="right"] {
 	@include bp-desktop {
-		.locfinder__search,
-		.locfinder__body {
-			margin-left: calc(
-				50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
-			);
-			margin-right: calc(
-				50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
-			);
-			max-width: calc(100vw - var(--locfinder-scrollbar-width, 0px));
+		&[data-full-bleed="true"] {
+			.locfinder__search,
+			.locfinder__body {
+				margin-left: calc(
+					50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+				);
+				margin-right: calc(
+					50% - 50vw + (var(--locfinder-scrollbar-width, 0px) / 2)
+				);
+				max-width: calc(100vw - var(--locfinder-scrollbar-width, 0px));
+			}
 		}
 
 		.locfinder__body {

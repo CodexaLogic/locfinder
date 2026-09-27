@@ -643,6 +643,7 @@ function initLocfinderInstance(root) {
 			item.dataset.postId = String(post.id);
 
 			item.setAttribute("role", "listitem");
+			item.setAttribute("tabindex", "0");
 
 			if (itemTemplate) {
 				const templateWithBreaks = itemTemplate.replace(
@@ -748,6 +749,20 @@ function initLocfinderInstance(root) {
 					if (e.target.closest("a, button")) {
 						return;
 					}
+					selectResult(post.id);
+				});
+
+				item.addEventListener("keydown", (e) => {
+					if (e.key !== "Enter" && e.key !== " ") {
+						return;
+					}
+
+					if (e.target.closest("a, button")) {
+						return;
+					}
+
+					// Prevent the page from scrolling on Space.
+					e.preventDefault();
 					selectResult(post.id);
 				});
 			}
