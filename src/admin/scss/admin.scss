@@ -574,3 +574,61 @@
 		}
 	}
 }
+
+/* API key requirements (General settings) */
+.locfinder-admin .locfinder-api-requirements {
+	margin-top: var(--locfinder-space-2);
+	max-width: var(--locfinder-field-width);
+
+	&__intro {
+		color: var(--locfinder-text-muted);
+		font-weight: var(--locfinder-fw-semibold);
+		margin: 0 0 var(--locfinder-space-2);
+	}
+
+	&__list {
+		list-style: none;
+		margin: 0 0 var(--locfinder-space-3);
+		padding: 0;
+	}
+
+	&__item {
+		align-items: center;
+		display: flex;
+		gap: var(--locfinder-space-2);
+		margin: 0 0 var(--locfinder-space-2);
+
+		&::before {
+			background: var(--locfinder-primary);
+			border-radius: 50%;
+			box-shadow: 0 0 0 4px
+				color-mix(in srgb, var(--locfinder-primary) 12%, transparent);
+			content: "";
+			flex: 0 0 auto;
+			height: 8px;
+			width: 8px;
+		}
+
+		a,
+		a:visited {
+			color: var(--locfinder-primary);
+			font-weight: var(--locfinder-fw-normal);
+		}
+	}
+
+	&__note {
+		background: color-mix(
+			in srgb,
+			var(--locfinder-primary) 6%,
+			var(--locfinder-white)
+		);
+		border-left: 4px solid var(--locfinder-primary);
+		color: var(--locfinder-primary);
+		margin: 0;
+		padding: var(--locfinder-space-2) var(--locfinder-space-3);
+
+		strong {
+			color: var(--locfinder-body);
+		}
+	}
+}

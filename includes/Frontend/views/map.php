@@ -24,6 +24,7 @@ $sortByMap = [
 	'distance' => 'post_title',
 ];
 
+// Merge shortcode attributes with defaults.
 $atts = shortcode_atts([
 
 	/* Search options */
@@ -61,6 +62,7 @@ $atts = shortcode_atts([
 	'show_hours'       => false,
 	'show_categories'  => true,
 	'show_open_badge'  => Options::getShowOpenNowBadge(),
+	'title_html_tag'   => 'h2',
 	'order'            => $sortBy === 'date' ? 'DESC' : 'ASC',
 	'orderby'          => $sortByMap[$sortBy] ?? 'post_title',
 
@@ -89,6 +91,7 @@ $allCategoriesText  = sanitize_text_field($atts['all_categories_text']);
 $searchButtonLabel  = sanitize_text_field($atts['search_button_label']);
 
 // Result settings.
+$titleHtmlTag  = in_array($atts['title_html_tag'], ['h2', 'h3', 'h4', 'h5', 'h6'], true) ? $atts['title_html_tag'] : 'h2';
 $order         = in_array(strtoupper($atts['order']), ['ASC', 'DESC'], true) ? strtoupper($atts['order']) : 'ASC';
 $orderby       = in_array($atts['orderby'], ['date', 'meta_value', 'post_title', 'rand'], true) ? sanitize_key($atts['orderby']) : 'post_title';
 $resultsLayout = in_array($atts['results_layout'], ['grid', 'list'], true)
@@ -137,6 +140,7 @@ $config = [
 	'resultsPosition' => $resultsPosition,
 	'resultsColumns'  => $resultsColumns,
 	'gridCols'        => $gridCols,
+	'titleHtmlTag'    => $titleHtmlTag,
 	'order'           => $order,
 	'orderby'         => $orderby,
 	'pinColor'        => $pinColor,

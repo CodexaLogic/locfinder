@@ -153,6 +153,7 @@ export default function Edit({ attributes, setAttributes }) {
 		categoryLabel,
 		anyDistanceText,
 		allCategoriesText,
+		titleHtmlTag,
 		sortBy,
 		resultsLayout,
 		resultsPosition,
@@ -406,6 +407,20 @@ export default function Edit({ attributes, setAttributes }) {
 					title={__("Results Display", "locfinder")}
 					initialOpen={false}
 				>
+					<SelectControl
+						label={__("Title HTML Tag", "locfinder")}
+						value={titleHtmlTag}
+						options={[
+							{ label: __("H2", "locfinder"), value: "h2" },
+							{ label: __("H3", "locfinder"), value: "h3" },
+							{ label: __("H4", "locfinder"), value: "h4" },
+							{ label: __("H5", "locfinder"), value: "h5" },
+							{ label: __("H6", "locfinder"), value: "h6" },
+						]}
+						onChange={(value) =>
+							setAttributes({ titleHtmlTag: value })
+						}
+					/>
 					<SelectControl
 						label={__("Sort Results By", "locfinder")}
 						value={sortBy}

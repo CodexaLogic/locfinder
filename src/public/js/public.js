@@ -5,6 +5,8 @@
  */
 import "../scss/public.scss";
 import { initLocfinderAddressMap } from "@common/address-autocomplete.js";
+import { geocodeAddress } from "@common/geocoder.js";
+import { getPlaceCenter } from "@common/place-parser.js";
 import {
 	debounce,
 	ensureElementId,
@@ -77,6 +79,13 @@ const debugMode = Boolean(window.locfinderConfig?.debugMode);
 const SEARCHED_ADDRESS_ZOOM = 14;
 
 /**
+ * HTTP status the server returns when a visitor exceeds the search rate limit.
+ *
+ * @type {number}
+ */
+const HTTP_TOO_MANY_REQUESTS = 429;
+
+/**
  * Logs debug information to the console if debug mode is enabled.
  *
  * @param   {string} label - Label for the debug message.
@@ -131,6 +140,7 @@ function normalizeConfig(raw = {}) {
 		),
 		gridCols: Number(raw.gridCols ?? raw.grid_cols ?? 3),
 		resultsColumns: Number(raw.resultsColumns ?? raw.results_columns ?? 2),
+		titleHtmlTag: String(raw.titleHtmlTag ?? raw.title_html_tag ?? "h2"),
 		order: String(raw.order ?? "ASC"),
 		orderby: String(raw.orderby ?? "post_title"),
 		pinColor: String(raw.pinColor ?? "#00606b"),
@@ -228,9 +238,21 @@ function initLocfinderInstance(root) {
 	const addressPlaceholder = addressInput?.placeholder ?? "";
 	const addressWarningText =
 		window.locfinderConfig?.addressWarningText ??
-		"Please select an address from the dropdown";
+		"Address not found. Try a more specific address.";
 	const latInput = querySelector('[name="filter_lat"]', form);
 	const lngInput = querySelector('[name="filter_lng"]', form);
+
+	/**
+	 * Google loader settings shared by this instance's map, address
+	 * suggestions, and typed-address geocoding.
+	 *
+	 * @type {{apiKey: string, language: string, region: string}}
+	 */
+	const googleArgs = {
+		apiKey: window.locfinderConfig?.googleMapsApiKey || "",
+		language: window.locfinderConfig?.language || "en",
+		region: window.locfinderConfig?.region || "US",
+	};
 
 	let pagination = querySelector(".locfinder-pagination", root);
 
@@ -322,6 +344,27 @@ function initLocfinderInstance(root) {
 					"%d results returned";
 
 		totalCount.textContent = template.replace("%d", String(total));
+	}
+
+	/**
+	 * Shows a failed search in place of the results.
+	 *
+	 * Shows the message once, in the count's live region when present so it is
+	 * announced, and clears the results and pagination so the visitor isn't
+	 * told "no results" when the search never ran.
+	 *
+	 * @param   {string} message - Message to display.
+	 * @returns {void}
+	 */
+	function renderSearchError(message) {
+		if (totalCount) {
+			totalCount.textContent = message;
+			results.innerHTML = "";
+		} else {
+			results.innerHTML = `<li class="locfinder-result__fallback-text" role="listitem">${escapeHtml(message)}</li>`;
+		}
+
+		renderPagination(0, 1);
 	}
 
 	/**
@@ -551,6 +594,7 @@ function initLocfinderInstance(root) {
 	function applyRequestDefaults(formData) {
 		formData.set("action", "locfinder_get_results");
 		formData.set("grid_cols", String(instanceConfig.gridCols));
+		formData.set("title_html_tag", String(instanceConfig.titleHtmlTag));
 		formData.set("order", String(instanceConfig.order));
 		formData.set("orderby", String(instanceConfig.orderby));
 		formData.set("pin_color", String(instanceConfig.pinColor));
@@ -722,7 +766,7 @@ function initLocfinderInstance(root) {
 				${thumbnailHtml}
 				<div class="locfinder-result__body">
 					<div class="locfinder-result__title-row">
-						${post.postTitle ? `<h3 class="locfinder-result__title"><a href="${escapeUrl(post.permalink)}"${resultLinkTarget === "new" ? ' target="_blank" rel="noopener"' : ""}>${escapeHtml(post.postTitle)}${resultLinkTarget === "new" ? '<span class="screen-reader-text"> (opens in a new tab)</span>' : ""}</a></h3>` : ""}
+						${post.postTitle ? `<${instanceConfig.titleHtmlTag} class="locfinder-result__title"><a href="${escapeUrl(post.permalink)}"${resultLinkTarget === "new" ? ' target="_blank" rel="noopener"' : ""}>${escapeHtml(post.postTitle)}${resultLinkTarget === "new" ? '<span class="screen-reader-text"> (opens in a new tab)</span>' : ""}</a></${instanceConfig.titleHtmlTag}>` : ""}
 						${post.openBadgeHtml || ""}
 					</div>
 					${typeof post.distance === "number" ? `<div class="locfinder-result__distance">${formatDistance(post.distance, unit)}</div>` : ""}
@@ -934,11 +978,8 @@ function initLocfinderInstance(root) {
 				body: formData,
 			});
 
-			if (!res.ok) {
-				throw new Error(`Request failed with status ${res.status}`);
-			}
-
-			const json = await res.json();
+			// Error responses (e.g. 429) still carry a JSON message, so parse first.
+			const json = await res.json().catch(() => null);
 
 			debugLog("AJAX Response", json);
 
@@ -946,10 +987,10 @@ function initLocfinderInstance(root) {
 				return;
 			}
 
-			if (!json?.success) {
-				throw new Error(
-					json?.data?.message ||
-						"Unknown error fetching location results."
+			if (!res.ok || !json?.success) {
+				throw Object.assign(
+					new Error(`Request failed with status ${res.status}`),
+					{ status: res.status, serverMessage: json?.data?.message }
 				);
 			}
 
@@ -977,8 +1018,12 @@ function initLocfinderInstance(root) {
 			}
 
 			console.error("Locfinder: error fetching results:", err);
-			renderTotalCount(0);
-			results.innerHTML = noResultsHtml;
+			renderSearchError(
+				err.status === HTTP_TOO_MANY_REQUESTS && err.serverMessage
+					? err.serverMessage
+					: window.locfinderConfig?.searchErrorMessage ||
+							"Something went wrong. Please try again."
+			);
 			results.classList.remove("locfinder-hidden");
 			results.style.minHeight = "";
 		} finally {
@@ -1092,24 +1137,22 @@ function initLocfinderInstance(root) {
 		}
 
 		const config = window.locfinderConfig || {};
-		const apiKey = config.googleMapsApiKey || "";
 		const mapId = config.mapId || "";
-		const language = config.language || "en";
-		const region = config.region || "US";
 
-		if (!apiKey) {
+		if (!googleArgs.apiKey) {
 			return;
 		}
 
 		try {
 			mapApi = await initLocfinderAddressMap({
-				apiKey,
+				...googleArgs,
 				mapId,
-				language,
-				region,
 				root,
 				showPreviewPin: false,
 				panOnSelect: false,
+				geocodeOnChange: false,
+				replaceWithFormattedAddress: false,
+				suggestionsLabel: config.addressSuggestionsLabel,
 				addressSelector: '[name="filter_address"]',
 				mapSelector: ".locfinder__map",
 				latSelector: '[name="filter_lat"]',
@@ -1146,6 +1189,8 @@ function initLocfinderInstance(root) {
 					activateResultCard(postId, { scroll: false }),
 				fetchLocationDetails,
 			});
+
+			debugLog("Places autocomplete mode", mapApi?.autocompleteMode);
 
 			// Apply results that arrived before map initialization completed.
 			if (pendingMapPayload) {
@@ -1197,28 +1242,61 @@ function initLocfinderInstance(root) {
 	// ─────────────────────────────────────────────────────────────────────────
 
 	/**
+	 * Resolves typed address text to coordinates.
+	 *
+	 * Used when the visitor submits an address without choosing a suggestion.
+	 * Failures are logged and treated as "not found" so the search still runs.
+	 *
+	 * @param   {string} address - Typed address text.
+	 * @returns {Promise<{lat: number, lng: number}|null>} Coordinates, or null when unresolved.
+	 */
+	async function resolveTypedAddress(address) {
+		if (!googleArgs.apiKey) {
+			return null;
+		}
+
+		try {
+			return getPlaceCenter(await geocodeAddress(address, googleArgs));
+		} catch (err) {
+			console.warn(
+				"Locfinder: could not geocode the search address.",
+				err
+			);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles search form submission.
 	 *
-	 * An entered address without resolved coordinates is flagged before the
-	 * request to prevent an invalid radius search.
+	 * A typed address without coordinates is geocoded before the request, so
+	 * address search works even when no suggestion was chosen. If it can't be
+	 * resolved, the field is flagged and the search runs without a location.
 	 *
 	 * @param   {Event} event - Submit event.
-	 * @returns {void}
+	 * @returns {Promise<void>}
 	 */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
 		const address = addressInput?.value.trim() || "";
 		const latVal = parseFloat(latInput?.value || "");
 		const lngVal = parseFloat(lngInput?.value || "");
-		const hasLatLng = !Number.isNaN(latVal) && !Number.isNaN(lngVal);
-		const formData = new FormData(form);
 
-		if (address && !hasLatLng) {
-			showAddressWarning();
-			formData.set("filter_lat", "");
-			formData.set("filter_lng", "");
+		if (address && (Number.isNaN(latVal) || Number.isNaN(lngVal))) {
+			const center = await resolveTypedAddress(address);
+
+			if (center) {
+				setLatLng(center.lat, center.lng);
+				clearAddressWarning();
+			} else {
+				clearLatLng();
+				showAddressWarning();
+			}
 		}
+
+		// Built after resolution so the request includes the resolved coordinates.
+		const formData = new FormData(form);
 
 		formData.set("paged", "1");
 

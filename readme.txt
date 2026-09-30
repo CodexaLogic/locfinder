@@ -6,21 +6,21 @@ Tags: store locator, location finder, resource directory, business directory, go
 Requires at least: 6.5
 Requires PHP:      8.0
 Tested up to:      7.1
-Stable tag:        1.2.0
+Stable tag:        1.3.0
 License:           GPLv2 or later
-License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Launch a store locator, service directory, or resource finder in minutes with search, filters, flexible layouts, and optional Google Maps.
+Launch a store locator or directory of services and resources on your site in minutes with search, filters, flexible layouts and optional Google Maps.
 
 == Description ==
 
-Launch a store locator, service directory, or resource finder in minutes. Customize it with keyword search, category filters, list or grid layouts, and optional Google Maps.
+Launch a store locator or directory of services and resources on your site in minutes. Help visitors find what they need with keyword search, category filters, and list or grid layouts.
 
-Visitors can search by keyword, filter by category, and browse results in a list or grid layout. Enable Google Maps to add an interactive map, address search, and radius-based "near me" filtering.
+Google Maps is optional. Enable it to add an interactive map, address search, and radius filtering.
 
-Choose which details appear for each listing, including images, descriptions, addresses, contact information, and hours. Add your locator or directory to a page using the Location Finder block or the [locfinder] shortcode.
+Choose which details appear in each listing, including images, descriptions, addresses, contact information, and hours. Add your locator or directory to a page using the Location Finder block or the [locfinder] shortcode.
 
-The free version includes keyword and category search, list and grid layouts, and optional Google Maps features. Location Finder Pro adds custom taxonomy filtering, custom radius choices, distance display, result templates, and advanced map styling.
+These core features are included in the free version. Location Finder Pro adds custom taxonomy filtering, custom radius options, distance display, customizable result templates, and advanced map styling.
 
 Full documentation and setup guide: [https://codexalogic.com/documentation/getting-started-with-location-finder/](https://codexalogic.com/documentation/getting-started-with-location-finder/)
 
@@ -46,16 +46,27 @@ Full documentation and setup guide: [https://codexalogic.com/documentation/getti
 * Show an "Open Now" or "Closed Now" badge based on each listing's hours and your site's timezone.
 
 = Use Cases =
-* Store/branch locator
-* Program and service directories
-* Office/campus/venue maps
-* Resource finders for nonprofits and municipalities
+**Store and Branch Locator**
+Help customers find nearby stores, branches, dealers, or service centers. Display addresses, business hours, contact information, and directions in one place.
+
+**Program and Service Directories**
+Organize programs and services into a searchable directory. Help visitors explore available support, filter by category, and find nearby services when location search is enabled.
+
+**Office, Campus, or Venue Maps**
+Map offices, campus buildings, or venues and provide addresses, contact details, and directions to help visitors plan their trip.
+
+**Resource Directory for Nonprofits and Municipalities**
+Connect community members with public services, assistance programs, and local resources. Include physical locations and online resources, with category filters to help visitors find the support they need.
+
+= Examples =
+* Store locator: [https://nexus.uptownthemes.com/location-finder](https://nexus.uptownthemes.com/location-finder)
+* Resource directory: [https://charity.uptownthemes.com/community-resource-directory](https://charity.uptownthemes.com/community-resource-directory)
 
 == Installation ==
 
-1. Upload the `locfinder` folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the Plugins menu in WordPress.
-3. For a directory without maps, turn off "Enable Google Maps" under Location Finder > General. To use Google Maps features, enable this setting and enter your Google Maps API key.
+1. In WordPress, go to Plugins > Add New, search for "Location Finder" by codexalogic, and click Install Now. Alternatively, upload the plugin ZIP through Plugins > Add New > Upload Plugin.
+2. Activate the plugin.
+3. Under Location Finder > General, turn off "Enable Google Maps" to create a directory without maps. To use Google Maps features, leave this setting enabled and enter your Google Maps API key.
 4. Add your listings under Locations in the WordPress admin.
 5. Visit the automatically created Locations page, or display your locator or directory on another page using the Location Finder block or [locfinder] shortcode.
 
@@ -126,7 +137,7 @@ You can change the pin color in the plugin settings. Location Finder Pro adds cu
 Yes. Location Finder creates a page titled "Locations" containing the [locfinder] shortcode to display your locator or directory. You can rename it, change its slug, or delete it. To use another page, select it under Location Finder > General > Locations Page. The plugin does not recreate the page after you have set it or modify your other pages.
 
 = Can I filter by a custom taxonomy? =
-Yes. Location Finder Pro lets you choose a custom taxonomy for each block or shortcode instance, with per-category pin colors and icons. The free version supports filtering by the built-in Categories taxonomy.
+Yes. Location Finder Pro lets you choose a custom taxonomy for each block or shortcode instance, with per-category pin colors and icons. The free version supports filtering by the built-in Location Categories taxonomy.
 
 = Does it support categories or filtering? =
 Yes. The free version includes keyword search and category filtering. With Google Maps enabled, it also supports address search and radius filtering with options of 10, 25, 50, and 75 miles or kilometers. Location Finder Pro adds custom taxonomy filtering and custom radius choices.
@@ -149,6 +160,15 @@ Yes. Use the `locfinder` text domain and place translation files in the `/langua
 8. The Location Finder block in the WordPress editor, with every display option easily configurable.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Address suggestions now use Google's Places API (New) and automatically fall back to the legacy Places API for older API keys.
+* New: Typed addresses are found even when no suggestion is chosen, using the Geocoding API.
+* New: A "title_html_tag" shortcode attribute and block option for the result title heading level.
+* New: Search rate limiting (60 requests per minute per visitor), adjustable with the `locfinder/rate_limit_max_requests` filter.
+* Improved: "Only where the locator appears" now also loads assets for locators in templates, widgets, synced patterns, and page builders.
+* Improved: The Google Maps API key setting lists the Google APIs to enable, with direct links.
+* Improved: A failed search now shows a clear error message instead of "No locations found."
 
 = 1.2.0 =
 * New: A "Full width" option for the Location Finder block and `[locfinder]` shortcode. By default the map and results stay within your theme's normal content width; enable it to stretch them edge-to-edge on desktop instead.

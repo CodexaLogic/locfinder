@@ -119,16 +119,17 @@ class LocationMeta {
 				name="locfinder_formatted_address"
 				value="<?php echo esc_attr($address); ?>"
 				class="widefat locfinder-meta__address"
+				aria-describedby="locfinder_address_desc"
 				placeholder="<?php
 					echo $mapEnabled
-						? esc_attr__('Start typing and select an address in the dropdown.', 'locfinder')
+						? esc_attr__('Start typing and choose a suggestion, or enter the full address.', 'locfinder')
 						: esc_attr__('Enter the full street address.', 'locfinder');
 				?>"
 			/>
-			<p class="description">
+			<p id="locfinder_address_desc" class="description">
 				<?php
 				echo $mapEnabled
-					? esc_html__('Powered by Google Places autocomplete. Select a result to set the full address and coordinates.', 'locfinder')
+					? esc_html__('Choose a suggestion to set the address and coordinates. A full address typed without choosing a suggestion is located automatically when you leave the field.', 'locfinder')
 					: esc_html__('Enter the address manually. Turn on Google Maps under Location Finder → General to enable autocomplete and coordinates.', 'locfinder');
 				?>
 			</p>

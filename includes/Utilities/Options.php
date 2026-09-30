@@ -828,8 +828,8 @@ class Options {
 			'loadMapOnClick'     => self::getLoadMapOnClick(),
 			'loadMapButtonLabel' => self::getLoadMapButtonLabel(),
 
-			// Fixed and computed values, not owned by any settings page.
-			'addressWarningText' => __('Please select an address from the dropdown', 'locfinder'),
+			'addressWarningText'      => __('Address not found. Try a more specific address.', 'locfinder'),
+			'addressSuggestionsLabel' => __('Address suggestions', 'locfinder'),
 			/* translators: %d: number of results. Used for both the singular (%d = 1) and plural (%d = 0 or 2+) count — the number itself distinguishes the two, so the surrounding text is identical. */
 			'resultsCountSingular' => __('Results returned (%d)', 'locfinder'),
 			/* translators: %d: number of results. Used for both the singular (%d = 1) and plural (%d = 0 or 2+) count — the number itself distinguishes the two, so the surrounding text is identical. */
@@ -846,6 +846,7 @@ class Options {
 			'visitWebsiteLabel'             => __('Visit Website', 'locfinder'),
 			'sendEmailLabel'                => __('Send Email', 'locfinder'),
 			'loadingDetailsMessage'         => __('Loading…', 'locfinder'),
+			'searchErrorMessage'            => __('Something went wrong. Please try again.', 'locfinder'),
 			'ajaxUrl'                       => admin_url('admin-ajax.php'),
 		];
 	}

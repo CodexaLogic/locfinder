@@ -173,7 +173,8 @@ class General extends Base {
 	}
 
 	/**
-	 * Renders the Google Maps API key field and a link to retrieve one.
+	 * Renders the Google Maps API key field and the Google Cloud APIs the key
+	 * must have enabled, each linked to its page in the Google Cloud console.
 	 *
 	 * @return void
 	 */
@@ -181,13 +182,42 @@ class General extends Base {
 		$val  = $this->getPageOption('google_maps_api_key', '');
 		$name = $this->getOptionName() . '[google_maps_api_key]';
 
+		// Google product names aren't translated; keys are Google Cloud service IDs.
+		$apis = [
+			'maps-backend.googleapis.com'      => 'Maps JavaScript API',
+			'places.googleapis.com'            => 'Places API (New)',
+			'geocoding-backend.googleapis.com' => 'Geocoding API',
+		];
+
+		$items = '';
+
+		foreach ($apis as $service => $label) {
+			$items .= sprintf(
+				'<li class="locfinder-api-requirements__item"><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span></a></li>',
+				esc_url('https://console.cloud.google.com/apis/library/' . $service),
+				esc_html($label),
+				esc_html__('(opens in a new tab)', 'locfinder')
+			);
+		}
+
 		printf(
-			'<input id="google_maps_api_key" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" />
-			&nbsp;&nbsp;<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank" rel="noopener">%4$s</a>',
+			'<input id="google_maps_api_key" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" aria-describedby="google_maps_api_key_help" />
+			<div id="google_maps_api_key_help" class="locfinder-api-requirements">
+				<p class="locfinder-api-requirements__intro">%4$s</p>
+				<ul class="locfinder-api-requirements__list">%5$s</ul>
+				<p class="locfinder-api-requirements__note"><strong>%6$s</strong> %7$s</p>
+			</div>',
 			esc_attr($name),
 			esc_attr($val),
-			esc_attr__('Enter Google Maps API key', 'locfinder'),
-			esc_html__('Get a Google Maps API key', 'locfinder')
+			esc_attr__('Enter your Google Maps API key', 'locfinder'),
+			esc_html__('Enable these APIs for your key:', 'locfinder'),
+			wp_kses($items, [
+				'li'   => ['class' => true],
+				'a'    => ['href' => true, 'target' => true, 'rel' => true],
+				'span' => ['class' => true],
+			]),
+			esc_html__('Using an older key?', 'locfinder'),
+			esc_html__('Keys with the legacy Places API still work. We recommend enabling Places API (New).', 'locfinder')
 		);
 	}
 
@@ -363,8 +393,8 @@ class General extends Base {
 	/**
 	 * Renders the enqueue on field.
 	 *
-	 * Controls whether the plugin's assets are loaded only on pages
-	 * with the shortcode or site-wide.
+	 * Controls whether the locator's assets load only where the locator is
+	 * rendered or on every front-end page.
 	 *
 	 * @return void
 	 */
@@ -373,15 +403,17 @@ class General extends Base {
 		$name = $this->getOptionName() . '[enqueue_on]';
 
 		printf(
-			'<select id="enqueue_on" name="%1$s">
+			'<select id="enqueue_on" name="%1$s" aria-describedby="enqueue_on_help">
 				<option value="shortcode_only" %2$s>%3$s</option>
 				<option value="all" %4$s>%5$s</option>
-			</select>',
+			</select>
+			<p id="enqueue_on_help" class="description">%6$s</p>',
 			esc_attr($name),
 			selected($val, 'shortcode_only', false),
-			esc_html__('Only on pages with the shortcode', 'locfinder'),
+			esc_html__('Only where the locator appears (recommended)', 'locfinder'),
 			selected($val, 'all', false),
-			esc_html__('Site-wide (not recommended)', 'locfinder')
+			esc_html__('Every page', 'locfinder'),
+			esc_html__('Location Finder loads its files automatically wherever the shortcode or block is used, including templates, widgets, and page builders. Choose "Every page" only if the locator briefly appears unstyled while a page loads.', 'locfinder')
 		);
 	}
 

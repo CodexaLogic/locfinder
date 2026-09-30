@@ -23,6 +23,7 @@
 		"categoryLabel": { "type": "string", "default": "" },
 		"anyDistanceText": { "type": "string", "default": "" },
 		"allCategoriesText": { "type": "string", "default": "" },
+		"titleHtmlTag": { "type": "string", "default": "h2" },
 		"sortBy": { "type": "string", "default": "default" },
 		"resultsLayout": { "type": "string", "default": "default" },
 		"resultsPosition": { "type": "string", "default": "default" },

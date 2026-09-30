@@ -1,5 +1,11 @@
 /**
- * Parses Google Places results into Locfinder address and coordinate data.
+ * Parses Google place data into Locfinder address and coordinate data.
+ *
+ * Accepts both result shapes the plugin receives:
+ *  - google.maps.places.Place (Places API New): camelCase fields.
+ *  - google.maps.GeocoderResult / legacy PlaceResult: snake_case fields,
+ *    from the geocoding fallback and the legacy autocomplete widget.
+ * Normalizing here keeps one parser for every source.
  */
 
 /**
@@ -18,11 +24,91 @@
  */
 
 /**
- * Parses a Google PlaceResult into Locfinder address data.
+ * Reads a LatLng or LatLngLiteral into plain numbers.
+ *
+ * Google returns LatLng objects (lat() methods) in some places and plain
+ * { lat, lng } literals in others; this accepts either.
+ *
+ * @param   {google.maps.LatLng|google.maps.LatLngLiteral|null|undefined} loc
+ * @returns {{lat: number, lng: number}|null} Coordinates, or null if invalid.
+ */
+function readLatLng(loc) {
+	if (!loc) {
+		return null;
+	}
+
+	const lat = typeof loc.lat === "function" ? loc.lat() : loc.lat;
+	const lng = typeof loc.lng === "function" ? loc.lng() : loc.lng;
+
+	return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null;
+}
+
+/**
+ * Normalizes address components from either API into one shape.
+ *
+ * @param   {Object} place - Place (new) or GeocoderResult / PlaceResult (legacy).
+ * @returns {{types: string[], long: string, short: string}[]} Normalized components.
+ */
+function readComponents(place) {
+	// Places API (New): addressComponents[] with longText/shortText.
+	if (Array.isArray(place.addressComponents)) {
+		return place.addressComponents.map((component) => ({
+			types: component.types ?? [],
+			long: component.longText ?? "",
+			short: component.shortText ?? "",
+		}));
+	}
+
+	// Geocoder and legacy widget: address_components[] with long_name/short_name.
+	return (place.address_components ?? []).map((component) => ({
+		types: component.types ?? [],
+		long: component.long_name ?? "",
+		short: component.short_name ?? "",
+	}));
+}
+
+/**
+ * Gets the center coordinates of a place.
+ *
+ * Uses the exact location when available, then falls back to the center
+ * of the viewport.
+ *
+ * @param   {Object|null} place - Place (new) or GeocoderResult / PlaceResult (legacy).
+ * @returns {{lat: number, lng: number}|null} Place center, or null if unavailable.
+ */
+export function getPlaceCenter(place) {
+	if (!place) {
+		return null;
+	}
+
+	// New API exposes place.location; legacy nests it under geometry.
+	const exact = readLatLng(place.location ?? place.geometry?.location);
+
+	if (exact) {
+		return exact;
+	}
+
+	const viewport = place.viewport ?? place.geometry?.viewport;
+
+	if (viewport) {
+		const sw = viewport.getSouthWest();
+		const ne = viewport.getNorthEast();
+
+		return {
+			lat: (sw.lat() + ne.lat()) / 2,
+			lng: (sw.lng() + ne.lng()) / 2,
+		};
+	}
+
+	return null;
+}
+
+/**
+ * Parses a place into Locfinder address data.
  *
  * Returns an empty ParsedPlace shape when no place is provided.
  *
- * @param   {google.maps.places.PlaceResult} place - Google Place result.
+ * @param   {Object|null} place - Place (new) or GeocoderResult / PlaceResult (legacy).
  * @returns {ParsedPlace} Parsed place data.
  */
 export function parsePlaceResult(place) {
@@ -42,94 +128,37 @@ export function parsePlaceResult(place) {
 		return out;
 	}
 
-	out.formattedAddress = place.formatted_address || "";
-	out.placeId = place.place_id || "";
+	out.formattedAddress =
+		place.formattedAddress || place.formatted_address || "";
+	out.placeId = place.id || place.place_id || "";
 
-	const loc = place.geometry?.location;
+	// Use the same resolver as the map pin so saved coordinates and the
+	// preview pin can never disagree.
+	const center = getPlaceCenter(place);
 
-	if (loc) {
-		out.lat = String(typeof loc.lat === "function" ? loc.lat() : loc.lat);
-		out.lng = String(typeof loc.lng === "function" ? loc.lng() : loc.lng);
+	if (center) {
+		out.lat = String(center.lat);
+		out.lng = String(center.lng);
 	}
 
-	const components = place.address_components || [];
-
-	for (const component of components) {
-		const types = component.types || [];
-		const longName = component.long_name || "";
-		const shortName = component.short_name || "";
-
+	for (const { types, long, short } of readComponents(place)) {
 		if (types.includes("subpremise")) {
-			out.address2 = longName;
-			continue;
-		}
-
-		if (types.includes("locality")) {
-			out.city = longName;
-			continue;
-		}
-
-		if (
+			out.address2 = long;
+		} else if (types.includes("locality")) {
+			out.city = long;
+		} else if (
 			!out.city &&
 			(types.includes("postal_town") || types.includes("sublocality"))
 		) {
-			out.city = longName;
-			continue;
-		}
-
-		if (types.includes("administrative_area_level_1")) {
-			out.state = shortName || longName;
-			continue;
-		}
-
-		if (types.includes("postal_code")) {
-			out.postalCode = longName;
-			continue;
-		}
-
-		if (types.includes("country")) {
-			out.countryCode = shortName.toUpperCase();
-			continue;
+			out.city = long;
+		} else if (types.includes("administrative_area_level_1")) {
+			out.state = short || long;
+		} else if (types.includes("postal_code")) {
+			out.postalCode = long;
+		} else if (types.includes("country")) {
+			out.countryCode = short.toUpperCase();
 		}
 	}
 
 	return out;
-}
-
-/**
- * Gets the center coordinates from a Google PlaceResult.
- *
- * Uses geometry.location when available, then falls back to the center of
- * geometry.viewport.
- *
- * @param   {google.maps.places.PlaceResult} place - Google Place result.
- * @returns {{lat: number, lng: number}|null} Place center, or null if unavailable.
- */
-export function getPlaceCenter(place) {
-	if (!place) {
-		return null;
-	}
-
-	const loc = place.geometry?.location;
-
-	if (loc) {
-		const lat = typeof loc.lat === "function" ? loc.lat() : loc.lat;
-		const lng = typeof loc.lng === "function" ? loc.lng() : loc.lng;
-
-		if (Number.isFinite(lat) && Number.isFinite(lng)) {
-			return { lat, lng };
-		}
-	}
-
-	const viewport = place.geometry?.viewport;
-
-	if (viewport) {
-		const sw = viewport.getSouthWest();
-		const ne = viewport.getNorthEast();
-		const lat = (sw.lat() + ne.lat()) / 2;
-		const lng = (sw.lng() + ne.lng()) / 2;
-		return { lat, lng };
-	}
-
-	return null;
 }

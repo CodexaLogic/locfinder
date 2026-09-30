@@ -233,6 +233,12 @@ $proRequired = __('Available with the Pro add-on', 'locfinder');
 					<td><code>taxonomy="your_custom_taxonomy"</code></td>
 				</tr>
 				<tr>
+					<td><code>title_html_tag</code></td>
+					<td>h2</td>
+					<td><?php esc_html_e('HTML tag used for the result titles.', 'locfinder'); ?></td>
+					<td><code>title_html_tag="h3"</code></td>
+				</tr>
+				<tr>
 					<td><code>order</code></td>
 					<td><?php echo esc_html($siteSetting); ?></td>
 					<td><?php esc_html_e('Sort direction, used together with orderby.', 'locfinder'); ?></td>

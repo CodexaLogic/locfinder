@@ -1,0 +1,71 @@
+/**
+ * Address suggestion dropdown (Places API New combobox).
+ */
+
+.locfinder-autocomplete {
+	background: var(--locfinder-bg);
+	border: var(--locfinder-border);
+	border-radius: var(--locfinder-radius-md);
+	box-shadow: var(--locfinder-shadow);
+	box-sizing: border-box;
+	margin-top: 0.25rem;
+	overflow: hidden;
+	position: absolute;
+	z-index: 100000;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+.locfinder-autocomplete__listbox {
+	list-style: none;
+	margin: 0;
+	max-height: 18rem;
+	overflow-y: auto;
+	padding: 0.25rem 0;
+}
+
+.locfinder-autocomplete__option {
+	color: var(--locfinder-body);
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	font-size: var(--locfinder-font-size-sm);
+	gap: 0.125rem;
+	line-height: var(--locfinder-lh-tight);
+	margin: 0;
+	padding: 0.5rem var(--locfinder-space-2);
+
+	&:hover,
+	&[aria-selected="true"] {
+		background: color-mix(
+			in srgb,
+			var(--locfinder-primary) 10%,
+			var(--locfinder-white)
+		);
+	}
+}
+
+.locfinder-autocomplete__main {
+	font-weight: var(--locfinder-fw-semibold);
+}
+
+.locfinder-autocomplete__secondary {
+	color: var(--locfinder-text-muted);
+	font-size: var(--locfinder-font-size-xs);
+}
+
+.locfinder-autocomplete__attribution {
+	border-top: var(--locfinder-border-muted);
+	color: #5e5e5e;
+	font-family: Roboto, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: normal;
+	padding: 0.25rem var(--locfinder-space-2);
+	text-align: right;
+	text-transform: none;
+	white-space: nowrap;
+}

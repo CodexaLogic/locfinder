@@ -53,9 +53,11 @@ class AjaxController {
 	private LocationRepository $repo;
 
 	/**
-	 * Maximum requests allowed per IP within the rate-limit window.
+	 * Default maximum requests allowed per client within one rate-limit window.
+	 *
+	 * Filterable through `locfinder/rate_limit_max_requests`.
 	 */
-	private const RATE_LIMIT_MAX_REQUESTS = 30;
+	private const RATE_LIMIT_MAX_REQUESTS = 60;
 
 	/**
 	 * Rate-limit window, in seconds.
@@ -726,30 +728,76 @@ class AjaxController {
 	}
 
 	/**
-	 * Per-IP throttle for the public, nonce-free search and map endpoints.
+	 * Per-client throttle for the public, nonce-free search and details endpoints.
 	 *
-	 * Uses a non-atomic transient counter, which is sufficient for a public endpoint.
-	 * Fails open if an IP address cannot be determined.
+	 * Counts requests in fixed windows (the window number is part of the key),
+	 * so a counter never extends its own expiry and a steady visitor is never
+	 * locked out. Uses the object cache's atomic increment when a persistent
+	 * cache is available, and a transient otherwise. Once a client is over the
+	 * limit, further requests in that window are rejected without a write.
 	 *
-	 * @return bool  True if allowed, false if the limit is exceeded.
+	 * Fails open when the client cannot be identified or the limit is disabled.
+	 *
+	 * @return bool True if the request is allowed, false if the limit is exceeded.
 	 */
 	private static function checkRateLimit(): bool {
-		$ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
+		/**
+		 * Filters the maximum requests per client per window for the public
+		 * search endpoints. Return 0 to disable rate limiting.
+		 *
+		 * @param int $max Maximum requests per client per window.
+		 */
+		$max = (int) apply_filters('locfinder/rate_limit_max_requests', self::RATE_LIMIT_MAX_REQUESTS);
+		$ip  = self::getClientIp();
 
-		if ($ip === '') {
+		if ($max <= 0 || $ip === '') {
 			return true;
 		}
 
-		$key   = 'locfinder_search_rl_' . md5($ip);
-		$count = (int) get_transient($key);
+		$window = intdiv(time(), self::RATE_LIMIT_WINDOW_SECONDS);
+		$key    = 'locfinder_rl_' . md5($ip) . '_' . $window;
 
-		if ($count >= self::RATE_LIMIT_MAX_REQUESTS) {
+		if (wp_using_ext_object_cache()) {
+			wp_cache_add($key, 0, 'locfinder', self::RATE_LIMIT_WINDOW_SECONDS);
+
+			return (int) wp_cache_incr($key, 1, 'locfinder') <= $max;
+		}
+
+		$count = (int) get_transient($key) + 1;
+
+		if ($count > $max) {
 			return false;
 		}
 
-		set_transient($key, $count + 1, self::RATE_LIMIT_WINDOW_SECONDS);
+		set_transient($key, $count, self::RATE_LIMIT_WINDOW_SECONDS);
 
 		return true;
+	}
+
+	/**
+	 * Resolves the client IP used for rate limiting.
+	 *
+	 * Uses REMOTE_ADDR by default. Forwarding headers such as X-Forwarded-For
+	 * are not trusted, because any client can send them to dodge the limit.
+	 * Sites behind a proxy or CDN should return the real client IP through
+	 * the `locfinder/client_ip` filter (e.g. CF-Connecting-IP on Cloudflare);
+	 * otherwise every visitor shares the proxy's address and one limit.
+	 *
+	 * @return string Validated IP address, or an empty string if unavailable.
+	 */
+	private static function getClientIp(): string {
+		$remoteAddr = isset($_SERVER['REMOTE_ADDR'])
+			? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']))
+			: '';
+
+		/**
+		 * Filters the client IP used to rate-limit the public search endpoints.
+		 *
+		 * @param string $ip REMOTE_ADDR of the current request.
+		 */
+		$ip = (string) apply_filters('locfinder/client_ip', $remoteAddr);
+
+		return filter_var($ip, FILTER_VALIDATE_IP) !== false ? $ip : '';
 	}
 
 	/**

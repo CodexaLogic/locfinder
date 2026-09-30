@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		language,
 		region,
 		pinColor,
+		suggestionsLabel: config.addressSuggestionsLabel,
 		addressSelector: "#locfinder_address",
 		mapSelector: "#locfinder-map",
 		defaultZoom: 4,

@@ -245,10 +245,14 @@ class Frontend {
 	}
 
 	/**
-	 * Registers and enqueues public-facing assets.
+	 * Enqueues public-facing assets.
 	 *
-	 * Single-location assets are loaded on Location posts. The full locator
-	 * bundle respects the configured enqueue strategy.
+	 * Single-location assets load on Location posts. The locator bundle is
+	 * enqueued here only when it is known to be needed (site-wide setting, or
+	 * the queried content contains the shortcode or block) so its stylesheet
+	 * prints in <head>. Any other render, such as a template part, widget,
+	 * synced pattern, or page builder, enqueues it on demand through
+	 * enqueueLocatorAssets().
 	 *
 	 * @return void
 	 */
@@ -261,45 +265,40 @@ class Frontend {
 			$this->enqueueSingleLocationAssets();
 		}
 
-		$enqueueOn = Options::getEnqueueOn();
+		if (Options::getEnqueueOn() === 'all' || $this->queriedContentHasLocator()) {
+			self::enqueueLocatorAssets();
+		}
+	}
 
-		if ($enqueueOn === 'shortcode_only') {
-			$postsToCheck = [];
+	/**
+	 * Enqueues the locator bundle and its configuration.
+	 *
+	 * Safe to call any number of times and at any point after init: the first
+	 * call enqueues and localizes; later calls do nothing. Called from the
+	 * shortcode renderer (which the block also uses), so the locator works
+	 * wherever it is rendered. Late calls still work because the script
+	 * prints in the footer and WordPress prints late styles there as well.
+	 *
+	 * Block themes render the template before wp_enqueue_scripts fires. A call
+	 * made then is deferred to that hook so the stylesheet keeps its normal
+	 * position after the theme's global styles, which it overrides.
+	 *
+	 * @return void
+	 */
+	public static function enqueueLocatorAssets(): void {
+		$handle = LOCFINDER_NAME . '-public';
 
-			if (is_singular()) {
-				global $post;
+		if (is_admin() || wp_is_serving_rest_request() || wp_script_is($handle, 'enqueued')) {
+			return;
+		}
 
-				if ($post instanceof \WP_Post) {
-					$postsToCheck[] = $post;
-				}
-			} else {
-				global $wp_query;
-
-				if (!empty($wp_query->posts)) {
-					$postsToCheck = $wp_query->posts;
-				}
-			}
-
-			$found = false;
-
-			foreach ($postsToCheck as $queriedPost) {
-				if (!$queriedPost instanceof \WP_Post) {
-					continue;
-				}
-
-				if (has_shortcode($queriedPost->post_content, 'locfinder') || has_block('locfinder/locfinder-map', $queriedPost)) {
-					$found = true;
-					break;
-				}
-			}
-
-			if (!$found) {
-				return;
-			}
+		if (!did_action('wp_enqueue_scripts')) {
+			add_action('wp_enqueue_scripts', [self::class, 'enqueueLocatorAssets']);
+			return;
 		}
 
 		wp_enqueue_style(
-			LOCFINDER_NAME . '-public',
+			$handle,
 			LOCFINDER_URL . 'build/assets/public/css/public.css',
 			[],
 			LOCFINDER_VERSION,
@@ -307,22 +306,49 @@ class Frontend {
 		);
 
 		wp_enqueue_script(
-			LOCFINDER_NAME . '-public',
+			$handle,
 			LOCFINDER_URL . 'build/assets/public/js/public.js',
 			[],
 			LOCFINDER_VERSION,
 			true
 		);
 
-		$this->applyPrimaryColorOverride(LOCFINDER_NAME . '-public');
+		self::applyPrimaryColorOverride($handle);
 
 		wp_localize_script(
-			LOCFINDER_NAME . '-public',
+			$handle,
 			'locfinderConfig',
 			array_merge(Options::getMapConfig(), [
 				'debugMode' => Options::getDebugMode() && current_user_can('manage_options'),
 			])
 		);
+	}
+
+	/**
+	 * Checks whether the queried content contains the locator shortcode or block.
+	 *
+	 * Only inspects post content, so it cannot see templates, widgets, or page
+	 * builders; those renders enqueue on demand instead.
+	 *
+	 * @return bool True if a queried post contains the shortcode or block.
+	 */
+	private function queriedContentHasLocator(): bool {
+		global $post, $wp_query;
+
+		$postsToCheck = is_singular()
+			? [$post]
+			: (array) ($wp_query->posts ?? []);
+
+		foreach ($postsToCheck as $queriedPost) {
+			if (
+				$queriedPost instanceof \WP_Post
+				&& (has_shortcode($queriedPost->post_content, 'locfinder') || has_block('locfinder/locfinder-map', $queriedPost))
+			) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -349,7 +375,7 @@ class Frontend {
 			true
 		);
 
-		$this->applyPrimaryColorOverride(LOCFINDER_NAME . '-single');
+		self::applyPrimaryColorOverride(LOCFINDER_NAME . '-single');
 
 		wp_localize_script(
 			LOCFINDER_NAME . '-single',
@@ -366,7 +392,7 @@ class Frontend {
 	 * @param  string $handle  Registered stylesheet handle.
 	 * @return void
 	 */
-	private function applyPrimaryColorOverride(string $handle): void {
+	private static function applyPrimaryColorOverride(string $handle): void {
 		$color = Options::getPrimaryColor();
 
 		if (strcasecmp($color, Options::DEFAULT_COLOR) === 0) {
