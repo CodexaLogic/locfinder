@@ -207,10 +207,7 @@ function initLocfinderInstance(root) {
 		spinner.classList.toggle("locfinder-hidden", !show);
 	}
 
-	const mapElement = querySelector(
-		".locfinder__map:not(.locfinder__map--disabled-notice)",
-		root
-	);
+	const mapElement = querySelector(".locfinder__map", root);
 
 	const mapWidth = window.locfinderConfig?.mapWidth || "";
 	if (mapWidth && mapElement && instanceConfig.resultsPosition !== "bottom") {

@@ -4,9 +4,9 @@
 .locfinder-pro-note {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap; // so it wraps instead of overflowing on narrow admin screens
+	flex-wrap: wrap;
 	gap: 8px;
-	margin-top: 6px;
+	margin-top: 8px;
 	font-size: 13px;
 	line-height: 1.4;
 	color: #50575e; // WP admin's standard secondary text gray
@@ -40,23 +40,28 @@
 	color: inherit;
 }
 
+.locfinder-pro-note__description {
+	color: #50575e;
+	font-size: 13px;
+	line-height: 1.4;
+	margin: 0;
+}
+
 .locfinder-pro-note__link {
 	color: var(--locfinder-primary);
 	font-weight: 600;
-	text-decoration: none;
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
 	white-space: nowrap; // keep "Learn more →" from breaking mid-phrase
 
 	&:hover,
 	&:focus {
-		text-decoration: underline;
+		color: var(--locfinder-secondary);
 	}
 
-	// The arrow lives in its own span with text-decoration: none so the
-	// hover underline doesn't draw a line under the arrow glyph — that
-	// looks messy in most fonts since the arrow sits below the baseline.
-	span {
+	[aria-hidden="true"] {
 		display: inline-block;
-		margin-left: 2px;
+		margin-left: 0.3em;
 		text-decoration: none;
 	}
 }

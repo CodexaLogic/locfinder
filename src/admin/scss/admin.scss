@@ -7,50 +7,181 @@
  * Styles for the plugin's settings pages and location editor meta box.
  */
 
-.locfinder-admin {
-	--locfinder-focus: var(--locfinder-accent);
+body.locfinder-settings-screen {
+	background: var(--locfinder-bg-muted);
+}
 
-	background-color: var(--locfinder-white);
-	border-radius: var(--locfinder-radius-md);
-	box-shadow: var(--locfinder-shadow);
-	padding: var(--locfinder-space-2) var(--locfinder-space-3);
+.locfinder-admin,
+.locfinder-admin__topbar {
+	--locfinder-focus: var(--locfinder-accent);
+	--locfinder-admin-ink: var(--locfinder-gray-900);
+	--locfinder-admin-line: var(--locfinder-gray-300);
+	--locfinder-admin-field-line: #8b95a7;
+}
+
+.locfinder-admin {
+	color: var(--locfinder-gray-800);
 
 	a,
 	a:visited {
-		color: var(--locfinder-primary-dark);
+		color: var(--locfinder-primary);
 		font-weight: var(--locfinder-fw-semibold);
 	}
 
 	a:hover,
 	a:focus {
-		color: var(--locfinder-primary);
+		color: var(--locfinder-secondary);
 	}
 
-	h2 {
-		margin-bottom: var(--locfinder-space-1);
-		margin-top: var(--locfinder-space-4);
-	}
-
-	/* Header */
-	&__header {
-		margin: var(--locfinder-space-3) 0;
-	}
-
-	&__header-inner {
-		align-items: baseline;
+	/* Top line: plugin name and version */
+	&__topbar {
+		--locfinder-topbar-start: 20px;
+		align-items: center;
+		background: var(--locfinder-white);
+		border-block-end: 1px solid var(--locfinder-admin-line);
 		display: flex;
-		flex-direction: column;
 		gap: var(--locfinder-space-2);
+		margin-block: 0 calc(var(--locfinder-space-4) - 10px);
+		margin-inline-start: calc(-1 * var(--locfinder-topbar-start));
+		padding-block: 0.875rem;
+		padding-inline: var(--locfinder-topbar-start) 20px;
+
+		@media screen and (max-width: 782px) {
+			--locfinder-topbar-start: 10px;
+		}
+	}
+
+	&__logo {
+		display: block;
+		flex: none;
+		height: 1.75rem;
+		width: auto;
+	}
+
+	&__brand {
+		color: var(--locfinder-admin-ink);
+		font-size: 1.125rem;
+		font-weight: var(--locfinder-fw-bold);
+		line-height: 1;
 	}
 
 	&__version {
 		color: var(--locfinder-text-muted);
 		font-size: var(--locfinder-font-size-sm);
+		line-height: 1;
+	}
+
+	/* Page header */
+	&__page-header {
+		align-items: flex-start;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-3);
+		justify-content: space-between;
+		margin-bottom: var(--locfinder-space-4);
+	}
+
+	& &__title {
+		color: var(--locfinder-admin-ink);
+		font-size: 1.375rem;
+		font-weight: var(--locfinder-fw-semibold);
+		line-height: 1.3;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__subtitle {
+		color: var(--locfinder-text-muted);
+		font-size: var(--locfinder-font-size-md);
+		margin: 0.25rem 0 0;
 	}
 
 	/* Content */
 	&__content {
-		padding: var(--locfinder-space-1) var(--locfinder-space-3);
+		padding: 0;
+	}
+
+	&__actions {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: var(--locfinder-space-4);
+	}
+
+	/* Tabs on the left, Save button on the right */
+	&__toolbar {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-2);
+		justify-content: space-between;
+		margin-bottom: var(--locfinder-space-4);
+	}
+
+	/* Sections: cards flowing down two columns, one column when narrow. */
+	&__sections {
+		column-gap: var(--locfinder-space-4);
+		columns: 2 24rem;
+
+		&:has(> .locfinder-card:only-child) {
+			columns: auto;
+		}
+	}
+
+	.locfinder-card {
+		background: var(--locfinder-white);
+		border-radius: var(--locfinder-radius-xl);
+		box-shadow: var(--locfinder-shadow-soft);
+		box-sizing: border-box;
+		break-inside: avoid;
+		margin: 0 0 var(--locfinder-space-4);
+		padding: var(--locfinder-space-4);
+	}
+
+	.locfinder-card__title {
+		color: var(--locfinder-admin-ink);
+		font-size: var(--locfinder-font-size-lg);
+		font-weight: var(--locfinder-fw-bold);
+		line-height: 1.3;
+		margin: 0;
+	}
+
+	.locfinder-card__title + p {
+		color: var(--locfinder-text-muted);
+		margin: 0.25rem 0 0;
+	}
+
+	/* Fields stacked: label above input, inside each card. */
+	.form-table {
+		display: block;
+		margin: var(--locfinder-space-3) 0 0;
+
+		tbody {
+			display: grid;
+			gap: var(--locfinder-space-4);
+		}
+
+		tr {
+			display: block;
+		}
+
+		th,
+		td {
+			display: block;
+			margin: 0;
+			padding: 0;
+			width: auto;
+		}
+
+		th {
+			color: var(--locfinder-admin-ink);
+			font-weight: var(--locfinder-fw-semibold);
+			margin-bottom: var(--locfinder-space-1);
+
+			label {
+				font-weight: inherit;
+				margin: 0;
+			}
+		}
 	}
 
 	/* Labels */
@@ -74,36 +205,69 @@
 		'input[type="number"]', 'input[type="password"]',
 		'input[type="search"]', 'input[type="color"]', "textarea", "select";
 
+	/* Checkboxes as on/off switches */
 	input[type="checkbox"] {
-		height: 1rem !important;
-		width: 1rem !important;
+		appearance: none;
+		background: var(--locfinder-gray-400);
+		border: 0;
+		border-radius: var(--locfinder-radius-pill);
+		box-shadow: none;
+		cursor: pointer;
+		flex: none;
+		height: 1.375rem !important;
+		margin: 0 0.5rem 0 0;
+		min-width: 0;
+		position: relative;
+		transition: background-color var(--locfinder-transition-fast);
+		vertical-align: middle;
+		width: 2.5rem !important;
+
+		&::before {
+			background: var(--locfinder-white);
+			border-radius: 50%;
+			box-shadow: var(--locfinder-shadow-sm);
+			content: "" !important;
+			height: 1.125rem !important;
+			left: 0.125rem;
+			margin: 0 !important;
+			position: absolute;
+			top: 0.125rem;
+			transition: transform var(--locfinder-transition-fast);
+			width: 1.125rem !important;
+		}
+
+		&:checked {
+			background: var(--locfinder-primary);
+		}
 
 		&:checked::before {
-			height: 1.3125rem !important;
-			margin: -0.1875rem 0 0 -0.25rem !important;
-			width: 1.3125rem !important;
+			transform: translateX(1.125rem);
 		}
-	}
 
-	input[type="checkbox"]:checked {
-		background: var(--locfinder-primary);
-		border-color: var(--locfinder-primary);
+		&:focus-visible {
+			@include focus-ring;
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
+		}
 	}
 
 	@each $field in $lf-fields {
 		#{$field} {
 			background: var(--locfinder-white);
-			border: var(--locfinder-border);
+			border: 1px solid var(--locfinder-admin-field-line);
 			border-radius: var(--locfinder-radius-md);
-			box-shadow: inset 0 1px 0 var(--locfinder-shadow-inset);
+			box-shadow: var(--locfinder-shadow-inset);
 			line-height: 1.4;
 			max-width: 100%;
-			padding: var(--locfinder-space-2);
+			padding: 0.5625rem 0.75rem;
 			transition:
 				background-color var(--locfinder-transition-fast),
 				border-color var(--locfinder-transition-fast),
 				box-shadow var(--locfinder-transition-fast);
-			width: min(100%, var(--locfinder-field-width));
+			width: 100%;
 
 			&:focus {
 				border-color: var(--locfinder-focus);
@@ -132,6 +296,14 @@
 		}
 	}
 
+	select:not([multiple]) {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+		background-position: right var(--locfinder-space-2) center;
+		background-repeat: no-repeat;
+		background-size: 1rem 1rem;
+		padding-right: calc(var(--locfinder-space-2) * 2 + 1rem);
+	}
+
 	.locfinder-media-preview img {
 		display: block;
 		max-width: 100px;
@@ -143,6 +315,10 @@
 		align-items: center;
 		display: flex;
 		gap: var(--locfinder-space-2);
+
+		.locfinder-color-text {
+			flex: 0 1 15rem;
+		}
 	}
 
 	textarea {
@@ -159,38 +335,47 @@
 
 	/* Tabs */
 	&__tabs {
-		background: var(--locfinder-gray-100);
-		border-bottom: 1px solid var(--locfinder-gray-200);
+		background: none;
+		border: 0;
 		display: flex;
 		flex-wrap: wrap;
-		margin-bottom: var(--locfinder-space-3);
-		margin-top: var(--locfinder-space-4);
-		padding-top: 0;
+		gap: 0.25rem;
+		margin: 0;
+		padding: 0;
 	}
 
 	.nav-tab {
 		background: transparent;
 		border: 0;
-		border-top: var(--locfinder-tab-border-width) solid transparent;
+		border-radius: var(--locfinder-radius-md);
 		color: var(--locfinder-gray-700);
-		cursor: pointer;
-		padding: var(--locfinder-space-1) var(--locfinder-space-3);
+		font-size: var(--locfinder-font-size-sm);
+		font-weight: var(--locfinder-fw-medium, 500);
+		line-height: 1.4;
+		margin: 0;
+		padding: 0.5rem 0.875rem;
 		transition:
 			background-color var(--locfinder-transition-base),
-			box-shadow var(--locfinder-transition-base),
 			color var(--locfinder-transition-base);
 
-		&:hover {
-			background-color: var(--locfinder-gray-200);
-			color: var(--locfinder-primary);
+		&:visited {
+			color: var(--locfinder-gray-700);
 		}
 
-		&.nav-tab-active {
-			background: var(--locfinder-white);
-			border-bottom: 1px solid var(--locfinder-white);
-			border-top: var(--locfinder-tab-border-width) solid
-				var(--locfinder-primary);
-			color: var(--locfinder-primary);
+		&:hover {
+			background-color: var(--locfinder-gray-300);
+			color: var(--locfinder-admin-ink);
+		}
+
+		&:focus-visible {
+			box-shadow: none;
+			@include focus-ring;
+		}
+
+		&.nav-tab-active,
+		&.nav-tab-active:hover {
+			background: var(--locfinder-primary);
+			color: var(--locfinder-white);
 		}
 	}
 
@@ -203,11 +388,26 @@
 	}
 
 	/* Buttons */
-	.button,
+	.button {
+		background: var(--locfinder-white);
+		border: 1px solid var(--locfinder-admin-line);
+		border-radius: var(--locfinder-radius-md);
+		color: var(--locfinder-admin-ink);
+		font-weight: var(--locfinder-fw-semibold);
+		min-height: 2.5rem;
+		padding: 0 1rem;
+
+		&:hover,
+		&:focus {
+			background: var(--locfinder-gray-200);
+			border-color: var(--locfinder-gray-400);
+			color: var(--locfinder-admin-ink);
+		}
+	}
+
 	.button-primary {
 		background: var(--locfinder-primary);
 		border-color: var(--locfinder-primary);
-		border-radius: var(--locfinder-radius-sm);
 		color: var(--locfinder-white);
 
 		&:hover,
@@ -461,6 +661,31 @@
 	}
 }
 
+.locfinder-admin .locfinder-item-label {
+	&__custom {
+		display: none;
+		gap: 0 var(--locfinder-space-3);
+		grid-template-columns: repeat(2, minmax(160px, 1fr));
+		margin-top: var(--locfinder-space-2);
+		max-width: var(--locfinder-field-width);
+	}
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: var(--locfinder-space-1);
+		margin: 0;
+
+		input {
+			width: 100%;
+		}
+	}
+
+	&:has(option[value="custom"]:checked) .locfinder-item-label__custom {
+		display: grid;
+	}
+}
+
 /* Pro upsell */
 .locfinder-upsell {
 	&__link {
@@ -578,7 +803,6 @@
 /* API key requirements (General settings) */
 .locfinder-admin .locfinder-api-requirements {
 	margin-top: var(--locfinder-space-2);
-	max-width: var(--locfinder-field-width);
 
 	&__intro {
 		color: var(--locfinder-text-muted);
@@ -587,32 +811,52 @@
 	}
 
 	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--locfinder-space-1);
 		list-style: none;
 		margin: 0 0 var(--locfinder-space-3);
 		padding: 0;
 	}
 
 	&__item {
-		align-items: center;
-		display: flex;
-		gap: var(--locfinder-space-2);
-		margin: 0 0 var(--locfinder-space-2);
-
-		&::before {
-			background: var(--locfinder-primary);
-			border-radius: 50%;
-			box-shadow: 0 0 0 4px
-				color-mix(in srgb, var(--locfinder-primary) 12%, transparent);
-			content: "";
-			flex: 0 0 auto;
-			height: 8px;
-			width: 8px;
-		}
+		margin: 0;
 
 		a,
 		a:visited {
+			align-items: center;
+			border: 1px solid var(--locfinder-admin-line);
+			border-radius: var(--locfinder-radius-md);
 			color: var(--locfinder-primary);
+			display: inline-flex;
+			font-size: var(--locfinder-font-size-sm);
 			font-weight: var(--locfinder-fw-normal);
+			gap: 0.375rem;
+			padding: 0.375rem 0.75rem;
+			text-decoration: none;
+			transition:
+				background-color var(--locfinder-transition-fast),
+				border-color var(--locfinder-transition-fast);
+
+			&::after {
+				background-color: currentColor;
+				content: "";
+				flex: none;
+				height: 0.75rem;
+				mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M3.5 8.5l5-5M4.5 3.5h4v4'/%3E%3C/svg%3E")
+					center / contain no-repeat;
+				width: 0.75rem;
+			}
+		}
+
+		a:hover,
+		a:focus {
+			background: color-mix(
+				in srgb,
+				var(--locfinder-primary) 6%,
+				var(--locfinder-white)
+			);
+			border-color: var(--locfinder-primary);
 		}
 	}
 
@@ -630,5 +874,93 @@
 		strong {
 			color: var(--locfinder-body);
 		}
+	}
+}
+
+.locfinder-admin .locfinder-setup {
+	max-width: 760px;
+
+	&__question {
+		border: 0;
+		margin: 0 0 var(--locfinder-space-5);
+		padding: 0;
+
+		> legend {
+			font-size: 1.15em;
+			font-weight: 600;
+			margin-bottom: var(--locfinder-space-3);
+			padding: 0;
+		}
+	}
+
+	&__choices {
+		display: grid;
+		gap: var(--locfinder-space-2);
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		margin-bottom: var(--locfinder-space-2);
+
+		&--wide {
+			grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		}
+	}
+
+	&__choice {
+		align-items: flex-start;
+		background: var(--locfinder-white);
+		border: var(--locfinder-border);
+		border-radius: var(--locfinder-radius-md);
+		cursor: pointer;
+		display: flex;
+		gap: var(--locfinder-space-2);
+		margin: 0;
+		padding: var(--locfinder-space-2) var(--locfinder-space-3);
+
+		input {
+			margin: 0.15em 0 0;
+		}
+
+		&:has(input:checked) {
+			border-color: var(--locfinder-primary);
+			box-shadow: 0 0 0 1px var(--locfinder-primary);
+		}
+
+		&:has(input:focus-visible) {
+			@include focus-ring;
+		}
+	}
+
+	&__hint {
+		color: var(--locfinder-text-muted);
+		display: block;
+		margin-top: 0.15em;
+	}
+
+	&__custom {
+		display: none;
+		gap: 0 var(--locfinder-space-3);
+		grid-template-columns: repeat(2, minmax(160px, 1fr));
+		max-width: var(--locfinder-field-width);
+	}
+
+	&:has(#locfinder-setup-custom:checked) .locfinder-setup__custom {
+		display: grid;
+	}
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: var(--locfinder-space-1);
+		margin: 0;
+
+		input {
+			width: 100%;
+		}
+	}
+
+	&__actions {
+		align-items: center;
+		display: flex;
+		gap: var(--locfinder-space-3);
+		margin: 0;
 	}
 }

@@ -8,6 +8,7 @@
 namespace Locfinder\Admin\Settings\Pages;
 
 use Locfinder\Admin\Settings\Base;
+use Locfinder\Utilities\Options;
 use Locfinder\Utilities\Sanitizer;
 
 if (!defined('ABSPATH')) {
@@ -139,8 +140,12 @@ class Tools extends Base {
 			esc_attr($name),
 			esc_attr($id),
 			checked($on, true, false),
-			esc_html__('Permanently delete all location data when the plugin is uninstalled', 'locfinder'),
-			esc_html__('Warning: This will permanently delete all locations, contacts, hours, and plugin settings. This cannot be undone.', 'locfinder')
+			esc_html__('Permanently delete all directory data when the plugin is uninstalled', 'locfinder'),
+			esc_html(sprintf(
+				/* translators: %s: plural name chosen in settings, mid-sentence, e.g. "locations" or "programs" */
+				__('Warning: This will permanently delete all %s and their contact details and hours, plus plugin settings. This cannot be undone.', 'locfinder'),
+				Options::getItemLabels()['pluralLower']
+			))
 		);
 	}
 

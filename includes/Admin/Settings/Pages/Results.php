@@ -9,6 +9,7 @@ namespace Locfinder\Admin\Settings\Pages;
 
 use Locfinder\Admin\Admin;
 use Locfinder\Admin\Settings\Base;
+use Locfinder\Utilities\Options;
 use Locfinder\Utilities\Sanitizer;
 
 if (!defined('ABSPATH')) {
@@ -36,7 +37,7 @@ class Results extends Base {
 			'locfinder_results_layout',
 			__('Layout Settings', 'locfinder'),
 			function () {
-				echo '<p>' . esc_html__('Choose how location results are displayed beneath the map and which fields are shown for each entry.', 'locfinder') . '</p>';
+				echo '<p>' . esc_html__('Choose how results are displayed and how many appear per page.', 'locfinder') . '</p>';
 			},
 			$this->getSlug()
 		);
@@ -45,7 +46,7 @@ class Results extends Base {
 			'locfinder_results_position',
 			__('Results Position', 'locfinder'),
 			function () {
-				echo '<p>' . esc_html__('Choose where location results appear relative to the map.', 'locfinder') . '</p>';
+				echo '<p>' . esc_html__('Choose where results appear relative to the map.', 'locfinder') . '</p>';
 			},
 			$this->getSlug()
 		);
@@ -54,7 +55,7 @@ class Results extends Base {
 			'locfinder_results_distance',
 			__('Distance Settings', 'locfinder'),
 			function () {
-				echo '<p>' . esc_html__('Control how distance appears between the address entered and each location.', 'locfinder') . '</p>';
+				echo '<p>' . esc_html__('Control how the distance from the searched address to each result is shown.', 'locfinder') . '</p>';
 
 				if (!has_action('locfinder/pro/render_results_fields')) {
 					$this->renderProResultsFields(['context' => 'distance']);
@@ -74,9 +75,9 @@ class Results extends Base {
 
 		add_settings_section(
 			'locfinder_results_templates',
-			__('Template Customization', 'locfinder'),
+			__('Custom Result Layout', 'locfinder'),
 			function () {
-				echo '<p>' . esc_html__('Customize the HTML structure used to render each result item. Use available tokens to dynamically insert data.', 'locfinder') . '</p>';
+				echo '<p>' . esc_html__('Choose what each result shows and in what order. Leave out details you don\'t need and add your own text, like "Call us:" before a phone number.', 'locfinder') . '</p>';
 
 				if (!has_action('locfinder/pro/render_results_fields')) {
 					$this->renderProResultsFields(['context' => 'templates']);
@@ -89,7 +90,7 @@ class Results extends Base {
 			'locfinder_no_results',
 			__('No Results Message', 'locfinder'),
 			function () {
-				echo '<p>' . esc_html__('Set the message displayed when no locations are found for a given search.', 'locfinder') . '</p>';
+				echo '<p>' . esc_html__('Set the message displayed when a search finds no results.', 'locfinder') . '</p>';
 			},
 			$this->getSlug()
 		);
@@ -203,14 +204,12 @@ class Results extends Base {
 			return;
 		}
 
-		$messages = [
-			'distance'  => __('Show visitors how far each location is from the address they searched, right on the result card.', 'locfinder'),
-			'templates' => __('Customize result cards with an HTML template, placing details wherever you want.', 'locfinder'),
+		$titles = [
+			'distance'  => __('Show distances', 'locfinder'),
+			'templates' => __('Design your own layout', 'locfinder'),
 		];
 
-		Admin::proUpsell([
-			'message' => $messages[$context] ?? __('Unlock this option.', 'locfinder'),
-		]);
+		Admin::proUpsell(isset($titles[$context]) ? ['title' => $titles[$context]] : []);
 	}
 
 	/**
@@ -326,7 +325,8 @@ class Results extends Base {
 		}
 
 		Admin::proUpsell([
-			'message' => __('Help visitors know when to go with a live "Open Now" / "Closed Now" badge.', 'locfinder'),
+			'title'       => __('Show live open status', 'locfinder'),
+			'description' => __('Show a live "Open Now" or "Closed Now" badge on each result, based on its hours and your site\'s timezone.', 'locfinder'),
 		]);
 	}
 
@@ -357,19 +357,23 @@ class Results extends Base {
 	/**
 	 * Renders the no results message text field.
 	 *
-	 * Controls the message displayed when no locations are found for a search.
-	 * If left blank, the default message "No locations found." is used.
+	 * Controls the message displayed when a search finds nothing. Left
+	 * blank, the default for the chosen name is used, e.g. "No programs found."
 	 *
 	 * @return void
 	 */
 	public function renderNoResultsMessage(): void {
-		$default = __('No locations found.', 'locfinder');
-		$val     = $this->getPageOption('no_results_message', $default);
+		$val = (string) $this->getPageOption('no_results_message', '');
+
+		if ($val === __('No locations found.', 'locfinder')) {
+			$val = '';
+		}
+
 		printf(
 			'<input id="no_results_message" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" />',
 			esc_attr($this->getOptionName() . '[no_results_message]'),
 			esc_attr($val),
-			esc_attr($default)
+			esc_attr(Options::getDefaultNoResultsMessage())
 		);
 	}
 

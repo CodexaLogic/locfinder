@@ -111,12 +111,57 @@ abstract class Base {
 
 		$currentPageSlug     = $this->getSlug();
 		$pageTitle           = $this->getTitle();
-		$version             = defined('LOCFINDER_VERSION') ? LOCFINDER_VERSION : '1.0.0';
 		$tabs                = apply_filters('locfinder/settings_tabs', []);
 		$settingsGroup       = $this->getSettingsGroup();
 		$hasSaveableSettings = $this->hasSaveableSettings();
 
 		require LOCFINDER_DIR . 'includes/Admin/views/options-display.php';
+	}
+
+	/**
+	 * Renders each settings section of the page as a card.
+	 *
+	 * Sections with no fields and no description are skipped.
+	 *
+	 * @return void
+	 */
+	public function renderSections(): void {
+		global $wp_settings_sections, $wp_settings_fields;
+
+		$page = $this->getSlug();
+
+		if (empty($wp_settings_sections[$page])) {
+			return;
+		}
+
+		foreach ((array) $wp_settings_sections[$page] as $section) {
+			$hasFields = !empty($wp_settings_fields[$page][$section['id']]);
+
+			if (!$hasFields && empty($section['callback'])) {
+				continue;
+			}
+
+			$titleId = 'locfinder-section-' . sanitize_html_class($section['id']);
+
+			if ($section['title']) {
+				printf('<section class="locfinder-card" aria-labelledby="%s">', esc_attr($titleId));
+				printf('<h2 id="%1$s" class="locfinder-card__title">%2$s</h2>', esc_attr($titleId), wp_kses_post($section['title']));
+			} else {
+				echo '<section class="locfinder-card">';
+			}
+
+			if (!empty($section['callback'])) {
+				call_user_func($section['callback'], $section);
+			}
+
+			if ($hasFields) {
+				echo '<table class="form-table" role="presentation">';
+				do_settings_fields($page, $section['id']);
+				echo '</table>';
+			}
+
+			echo '</section>';
+		}
 	}
 
 	/**

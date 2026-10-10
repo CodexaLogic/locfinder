@@ -63,11 +63,15 @@ class Frontend {
 		}
 
 		if (!Options::hasAnyLocations()) {
+			$names = Options::getItemLabels();
+
 			$issues[] = [
-				'icon'    => 'location',
-				'message' => __('Create your first location to begin displaying results.', 'locfinder'),
+				'icon' => 'location',
+				/* translators: %s: singular name chosen in settings, mid-sentence, e.g. "location" or "program" */
+				'message' => sprintf(__('Create your first %s to begin displaying results.', 'locfinder'), $names['singularLower']),
 				'url'     => admin_url('post-new.php?post_type=locfinder_location'),
-				'label'   => __('Add location', 'locfinder'),
+				/* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */
+				'label' => sprintf(_x('Add %s', 'post type label', 'locfinder'), $names['singular']),
 			];
 		}
 
@@ -172,46 +176,6 @@ class Frontend {
 			. $items
 			. '</ul>'
 			. '</div>';
-	}
-
-	/**
-	 * Renders a notice when the map is disabled for the current user.
-	 *
-	 * The notice is shown only to users who can edit other locations.
-	 *
-	 * @param  string $message  Notice message to display.
-	 * @return string           Notice HTML, or empty string if the current user can't edit other locations.
-	 */
-	public static function renderMapDisabledNotice(string $message): string {
-		if (!current_user_can('edit_others_locfinder_locations')) {
-			return '';
-		}
-
-		$canManageSettings = current_user_can('manage_options');
-
-		ob_start();
-		?>
-		<div class="locfinder__map locfinder__map--disabled-notice" role="region">
-			<div class="locfinder-notice-content">
-				<p class="locfinder-notice-title"><?php esc_html_e('Google Maps is turned off', 'locfinder'); ?></p>
-				<p class="locfinder-notice-body"><?php echo esc_html($message); ?></p>
-				<?php if (!$canManageSettings) : ?>
-					<p class="locfinder-notice-body"><?php esc_html_e('Ask your site administrator to check the Enable Google Maps setting if this wasn\'t intentional.', 'locfinder'); ?></p>
-				<?php endif; ?>
-			</div>
-			<?php if ($canManageSettings) : ?>
-				<a
-					class="locfinder-notice-button"
-					href="<?php echo esc_url(admin_url('admin.php?page=locfinder_general')); ?>"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<?php esc_html_e('Map Settings', 'locfinder'); ?>
-				</a>
-			<?php endif; ?>
-		</div>
-		<?php
-		return (string) ob_get_clean();
 	}
 
 	/**
@@ -885,7 +849,8 @@ class Frontend {
 						the_content();
 						?>
 
-						<section class="locfinder-single__details" aria-label="<?php echo esc_attr__('Location details', 'locfinder'); ?>">
+						<?php /* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */ ?>
+						<section class="locfinder-single__details" aria-label="<?php echo esc_attr(sprintf(__('%s details', 'locfinder'), Options::getItemLabels()['singular'])); ?>">
 							<?php
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped within the rendering methods.
 							echo $locfinder_infoHtml;
@@ -920,22 +885,6 @@ class Frontend {
 						</noscript>
 					</div>
 				</section>
-			<?php else : ?>
-				<?php
-				$locfinder_disabledNotice = self::renderMapDisabledNotice(
-					__('Visitors don\'t see a map on location pages. This note is only visible to editors and admins.', 'locfinder')
-				);
-				?>
-				<?php if ($locfinder_disabledNotice !== '') : ?>
-					<section class="locfinder-single__map-section" aria-label="<?php echo esc_attr__('Map', 'locfinder'); ?>">
-						<div class="locfinder-single__map-wrap">
-							<?php
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped within renderMapDisabledNotice().
-							echo $locfinder_disabledNotice;
-							?>
-						</div>
-					</section>
-				<?php endif; ?>
 			<?php endif; ?>
 
 		</article>
@@ -971,9 +920,13 @@ class Frontend {
 			return;
 		}
 
+		$names = Options::getItemLabels();
+
 		register_block_template('locfinder//single-locfinder_location', [
-			'title'       => __('Single Location', 'locfinder'),
-			'description' => __('Displays a single Location Finder location.', 'locfinder'),
+			/* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */
+			'title' => sprintf(__('Single %s', 'locfinder'), $names['singular']),
+			/* translators: %s: singular name chosen in settings, mid-sentence, e.g. "location" or "program" */
+			'description' => sprintf(__('Displays a single %s.', 'locfinder'), $names['singularLower']),
 			'content'     => (string) file_get_contents($templateFile),
 			'post_types'  => ['locfinder_location'],
 		]);

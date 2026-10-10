@@ -40,6 +40,13 @@ class Options {
 	private static ?array $resolvedDefaultCenter = null;
 
 	/**
+	 * In-request cache for the resolved entry names.
+	 *
+	 * @var array{singular: string, plural: string, singularLower: string, pluralLower: string}|null
+	 */
+	private static ?array $itemLabels = null;
+
+	/**
 	 * Option names for settings pages that store grouped options.
 	 *
 	 * Documentation-only and separately stored settings are intentionally omitted.
@@ -67,6 +74,27 @@ class Options {
 	 * @var string
 	 */
 	public const DEFAULT_COLOR = '#00606b';
+
+	/**
+	 * Preset used when no entry name has been chosen.
+	 *
+	 * @var string
+	 */
+	public const ITEM_LABEL_DEFAULT = 'location';
+
+	/**
+	 * Stored value meaning the site owner typed their own entry name.
+	 *
+	 * @var string
+	 */
+	public const ITEM_LABEL_CUSTOM = 'custom';
+
+	/**
+	 * Maximum length of a custom entry name.
+	 *
+	 * @var int
+	 */
+	public const ITEM_LABEL_MAX_LENGTH = 40;
 
 	/**
 	 * Gets all plugin options merged into one in-request cache.
@@ -113,6 +141,7 @@ class Options {
 	public static function flush(): void {
 		self::$cache                 = null;
 		self::$resolvedDefaultCenter = null;
+		self::$itemLabels            = null;
 	}
 
 	/* Typed getters */
@@ -127,6 +156,224 @@ class Options {
 	 */
 	public static function getMapEnabled(): bool {
 		return (bool) self::getOption('enable_map', true);
+	}
+
+	/**
+	 * Gets the preset names a site owner can choose for their entries.
+	 *
+	 * Built per call instead of stored in a constant so every name is
+	 * translated in the current locale.
+	 *
+	 * @return array<string,array{singular: string, plural: string, singularLower: string, pluralLower: string}>  Preset key => names.
+	 */
+	public static function getItemLabelPresets(): array {
+		// translators: Names a site owner can choose for what their directory lists (e.g. "Programs" for a program directory). "Mid-sentence" versions appear inside a sentence, as in "No programs found."
+		return [
+			'location' => [
+				'singular'      => _x('Location', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Locations', 'post type general name', 'locfinder'),
+				'singularLower' => _x('location', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('locations', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'store' => [
+				'singular'      => _x('Store', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Stores', 'post type general name', 'locfinder'),
+				'singularLower' => _x('store', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('stores', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'business' => [
+				'singular'      => _x('Business', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Businesses', 'post type general name', 'locfinder'),
+				'singularLower' => _x('business', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('businesses', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'office' => [
+				'singular'      => _x('Office', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Offices', 'post type general name', 'locfinder'),
+				'singularLower' => _x('office', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('offices', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'program' => [
+				'singular'      => _x('Program', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Programs', 'post type general name', 'locfinder'),
+				'singularLower' => _x('program', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('programs', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'service' => [
+				'singular'      => _x('Service', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Services', 'post type general name', 'locfinder'),
+				'singularLower' => _x('service', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('services', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'resource' => [
+				'singular'      => _x('Resource', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Resources', 'post type general name', 'locfinder'),
+				'singularLower' => _x('resource', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('resources', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'provider' => [
+				'singular'      => _x('Provider', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Providers', 'post type general name', 'locfinder'),
+				'singularLower' => _x('provider', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('providers', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'organization' => [
+				'singular'      => _x('Organization', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Organizations', 'post type general name', 'locfinder'),
+				'singularLower' => _x('organization', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('organizations', 'post type general name, mid-sentence', 'locfinder'),
+			],
+			'listing' => [
+				'singular'      => _x('Listing', 'post type singular name', 'locfinder'),
+				'plural'        => _x('Listings', 'post type general name', 'locfinder'),
+				'singularLower' => _x('listing', 'post type singular name, mid-sentence', 'locfinder'),
+				'pluralLower'   => _x('listings', 'post type general name, mid-sentence', 'locfinder'),
+			],
+		];
+	}
+
+	/**
+	 * Gets the presets grouped for the General settings dropdown, in display order.
+	 *
+	 * @return array<int,array{label: string, keys: string[]}>  Groups of preset keys.
+	 */
+	public static function getItemLabelPresetGroups(): array {
+		return [
+			[
+				'label' => __('Places', 'locfinder'),
+				'keys'  => ['location', 'store', 'business', 'office'],
+			],
+			[
+				'label' => __('Services and programs', 'locfinder'),
+				'keys'  => ['program', 'service', 'resource', 'provider', 'organization'],
+			],
+			[
+				'label' => __('General', 'locfinder'),
+				'keys'  => ['listing'],
+			],
+		];
+	}
+
+	/**
+	 * Gets the stored entry name choice.
+	 *
+	 * @return string  A preset key from getItemLabelPresets(), or ITEM_LABEL_CUSTOM.
+	 */
+	public static function getItemLabelKey(): string {
+		return self::normalizeItemLabelKey((string) self::getOption('item_label', self::ITEM_LABEL_DEFAULT));
+	}
+
+	/**
+	 * Gets what the site calls its entries, e.g. "Program" / "Programs".
+	 *
+	 * @return array{singular: string, plural: string, singularLower: string, pluralLower: string}  Entry names.
+	 */
+	public static function getItemLabels(): array {
+		return self::$itemLabels ??= self::resolveItemLabels([
+			'item_label'          => self::getOption('item_label', self::ITEM_LABEL_DEFAULT),
+			'item_label_singular' => self::getOption('item_label_singular', ''),
+			'item_label_plural'   => self::getOption('item_label_plural', ''),
+		]);
+	}
+
+	/**
+	 * Resolves entry names from a set of General settings.
+	 *
+	 * Resolves the chosen preset or custom name, then applies the
+	 * `locfinder/item_labels` filter. A custom choice with an empty name, or
+	 * a malformed filter result, falls back so a label is never blank.
+	 *
+	 * @param  array $settings  General settings, e.g. the saved locfinder_general value.
+	 * @return array{singular: string, plural: string, singularLower: string, pluralLower: string}  Entry names.
+	 */
+	public static function resolveItemLabels(array $settings): array {
+		$presets = self::getItemLabelPresets();
+		$key     = self::normalizeItemLabelKey((string) ($settings['item_label'] ?? self::ITEM_LABEL_DEFAULT));
+		$labels  = $presets[$key] ?? $presets[self::ITEM_LABEL_DEFAULT];
+
+		if ($key === self::ITEM_LABEL_CUSTOM) {
+			$singular = (string) ($settings['item_label_singular'] ?? '');
+			$plural   = (string) ($settings['item_label_plural'] ?? '');
+
+			$labels = ($singular !== '' && $plural !== '')
+				? self::buildItemLabels($singular, $plural)
+				: $presets[self::ITEM_LABEL_DEFAULT];
+		}
+
+		/**
+		 * Filters what the site calls its entries.
+		 *
+		 * Return an array with non-empty 'singular' and 'plural' strings.
+		 * 'singularLower' and 'pluralLower' are optional and derived when missing.
+		 *
+		 * @param array  $labels  Entry names: singular, plural, singularLower, pluralLower.
+		 * @param string $key     Stored choice: a preset key or 'custom'.
+		 */
+		$filtered = apply_filters('locfinder/item_labels', $labels, $key);
+
+		if (
+			is_array($filtered)
+			&& is_string($filtered['singular'] ?? null) && $filtered['singular'] !== ''
+			&& is_string($filtered['plural'] ?? null) && $filtered['plural'] !== ''
+		) {
+			$derived = self::buildItemLabels($filtered['singular'], $filtered['plural']);
+			$labels  = [
+				'singular'      => $filtered['singular'],
+				'plural'        => $filtered['plural'],
+				'singularLower' => is_string($filtered['singularLower'] ?? null) && $filtered['singularLower'] !== '' ? $filtered['singularLower'] : $derived['singularLower'],
+				'pluralLower'   => is_string($filtered['pluralLower'] ?? null) && $filtered['pluralLower'] !== '' ? $filtered['pluralLower'] : $derived['pluralLower'],
+			];
+		}
+
+		return $labels;
+	}
+
+	/**
+	 * Returns a valid entry name choice, falling back to the default.
+	 *
+	 * @param  string $key  Stored choice.
+	 * @return string       A preset key, or ITEM_LABEL_CUSTOM.
+	 */
+	private static function normalizeItemLabelKey(string $key): string {
+		if ($key === self::ITEM_LABEL_CUSTOM || array_key_exists($key, self::getItemLabelPresets())) {
+			return $key;
+		}
+
+		return self::ITEM_LABEL_DEFAULT;
+	}
+
+	/**
+	 * Builds the four entry name forms from a typed singular and plural.
+	 *
+	 * @param  string $singular  Singular name as typed, e.g. "Food Bank".
+	 * @param  string $plural    Plural name as typed, e.g. "Food Banks".
+	 * @return array{singular: string, plural: string, singularLower: string, pluralLower: string}  Entry names.
+	 */
+	private static function buildItemLabels(string $singular, string $plural): array {
+		return [
+			'singular'      => $singular,
+			'plural'        => $plural,
+			'singularLower' => self::toSentenceCase($singular),
+			'pluralLower'   => self::toSentenceCase($plural),
+		];
+	}
+
+	/**
+	 * Lowercases a typed name for use mid-sentence, where that is safe.
+	 *
+	 * Only English sites are lowercased: other languages have different
+	 * rules (German capitalizes every noun). All-caps names such as "FAQ"
+	 * are kept as typed.
+	 *
+	 * @param  string $name  Name as typed.
+	 * @return string        Name for use mid-sentence.
+	 */
+	private static function toSentenceCase(string $name): string {
+		if (!str_starts_with(determine_locale(), 'en') || $name === mb_strtoupper($name)) {
+			return $name;
+		}
+
+		return mb_strtolower($name);
 	}
 
 	/**
@@ -407,11 +654,11 @@ class Options {
 	/**
 	 * Gets the placeholder text for the address search input.
 	 *
-	 * @return string  Placeholder text, falls back to 'Address or Zip Code' if not configured.
+	 * @return string  Placeholder text, falls back to 'Address or postal code' if not configured.
 	 */
 	public static function getAddressPlaceholder(): string {
 		$value = (string) self::getOption('address_placeholder', '');
-		return $value !== '' ? $value : __('Address or Zip Code', 'locfinder');
+		return $value !== '' ? $value : __('Address or postal code', 'locfinder');
 	}
 
 	/**
@@ -691,11 +938,28 @@ class Options {
 	/**
 	 * Gets the message shown when no search results are found.
 	 *
-	 * @return string  Message string, falls back to 'No locations found.' if not configured.
+	 * If no custom message is set, the default message for the chosen name is used.
+	 *
+	 * @return string  Custom message, or the default for the chosen name.
 	 */
 	public static function getNoResultsMessage(): string {
 		$value = (string) self::getOption('no_results_message', '');
-		return $value !== '' ? $value : __('No locations found.', 'locfinder');
+
+		if ($value === '' || $value === __('No locations found.', 'locfinder')) {
+			return self::getDefaultNoResultsMessage();
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Gets the default no-results message for the chosen name.
+	 *
+	 * @return string  Message, e.g. "No programs found."
+	 */
+	public static function getDefaultNoResultsMessage(): string {
+		/* translators: %s: plural name chosen in settings, mid-sentence, e.g. "locations" or "programs" */
+		return sprintf(_x('No %s found.', 'post type label', 'locfinder'), self::getItemLabels()['pluralLower']);
 	}
 
 	/**
@@ -837,17 +1101,18 @@ class Options {
 			'paginationPrevLabel' => __('Prev', 'locfinder'),
 			'paginationNextLabel' => __('Next', 'locfinder'),
 			'showOnMapLabel'      => __('Show on map', 'locfinder'),
-			/* translators: %s: location title */
+			/* translators: %s: title of a result, e.g. "Basil & Barrel Kitchen" */
 			'showOnMapAriaLabel'            => __('Show %s on map', 'locfinder'),
 			'singleMapNotConfiguredMessage' => __('Map is not configured.', 'locfinder'),
-			'singleMapNoCoordsMessage'      => __('No coordinates are set for this location.', 'locfinder'),
-			'singleMapLoadErrorMessage'     => __('The map could not be loaded.', 'locfinder'),
-			'viewDetailsLabel'              => __('View Details', 'locfinder'),
-			'visitWebsiteLabel'             => __('Visit Website', 'locfinder'),
-			'sendEmailLabel'                => __('Send Email', 'locfinder'),
-			'loadingDetailsMessage'         => __('Loading…', 'locfinder'),
-			'searchErrorMessage'            => __('Something went wrong. Please try again.', 'locfinder'),
-			'ajaxUrl'                       => admin_url('admin-ajax.php'),
+			/* translators: %s: singular name chosen in settings, mid-sentence, e.g. "location" or "program" */
+			'singleMapNoCoordsMessage'  => sprintf(__('No coordinates are set for this %s.', 'locfinder'), self::getItemLabels()['singularLower']),
+			'singleMapLoadErrorMessage' => __('The map could not be loaded.', 'locfinder'),
+			'viewDetailsLabel'          => __('View Details', 'locfinder'),
+			'visitWebsiteLabel'         => __('Visit Website', 'locfinder'),
+			'sendEmailLabel'            => __('Send Email', 'locfinder'),
+			'loadingDetailsMessage'     => __('Loading…', 'locfinder'),
+			'searchErrorMessage'        => __('Something went wrong. Please try again.', 'locfinder'),
+			'ajaxUrl'                   => admin_url('admin-ajax.php'),
 		];
 	}
 }

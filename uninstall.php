@@ -87,7 +87,7 @@ function locfinder_uninstall_site(): void {
 		$wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $table));
 	}
 
-	// Resolve the auto-created Locations page before its option is deleted.
+	// Resolve the assigned page before its option is deleted. Only a page the plugin created is removed.
 	$general = get_option('locfinder_general', []);
 	$pageId  = is_array($general) ? (int) ($general['locations_page_id'] ?? 0) : 0;
 
@@ -101,11 +101,19 @@ function locfinder_uninstall_site(): void {
 		'locfinder_tools',
 		'locfinder_geo_cache_gen',
 		'locfinder_db_version',
+		'locfinder_setup_pending',
 	] as $option) {
 		delete_option($option);
 	}
 
-	if ($pageId > 0 && get_post_type($pageId) === 'page') {
+	$isGeneratedPage = $pageId > 0
+		&& get_post_type($pageId) === 'page'
+		&& (
+			get_post_meta($pageId, '_locfinder_generated', true)
+			|| preg_match('/^location-finder(-\d+)?$/', (string) get_post_field('post_name', $pageId))
+		);
+
+	if ($isGeneratedPage) {
 		wp_delete_post($pageId, true);
 	}
 

@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
 				input: {
 					admin: resolve("src/admin/js/admin.js"),
 					"clear-cache": resolve("src/admin/js/clear-cache.js"),
+					"setup-banner": resolve("src/admin/js/setup-banner.js"),
 					public: resolve("src/public/js/public.js"),
 					single: resolve("src/public/js/single.js"),
 				},
@@ -88,7 +89,10 @@ export default defineConfig(({ mode }) => {
 							) {
 								return "assets/public/css/[name][extname]";
 							}
-							if (name === "admin.css") {
+							if (
+								name === "admin.css" ||
+								name === "setup-banner.css"
+							) {
 								return "assets/admin/css/[name][extname]";
 							}
 						}

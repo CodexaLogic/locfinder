@@ -191,7 +191,8 @@ class SearchFilters extends Base {
 		}
 
 		Admin::proUpsell([
-			'message' => __('Customize search radius distances beyond the standard 10, 25, 50, and 75 options.', 'locfinder'),
+			'title'       => __('Set your own distances', 'locfinder'),
+			'description' => __('Replace the standard 10, 25, 50, and 75 radius choices with your own distances.', 'locfinder'),
 		]);
 	}
 
@@ -276,26 +277,21 @@ class SearchFilters extends Base {
 	/**
 	 * Renders the taxonomy filter select field.
 	 *
-	 * Always shows a note on which taxonomy the free version filters by. If
-	 * the Pro add-on is active, its own field renders via the
+	 * If the Pro add-on is active, its own field renders via the
 	 * 'locfinder/pro/render_taxonomy_filter_field' action; otherwise this
-	 * renders a generic proUpsell() notice for filtering by any taxonomy.
+	 * renders a Pro upsell for filtering by any taxonomy.
 	 *
 	 * @return void
 	 */
 	public function renderTaxonomyFilter(): void {
-		printf(
-			'<p>%s</p>',
-			esc_html__('The free version filters by the built-in Category taxonomy.', 'locfinder')
-		);
-
 		if (has_action('locfinder/pro/render_taxonomy_filter_field')) {
 			do_action('locfinder/pro/render_taxonomy_filter_field', $this);
 			return;
 		}
 
 		Admin::proUpsell([
-			'message' => __('Let visitors filter by any registered taxonomy.', 'locfinder'),
+			'title'       => __('Filter by any taxonomy', 'locfinder'),
+			'description' => __('The free version filters by Category. Pro lets visitors filter by any taxonomy, such as service area or amenity.', 'locfinder'),
 		]);
 	}
 

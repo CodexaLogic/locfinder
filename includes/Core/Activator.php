@@ -7,6 +7,7 @@
 
 namespace Locfinder\Core;
 
+use Locfinder\Admin\Setup;
 use Locfinder\Database\Installer;
 use Locfinder\PostTypes\LocationPostType;
 
@@ -25,6 +26,9 @@ class Activator {
 	 * @return void
 	 */
 	public static function activate(): void {
+		// Checked first: LocationsPage::install() creates this option below.
+		$isNewInstall = get_option('locfinder_general') === false;
+
 		if (!Installer::install()) {
 			deactivate_plugins(plugin_basename(LOCFINDER_DIR . 'locfinder.php'));
 			wp_die(
@@ -38,6 +42,10 @@ class Activator {
 		$cpt->register();
 
 		LocationsPage::install();
+
+		if ($isNewInstall) {
+			Setup::markPending();
+		}
 
 		flush_rewrite_rules();
 	}

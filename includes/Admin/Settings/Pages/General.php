@@ -35,8 +35,39 @@ class General extends Base {
 	/** @inheritDoc */
 	public function register(): void {
 		add_settings_section(
+			'locfinder_directory_section',
+			__('Directory', 'locfinder'),
+			null,
+			$this->getSlug()
+		);
+
+		add_settings_field(
+			'item_label',
+			__('Your directory lists', 'locfinder'),
+			[$this, 'renderItemLabel'],
+			$this->getSlug(),
+			'locfinder_directory_section',
+			['label_for' => 'item_label']
+		);
+
+		add_settings_section(
 			'locfinder_branding_section',
 			__('Branding', 'locfinder'),
+			null,
+			$this->getSlug()
+		);
+
+		add_settings_section(
+			'locfinder_locations_page_section',
+			/* translators: %s: plural name chosen in settings, e.g. "Locations" or "Programs" */
+			sprintf(__('%s Page', 'locfinder'), Options::getItemLabels()['plural']),
+			null,
+			$this->getSlug()
+		);
+
+		add_settings_section(
+			'locfinder_performance_section',
+			__('Performance', 'locfinder'),
 			null,
 			$this->getSlug()
 		);
@@ -51,20 +82,6 @@ class General extends Base {
 		add_settings_section(
 			'locfinder_map_defaults_section',
 			__('Map Defaults', 'locfinder'),
-			null,
-			$this->getSlug()
-		);
-
-		add_settings_section(
-			'locfinder_locations_page_section',
-			__('Locations Page', 'locfinder'),
-			null,
-			$this->getSlug()
-		);
-
-		add_settings_section(
-			'locfinder_performance_section',
-			__('Performance', 'locfinder'),
 			null,
 			$this->getSlug()
 		);
@@ -101,8 +118,7 @@ class General extends Base {
 			__('Primary Color', 'locfinder'),
 			[$this, 'renderPrimaryColor'],
 			$this->getSlug(),
-			'locfinder_branding_section',
-			['label_for' => 'primary_color']
+			'locfinder_branding_section'
 		);
 
 		add_settings_field(
@@ -133,7 +149,7 @@ class General extends Base {
 
 		add_settings_field(
 			'locations_page_id',
-			__('Locations Page', 'locfinder'),
+			__('Page', 'locfinder'),
 			[$this, 'renderLocationsPage'],
 			$this->getSlug(),
 			'locfinder_locations_page_section',
@@ -148,6 +164,52 @@ class General extends Base {
 			'locfinder_performance_section',
 			['label_for' => 'enqueue_on']
 		);
+	}
+
+	/**
+	 * Renders the field for what the directory lists.
+	 *
+	 * Presets are grouped in the dropdown. Choosing "Other" reveals singular
+	 * and plural fields through CSS, so no script is needed.
+	 *
+	 * @return void
+	 */
+	public function renderItemLabel(): void {
+		$name     = $this->getOptionName();
+		$current  = Options::getItemLabelKey();
+		$presets  = Options::getItemLabelPresets();
+		$singular = (string) $this->getPageOption('item_label_singular', '');
+		$plural   = (string) $this->getPageOption('item_label_plural', '');
+		$maxLen   = (string) Options::ITEM_LABEL_MAX_LENGTH;
+		?>
+		<div class="locfinder-item-label">
+			<select id="item_label" name="<?php echo esc_attr($name . '[item_label]'); ?>" aria-describedby="item_label_help">
+				<?php foreach (Options::getItemLabelPresetGroups() as $group) : ?>
+					<optgroup label="<?php echo esc_attr($group['label']); ?>">
+						<?php foreach ($group['keys'] as $key) : ?>
+							<?php if (isset($presets[$key])) : ?>
+								<option value="<?php echo esc_attr($key); ?>" <?php selected($current, $key); ?>><?php echo esc_html($presets[$key]['plural']); ?></option>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</optgroup>
+				<?php endforeach; ?>
+				<option value="<?php echo esc_attr(Options::ITEM_LABEL_CUSTOM); ?>" <?php selected($current, Options::ITEM_LABEL_CUSTOM); ?>><?php esc_html_e('Other', 'locfinder'); ?></option>
+			</select>
+
+			<div class="locfinder-item-label__custom">
+				<p class="locfinder-item-label__field">
+					<label for="item_label_singular"><?php esc_html_e('Singular', 'locfinder'); ?></label>
+					<input id="item_label_singular" class="regular-text" type="text" name="<?php echo esc_attr($name . '[item_label_singular]'); ?>" value="<?php echo esc_attr($singular); ?>" maxlength="<?php echo esc_attr($maxLen); ?>" placeholder="<?php /* translators: Example singular name for a custom directory. */ esc_attr_e('Food Bank', 'locfinder'); ?>">
+				</p>
+				<p class="locfinder-item-label__field">
+					<label for="item_label_plural"><?php esc_html_e('Plural', 'locfinder'); ?></label>
+					<input id="item_label_plural" class="regular-text" type="text" name="<?php echo esc_attr($name . '[item_label_plural]'); ?>" value="<?php echo esc_attr($plural); ?>" maxlength="<?php echo esc_attr($maxLen); ?>" placeholder="<?php /* translators: Example plural name for a custom directory. */ esc_attr_e('Food Banks', 'locfinder'); ?>">
+				</p>
+			</div>
+
+			<p id="item_label_help" class="description"><?php esc_html_e('Used in the admin menu, buttons, and messages, for example "Add Program" and "No programs found." Web addresses stay the same.', 'locfinder'); ?></p>
+		</div>
+		<?php
 	}
 
 	/**
@@ -173,8 +235,9 @@ class General extends Base {
 	}
 
 	/**
-	 * Renders the Google Maps API key field and the Google Cloud APIs the key
-	 * must have enabled, each linked to its page in the Google Cloud console.
+	 * Renders the Google Maps API key field, a link to create a key, and the
+	 * Google Cloud APIs the key must have enabled, each linked to its page in
+	 * the Google Cloud console.
 	 *
 	 * @return void
 	 */
@@ -200,16 +263,29 @@ class General extends Base {
 			);
 		}
 
+		$getKey = sprintf(
+			/* translators: 1: opening <a> tag, 2: screen reader text "(opens in a new tab)", 3: closing </a> tag */
+			__('%1$sGet an API key%2$s%3$s in Google Cloud, then paste it above.', 'locfinder'),
+			'<a href="https://console.cloud.google.com/google/maps-apis/credentials" target="_blank" rel="noopener">',
+			'<span class="screen-reader-text"> ' . esc_html__('(opens in a new tab)', 'locfinder') . '</span>',
+			'</a>'
+		);
+
 		printf(
-			'<input id="google_maps_api_key" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" aria-describedby="google_maps_api_key_help" />
+			'<input id="google_maps_api_key" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" aria-describedby="google_maps_api_key_description google_maps_api_key_help" />
+			<p id="google_maps_api_key_description" class="description">%4$s</p>
 			<div id="google_maps_api_key_help" class="locfinder-api-requirements">
-				<p class="locfinder-api-requirements__intro">%4$s</p>
-				<ul class="locfinder-api-requirements__list">%5$s</ul>
-				<p class="locfinder-api-requirements__note"><strong>%6$s</strong> %7$s</p>
+				<p class="locfinder-api-requirements__intro">%5$s</p>
+				<ul class="locfinder-api-requirements__list">%6$s</ul>
+				<p class="locfinder-api-requirements__note"><strong>%7$s</strong> %8$s</p>
 			</div>',
 			esc_attr($name),
 			esc_attr($val),
 			esc_attr__('Enter your Google Maps API key', 'locfinder'),
+			wp_kses($getKey, [
+				'a'    => ['href' => true, 'target' => true, 'rel' => true],
+				'span' => ['class' => true],
+			]),
 			esc_html__('Enable these APIs for your key:', 'locfinder'),
 			wp_kses($items, [
 				'li'   => ['class' => true],
@@ -217,7 +293,7 @@ class General extends Base {
 				'span' => ['class' => true],
 			]),
 			esc_html__('Using an older key?', 'locfinder'),
-			esc_html__('Keys with the legacy Places API still work. We recommend enabling Places API (New).', 'locfinder')
+			esc_html__('Places API (New) is recommended, but legacy keys still work.', 'locfinder')
 		);
 	}
 
@@ -234,19 +310,24 @@ class General extends Base {
 		$name = $this->getOptionName() . '[google_maps_map_id]';
 
 		$description = sprintf(
-			/* translators: %1$s opening <a> tag, %2$s closing </a> tag */
-			__('For the best map experience, %1$screate a free Map ID%2$s. Choose <strong>JavaScript</strong> as the platform and <strong>Raster</strong> as the map type, then paste the ID above.', 'locfinder'),
+			/* translators: 1: opening <a> tag, 2: screen reader text "(opens in a new tab)", 3: closing </a> tag */
+			__('For the best map experience, %1$screate a free Map ID%2$s%3$s. Choose <strong>JavaScript</strong> as the platform and <strong>Raster</strong> as the map type, then paste the ID above.', 'locfinder'),
 			'<a href="https://console.cloud.google.com/google/maps-apis/studio/maps" target="_blank" rel="noopener">',
+			'<span class="screen-reader-text"> ' . esc_html__('(opens in a new tab)', 'locfinder') . '</span>',
 			'</a>'
 		);
 
 		printf(
-			'<input id="google_maps_map_id" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" />
-			<p class="description">%4$s</p>',
+			'<input id="google_maps_map_id" type="text" class="regular-text" name="%1$s" value="%2$s" placeholder="%3$s" aria-describedby="google_maps_map_id_description" />
+			<p id="google_maps_map_id_description" class="description">%4$s</p>',
 			esc_attr($name),
 			esc_attr($val),
 			esc_attr__('Enter Map ID', 'locfinder'),
-			wp_kses($description, ['a' => ['href' => true, 'target' => true, 'rel' => true], 'strong' => []])
+			wp_kses($description, [
+				'a'      => ['href' => true, 'target' => true, 'rel' => true],
+				'span'   => ['class' => true],
+				'strong' => [],
+			])
 		);
 	}
 
@@ -332,7 +413,7 @@ class General extends Base {
 			esc_attr($nameLng),
 			esc_attr($lng),
 			esc_attr($placeholderLng),
-			esc_html__('Leave blank to center the map using the average of your saved locations.', 'locfinder')
+			esc_html__('Leave blank to center the map on the average position of your saved addresses.', 'locfinder')
 		);
 	}
 
@@ -386,7 +467,11 @@ class General extends Base {
 
 		printf(
 			'<p class="description">%s</p>',
-			esc_html__('A "Locations" page was created automatically when the plugin is activated, but you can select a different page here.', 'locfinder')
+			esc_html(sprintf(
+				/* translators: %s: plural name chosen in settings, mid-sentence, e.g. "locations" or "programs" */
+				__('A page listing your %s was created automatically when the plugin was activated. You can select a different page here.', 'locfinder'),
+				Options::getItemLabels()['pluralLower']
+			))
 		);
 	}
 
@@ -462,6 +547,37 @@ class General extends Base {
 		$out['enqueue_on'] = isset($options['enqueue_on'])
 			? Sanitizer::select($options['enqueue_on'], ['shortcode_only', 'all'], 'shortcode_only')
 			: (string) ($existing['enqueue_on'] ?? 'shortcode_only');
+
+		$out['item_label'] = isset($options['item_label'])
+			? Sanitizer::select(
+				$options['item_label'],
+				[...array_keys(Options::getItemLabelPresets()), Options::ITEM_LABEL_CUSTOM],
+				Options::ITEM_LABEL_DEFAULT
+			)
+			: (string) ($existing['item_label'] ?? Options::ITEM_LABEL_DEFAULT);
+
+		$out['item_label_singular'] = isset($options['item_label_singular'])
+			? Sanitizer::text($options['item_label_singular'], Options::ITEM_LABEL_MAX_LENGTH)
+			: (string) ($existing['item_label_singular'] ?? '');
+
+		$out['item_label_plural'] = isset($options['item_label_plural'])
+			? Sanitizer::text($options['item_label_plural'], Options::ITEM_LABEL_MAX_LENGTH)
+			: (string) ($existing['item_label_plural'] ?? '');
+
+		if (
+			$out['item_label'] === Options::ITEM_LABEL_CUSTOM
+			&& ($out['item_label_singular'] === '' || $out['item_label_plural'] === '')
+		) {
+			$out['item_label']          = (string) ($existing['item_label'] ?? Options::ITEM_LABEL_DEFAULT);
+			$out['item_label_singular'] = (string) ($existing['item_label_singular'] ?? '');
+			$out['item_label_plural']   = (string) ($existing['item_label_plural'] ?? '');
+
+			add_settings_error(
+				$this->getOptionName(),
+				'locfinder_item_label_incomplete',
+				__('To use your own name, enter both the singular and the plural. Your previous choice was kept.', 'locfinder')
+			);
+		}
 
 		return $out;
 	}

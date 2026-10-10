@@ -5,7 +5,7 @@
 	"title": "Location Details",
 	"category": "widgets",
 	"icon": "location-alt",
-	"description": "Renders the address, hours, contact info, and categories for the current Location Finder location. Server-rendered; only meaningful inside the Single Location template.",
+	"description": "Shows the address, hours, contact info, and categories on the single page template. Server-rendered.",
 	"supports": {
 		"html": false,
 		"multiple": false,

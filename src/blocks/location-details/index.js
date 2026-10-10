@@ -21,8 +21,14 @@ import Edit from "./edit.jsx";
 import "./editor.scss";
 
 import { registerBlockType } from "@wordpress/blocks";
+import { __, sprintf } from "@wordpress/i18n";
+
+const singular =
+	window.locfinderEditor?.itemLabels?.singular || __("Location", "locfinder");
 
 registerBlockType(metadata.name, {
+	/* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */
+	title: sprintf(__("%s Details", "locfinder"), singular),
 	edit: Edit,
 	save: () => null,
 });

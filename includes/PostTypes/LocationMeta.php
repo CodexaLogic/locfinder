@@ -71,7 +71,8 @@ class LocationMeta {
 	public function registerMetaBox(): void {
 		add_meta_box(
 			'location_details',
-			__('Location Details', 'locfinder'),
+			/* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */
+			sprintf(__('%s Details', 'locfinder'), Options::getItemLabels()['singular']),
 			[$this, 'renderLocationMetaBox'],
 			'locfinder_location',
 			'normal',
@@ -227,7 +228,15 @@ class LocationMeta {
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<p class="description"><?php esc_html_e('Check "Closed" for days the location is not open. Check "Open 24 Hours" to skip setting specific times. Checking either disables the time fields, since whatever they contain is not saved.', 'locfinder'); ?></p>
+			<p class="description">
+				<?php
+				printf(
+					/* translators: %s: singular name chosen in settings, mid-sentence, e.g. "location" or "program" */
+					esc_html__('Check "Closed" for days the %s is not open. Check "Open 24 Hours" to skip setting specific times. Checking either disables the time fields, since whatever they contain is not saved.', 'locfinder'),
+					esc_html(Options::getItemLabels()['singularLower'])
+				);
+				?>
+			</p>
 		</div>
 		<?php
 	}

@@ -5,7 +5,6 @@
  * Expects variables set by Base::render():
  * - $currentPageSlug     (string)
  * - $pageTitle           (string)
- * - $version             (string)
  * - $tabs                (array slug => label)
  * - $settingsGroup       (string)
  * - $hasSaveableSettings (bool)
@@ -18,34 +17,32 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <div class="wrap locfinder-admin">
-	<div class="locfinder-admin__header">
-		<div class="locfinder-admin__header-inner">
-			<h1 class="locfinder-admin__title"><?php echo esc_html($pageTitle); ?></h1>
-			<?php if (!empty($version)) : ?>
-				<?php /* translators: %s: plugin version number, e.g. "1.0.0" */ ?>
-				<span class="locfinder-admin__version"><?php echo esc_html(sprintf(__('Version: %s', 'locfinder'), $version)); ?></span>
-			<?php endif; ?>
-		</div>
+	<h1 class="screen-reader-text"><?php echo esc_html($pageTitle); ?></h1>
 
+	<div class="locfinder-admin__toolbar">
 		<?php if (!empty($tabs) && is_array($tabs)) : ?>
-			<nav class="nav-tab-wrapper locfinder-admin__tabs" aria-label="<?php echo esc_attr__('Locfinder settings tabs', 'locfinder'); ?>">
+			<nav class="nav-tab-wrapper locfinder-admin__tabs" aria-label="<?php esc_attr_e('Location Finder settings', 'locfinder'); ?>">
 				<?php foreach ($tabs as $slug => $label) :
-					$url    = menu_page_url($slug, false);
 					$active = ($slug === $currentPageSlug);
 				?>
 					<a class="nav-tab<?php echo $active ? ' nav-tab-active' : ''; ?>"
-						href="<?php echo esc_url($url); ?>"
-						aria-current="<?php echo $active ? 'page' : 'false'; ?>">
+						href="<?php echo esc_url(menu_page_url($slug, false)); ?>"
+						<?php echo $active ? 'aria-current="page"' : ''; ?>>
 						<?php echo esc_html($label); ?>
 					</a>
 				<?php endforeach; ?>
 			</nav>
 		<?php endif; ?>
+		<?php if ($hasSaveableSettings) : ?>
+			<button type="submit" form="locfinder-settings-form" class="button button-primary"><?php esc_html_e('Save changes', 'locfinder'); ?></button>
+		<?php endif; ?>
 	</div>
+
+	<hr class="wp-header-end">
 
 	<div class="locfinder-admin__content">
 		<?php if ($hasSaveableSettings) : ?>
-			<form class="locfinder-admin__form" method="post" action="options.php">
+			<form id="locfinder-settings-form" class="locfinder-admin__form" method="post" action="options.php">
 				<?php
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display flag, not a state change.
 				if (isset($_GET['settings-updated'])) {
@@ -53,14 +50,18 @@ if (!defined('ABSPATH')) {
 				}
 				settings_errors($settingsGroup);
 				settings_fields($settingsGroup);
-				do_settings_sections($currentPageSlug);
-				submit_button(esc_html__('Save Settings', 'locfinder'));
 				?>
+				<div class="locfinder-admin__sections">
+					<?php $this->renderSections(); ?>
+				</div>
+				<div class="locfinder-admin__actions">
+					<?php submit_button(__('Save changes', 'locfinder'), 'primary', 'submit', false); ?>
+				</div>
 			</form>
 		<?php else : ?>
-			<?php
-			do_settings_sections($currentPageSlug);
-			?>
+			<div class="locfinder-admin__sections">
+				<?php $this->renderSections(); ?>
+			</div>
 		<?php endif; ?>
 	</div>
 </div>

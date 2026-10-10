@@ -523,7 +523,8 @@ class AjaxController {
 			|| $post->post_type !== 'locfinder_location'
 			|| $post->post_status !== 'publish'
 		) {
-			wp_send_json_error(['message' => __('Location not found.', 'locfinder')]);
+			/* translators: %s: singular name chosen in settings, e.g. "Location" or "Program" */
+			wp_send_json_error(['message' => sprintf(__('%s not found.', 'locfinder'), Options::getItemLabels()['singular'])]);
 		}
 
 		$locationIdMap = $this->repo->getLocationIdsByPostIds([$postId]);
@@ -721,10 +722,10 @@ class AjaxController {
 	 * Deliberately distinct from an empty locationInfo caused by every
 	 * visibility toggle being off, that case should render nothing.
 	 *
-	 * @return string  Fallback HTML for a location with no underlying data.
+	 * @return string  Fallback HTML for an entry with no underlying data.
 	 */
 	private static function getNoInfoHtml(): string {
-		return '<div class="locfinder-result__no-info">' . esc_html__('No location information available.', 'locfinder') . '</div>';
+		return '<div class="locfinder-result__no-info">' . esc_html__('No details available.', 'locfinder') . '</div>';
 	}
 
 	/**

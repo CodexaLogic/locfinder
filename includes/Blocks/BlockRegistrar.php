@@ -63,6 +63,7 @@ class BlockRegistrar {
 			'defaultResultsLayout'      => Options::getResultsLayout(),
 			'defaultResultsPosition'    => Options::getResultsPosition(),
 			'defaultResultsSideColumns' => Options::getResultsSideColumns(),
+			'itemLabels'                => Options::getItemLabels(),
 		];
 
 		$handles = [

@@ -177,7 +177,7 @@ $config = [
 	</script>
 
 	<div class="locfinder__search">
-		<form class="locfinder-form<?php echo $hasSearchFields ? '' : ' locfinder-form--empty'; ?>" role="search" aria-label="<?php /* translators: %s: unique instance ID, used to distinguish multiple search forms on the same page for screen readers. */ echo esc_attr(sprintf(__('Location search %s', 'locfinder'), $id)); ?>">
+		<form class="locfinder-form<?php echo $hasSearchFields ? '' : ' locfinder-form--empty'; ?>" role="search" aria-label="<?php /* translators: %s: unique instance ID, used to distinguish multiple search forms on the same page for screen readers. */ echo esc_attr(sprintf(__('Directory search %s', 'locfinder'), $id)); ?>">
 			<?php if ($keywordSearch) : ?>
 				<label for="<?php echo esc_attr($id . '-locfinder_keyword'); ?>" class="locfinder-form__label">
 					<?php echo esc_html($keywordPlaceholder); ?>
@@ -337,7 +337,7 @@ $config = [
 			<ul
 				class="locfinder__results"
 				role="list"
-				aria-label="<?php esc_attr_e('Location search results', 'locfinder'); ?>"
+				aria-label="<?php esc_attr_e('Search results', 'locfinder'); ?>"
 			></ul>
 
 			<div
@@ -350,13 +350,6 @@ $config = [
 		<?php if (Options::getMapEnabled()) : ?>
 			<?php /* translators: %s: unique instance ID for this map */ ?>
 			<div class="locfinder__map" role="region" aria-label="<?php echo esc_attr(sprintf(__('Location map %s', 'locfinder'), $id)); ?>"></div>
-		<?php else : ?>
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped within renderMapDisabledNotice().
-			echo Frontend::renderMapDisabledNotice(
-				__('Visitors see this directory without a map. This note is only visible to editors and admins.', 'locfinder')
-			);
-			?>
 		<?php endif; ?>
 	</div>
 </div>

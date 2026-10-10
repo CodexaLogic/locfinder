@@ -1,7 +1,6 @@
 @use "../../common/scss/styles" as *;
 @use "components/map-base";
 @use "components/results";
-@use "components/disabled-notice" as *;
 
 /**
  * Single location page styles.
@@ -76,10 +75,6 @@
 
 	&__map-wrap {
 		position: relative;
-
-		.locfinder__map--disabled-notice {
-			@include locfinder-disabled-notice;
-		}
 	}
 
 	&__map-loading {

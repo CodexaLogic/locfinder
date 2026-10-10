@@ -35,43 +35,50 @@ class MapDisplay extends Base {
 	/** @inheritDoc */
 	public function register(): void {
 		add_settings_section(
-			'locfinder_map_display',
-			__('Map Height & Behavior', 'locfinder'),
+			'locfinder_map_size_section',
+			__('Map Size', 'locfinder'),
 			null,
 			$this->getSlug()
 		);
 
 		add_settings_section(
-			'locfinder_map_pins',
-			__('Map Pins', 'locfinder'),
+			'locfinder_map_behavior_section',
+			__('Map Behavior', 'locfinder'),
+			null,
+			$this->getSlug()
+		);
+
+		add_settings_section(
+			'locfinder_map_appearance_section',
+			__('Map Appearance', 'locfinder'),
 			null,
 			$this->getSlug()
 		);
 
 		add_settings_field(
 			'map_height',
-			__('Map Height', 'locfinder'),
+			__('Height', 'locfinder'),
 			[$this, 'renderMapHeight'],
 			$this->getSlug(),
-			'locfinder_map_display',
+			'locfinder_map_size_section',
 			['label_for' => 'map_height']
 		);
 
 		add_settings_field(
 			'map_min_height',
-			__('Minimum Map Height', 'locfinder'),
+			__('Minimum Height', 'locfinder'),
 			[$this, 'renderMapMinHeight'],
 			$this->getSlug(),
-			'locfinder_map_display',
+			'locfinder_map_size_section',
 			['label_for' => 'map_min_height']
 		);
 
 		add_settings_field(
 			'map_width',
-			__('Map Width', 'locfinder'),
+			__('Width', 'locfinder'),
 			[$this, 'renderMapWidth'],
 			$this->getSlug(),
-			'locfinder_map_display',
+			'locfinder_map_size_section',
 			['label_for' => 'map_width']
 		);
 
@@ -80,7 +87,7 @@ class MapDisplay extends Base {
 			__('Auto-Fit Map to Markers', 'locfinder'),
 			[$this, 'renderAutoFit'],
 			$this->getSlug(),
-			'locfinder_map_display'
+			'locfinder_map_behavior_section'
 		);
 
 		add_settings_field(
@@ -88,7 +95,7 @@ class MapDisplay extends Base {
 			__('Map Controls', 'locfinder'),
 			[$this, 'renderControls'],
 			$this->getSlug(),
-			'locfinder_map_display'
+			'locfinder_map_behavior_section'
 		);
 
 		add_settings_field(
@@ -96,7 +103,7 @@ class MapDisplay extends Base {
 			__('Marker Clustering', 'locfinder'),
 			[$this, 'renderClustering'],
 			$this->getSlug(),
-			'locfinder_map_display'
+			'locfinder_map_behavior_section'
 		);
 
 		add_settings_field(
@@ -104,7 +111,7 @@ class MapDisplay extends Base {
 			__('Cluster Max Zoom', 'locfinder'),
 			[$this, 'renderClusterMaxZoom'],
 			$this->getSlug(),
-			'locfinder_map_display',
+			'locfinder_map_behavior_section',
 			['label_for' => 'cluster_max_zoom']
 		);
 
@@ -113,7 +120,7 @@ class MapDisplay extends Base {
 			__('Map Style', 'locfinder'),
 			[$this, 'renderProMapDisplayFields'],
 			$this->getSlug(),
-			'locfinder_map_display',
+			'locfinder_map_appearance_section',
 			['context' => 'map_style']
 		);
 
@@ -122,8 +129,7 @@ class MapDisplay extends Base {
 			__('Default Pin Color & Icon', 'locfinder'),
 			[$this, 'renderPinColor'],
 			$this->getSlug(),
-			'locfinder_map_pins',
-			['label_for' => 'pin_color']
+			'locfinder_map_appearance_section'
 		);
 
 		add_settings_field(
@@ -131,7 +137,7 @@ class MapDisplay extends Base {
 			__('Category Pin Colors & Icons', 'locfinder'),
 			[$this, 'renderPinsByTerm'],
 			$this->getSlug(),
-			'locfinder_map_pins'
+			'locfinder_map_appearance_section'
 		);
 	}
 
@@ -213,14 +219,18 @@ class MapDisplay extends Base {
 			return;
 		}
 
-		$messages = [
-			'map_style' => __('Customize your map colors, roads, labels, and points of interest to match your website.', 'locfinder'),
-			'pin_icon'  => __('Use a custom pin icon.', 'locfinder'),
+		$upsells = [
+			'map_style' => [
+				'title'       => __('Style your map', 'locfinder'),
+				'description' => __('Change your map\'s colors, roads, labels, and points of interest to match your website.', 'locfinder'),
+			],
+			'pin_icon' => [
+				'title'       => __('Use custom pins', 'locfinder'),
+				'description' => __('Replace the standard pin with your own icon or image.', 'locfinder'),
+			],
 		];
 
-		Admin::proUpsell([
-			'message' => $messages[$context] ?? __('Unlock this option.', 'locfinder'),
-		]);
+		Admin::proUpsell($upsells[$context] ?? []);
 	}
 
 	/**
@@ -358,7 +368,7 @@ class MapDisplay extends Base {
 	 */
 	public function renderPinsByTerm(): void {
 		if (has_action('locfinder/pro/render_term_pins_ui')) {
-			echo '<p>' . esc_html__('Make your map more visual by color coding pins or using custom icons for each location taxonomy term.', 'locfinder') . '</p>';
+			echo '<p>' . esc_html__('Make your map more visual by color coding pins or using custom icons for each category.', 'locfinder') . '</p>';
 
 			$taxonomy = (string) $this->getPageOption('term_pins_taxonomy', 'locfinder_category');
 
@@ -373,7 +383,8 @@ class MapDisplay extends Base {
 		}
 
 		Admin::proUpsell([
-			'message' => __('Customize your map with colors, images, or vector icons for each category, tag, or other taxonomy term.', 'locfinder'),
+			'title'       => __('Style pins by category', 'locfinder'),
+			'description' => __('Give each category, tag, or term its own pin color, image, or icon so visitors can tell results apart at a glance.', 'locfinder'),
 		]);
 	}
 

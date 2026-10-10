@@ -8,6 +8,7 @@
 namespace Locfinder\Core;
 
 use Locfinder\Admin\Admin;
+use Locfinder\Admin\Setup;
 use Locfinder\Blocks\BlockRegistrar;
 use Locfinder\Api\AjaxController;
 use Locfinder\Frontend\Frontend;
@@ -40,6 +41,7 @@ class Locfinder {
 		$this->defineShortcodeHooks();
 		$this->defineAjaxHooks();
 		$this->defineLocationsPageHooks();
+		$this->defineSetupHooks();
 	}
 
 	/**
@@ -54,6 +56,8 @@ class Locfinder {
 		add_action('admin_init',            [$admin, 'settingsInit']);
 		add_filter('locfinder/settings_tabs', [$admin, 'filterSettingsTabs']);
 		add_filter('script_loader_tag', [$admin, 'updateScriptTag'], 10, 2);
+		add_filter('admin_body_class', [$admin, 'addBodyClass']);
+		add_action('in_admin_header', [$admin, 'renderTopbar']);
 	}
 
 	/**
@@ -136,5 +140,20 @@ class Locfinder {
 	private function defineLocationsPageHooks(): void {
 		$locationsPage = new LocationsPage();
 		add_action('admin_notices', [$locationsPage, 'maybeShowMissingPageNotice']);
+		add_action('update_option_' . LocationsPage::OPTION_NAME, [$locationsPage, 'syncTitle'], 10, 2);
+	}
+
+	/**
+	 * Registers first-run setup hooks.
+	 *
+	 * @return void
+	 */
+	private function defineSetupHooks(): void {
+		$setup = new Setup();
+		add_action('admin_menu', [$setup, 'registerPage'], 20);
+		add_action('admin_notices', [$setup, 'renderNotice']);
+		add_action('admin_enqueue_scripts', [$setup, 'enqueueBannerStyles']);
+		add_action('admin_post_' . Setup::SAVE_ACTION, [$setup, 'handleSave']);
+		add_action('admin_post_' . Setup::SKIP_ACTION, [$setup, 'handleSkip']);
 	}
 }

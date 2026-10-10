@@ -110,7 +110,7 @@ class Admin {
 			$first->getCapability(),
 			$first->getSlug(),
 			[$this, 'renderRouter'],
-			'dashicons-location-alt',
+			$this->getMenuIcon(),
 			80
 		);
 
@@ -215,6 +215,19 @@ class Admin {
 	}
 
 	/**
+	 * Gets the admin menu icon as an SVG data URI.
+	 *
+	 * WordPress recolors the icon to match the admin color scheme.
+	 *
+	 * @return string  Base64-encoded SVG data URI.
+	 */
+	private function getMenuIcon(): string {
+		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="16.5 31 236 236"><path fill="black" d="M118.245,49.069a81.1,81.1,0,1,0,39.387,156.35l39.349,39.349A13.516,13.516,0,0,0,216.1,225.653l-51.212-51.212a3.862,3.862,0,0,0-4.914-.454,54.065,54.065,0,1,1-40.485-97.739,3.862,3.862,0,0,0,3.154-3.8V52.894a3.862,3.862,0,0,0-4.393-3.825ZM140.547,49.069a81.1,81.1,0,0,1,47.281,24.091,3.862,3.862,0,0,1-.513,5.8l-15.822,11.5a3.862,3.862,0,0,1-4.925-.32,54.065,54.065,0,0,0-27.26-13.89,3.862,3.862,0,0,1-3.154-3.8V52.894a3.862,3.862,0,0,1,4.393-3.825ZM200.936,91.2a81.1,81.1,0,0,1,9.1,46.807,3.862,3.862,0,0,1-4.774,3.337l-18.976-4.731a3.862,3.862,0,0,1-2.921-3.979,54.065,54.065,0,0,0-5.144-26.461,3.862,3.862,0,0,1,1.218-4.783l15.822-11.5a3.862,3.862,0,0,1,5.677,1.305ZM204.639,159.648a81.1,81.1,0,0,1-10.559,18.662,3.862,3.862,0,0,1-5.811.4l-13.829-13.829a3.862,3.862,0,0,1-.454-4.914,54.067,54.067,0,0,0,4.581-8.1,3.862,3.862,0,0,1,4.447-2.142l18.976,4.731a3.862,3.862,0,0,1,2.649,5.188Z"/></svg>';
+
+		return 'data:image/svg+xml;base64,' . base64_encode($svg);
+	}
+
+	/**
 	 * Registers settings and their page-specific sanitizers.
 	 *
 	 * @return void
@@ -279,15 +292,49 @@ class Admin {
 	}
 
 	/**
+	 * Gets the slug of the Location Finder admin page being viewed.
+	 *
+	 * @return string  Page slug, e.g. "locfinder_general", or an empty string on other screens.
+	 */
+	private function getCurrentPage(): string {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen value.
+		$page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
+
+		return str_starts_with($page, 'locfinder_') ? $page : '';
+	}
+
+	/**
+	 * Adds a body class to Location Finder settings and Setup pages.
+	 *
+	 * @param  string $classes  Space-separated admin body classes.
+	 * @return string           Classes with "locfinder-settings-screen" added on Location Finder pages.
+	 */
+	public function addBodyClass(string $classes): string {
+		return $this->getCurrentPage() !== '' ? $classes . ' locfinder-settings-screen' : $classes;
+	}
+
+	/**
+	 * Prints the top bar on Location Finder settings and Setup pages, above all admin notices.
+	 *
+	 * @return void
+	 */
+	public function renderTopbar(): void {
+		if ($this->getCurrentPage() === '') {
+			return;
+		}
+
+		require LOCFINDER_DIR . 'includes/Admin/views/partials/topbar.php';
+	}
+
+	/**
 	 * Enqueues Locfinder admin assets where needed.
 	 *
 	 * @return void
 	 */
 	public function enqueueFiles(): void {
-		$screen = get_current_screen();
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen value.
-		$page                    = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
-		$isLocfinderSettingsPage = ($page !== '' && str_starts_with($page, 'locfinder_'));
+		$screen                  = get_current_screen();
+		$page                    = $this->getCurrentPage();
+		$isLocfinderSettingsPage = $page !== '';
 		$isLocationEditor        = ($screen && $screen->base === 'post' && $screen->post_type === 'locfinder_location');
 
 		if (!$isLocfinderSettingsPage && !$isLocationEditor) {
@@ -376,49 +423,56 @@ class Admin {
 	}
 
 	/**
-	 * Renders a Pro upsell message.
+	 * Renders a Pro upsell for a locked feature.
+	 *
+	 * Shows an optional description, then the Pro badge, a short title, and a
+	 * "Learn more" link on one line.
 	 *
 	 * @param array $args {
 	 *     Optional. Display arguments.
 	 *
-	 *     @type string $message    Plain-text description of the locked feature.
-	 *     @type string $url        Upgrade URL. Empty disables the link.
-	 *     @type string $badgeLabel Pill text. Default 'Pro'.
-	 *     @type string $linkText   Link text before the arrow. Default 'Learn more'.
+	 *     @type string $title       Short phrase next to the badge, e.g. "Style your map".
+	 *     @type string $description Longer explanation of the feature, shown above the badge. Default empty.
+	 *     @type string $url         Upgrade URL. Empty hides the link.
+	 *     @type string $badgeLabel  Badge text. Default 'Pro'.
+	 *     @type string $linkText    Link text before the arrow. Default 'Learn more'.
 	 * }
 	 * @return void
 	 */
 	public static function proUpsell(array $args = []): void {
-		$defaults = [
-			'message'    => __('This feature is available in the Pro version of Locfinder.', 'locfinder'),
-			'url'        => defined('LOCFINDER_PRO_URL') ? LOCFINDER_PRO_URL : '',
-			'badgeLabel' => __('Pro', 'locfinder'),
-			'linkText'   => __('Learn more', 'locfinder'),
-		];
+		$args = array_merge([
+			'title'       => __('Available in Pro', 'locfinder'),
+			'description' => '',
+			'url'         => defined('LOCFINDER_PRO_URL') ? LOCFINDER_PRO_URL : '',
+			'badgeLabel'  => __('Pro', 'locfinder'),
+			'linkText'    => __('Learn more', 'locfinder'),
+		], $args);
 
-		$args = array_merge($defaults, $args);
+		$description = (string) $args['description'];
+		$url         = (string) $args['url'];
 
-		$message    = (string) $args['message'];
-		$url        = (string) $args['url'];
-		$badgeLabel = (string) $args['badgeLabel'];
-		$linkText   = (string) $args['linkText'];
+		$html = $description !== ''
+			? sprintf('<p class="description">%s</p>', esc_html($description))
+			: '';
 
 		$link = $url !== ''
 			? sprintf(
-				'<a class="locfinder-pro-note__link" href="%s" target="_blank" rel="noopener noreferrer">%s <span aria-hidden="true">&rarr;</span></a>',
+				'<a class="locfinder-pro-note__link" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true">&rarr;</span></a>',
 				esc_url($url),
-				esc_html($linkText)
+				esc_html((string) $args['linkText']),
+				esc_html__('(opens in a new tab)', 'locfinder')
 			)
 			: '';
 
-		$html = sprintf(
-			'<div class="locfinder-pro-note"><span class="locfinder-pro-badge"><span class="dashicons dashicons-lock" aria-hidden="true"></span>%s</span><span class="locfinder-pro-note__text">%s</span>%s</div>',
-			esc_html($badgeLabel),
-			esc_html($message),
+		$html .= sprintf(
+			'<div class="locfinder-pro-note"><span class="locfinder-pro-badge"><span class="dashicons dashicons-lock" aria-hidden="true"></span>%1$s</span><span class="locfinder-pro-note__text">%2$s</span>%3$s</div>',
+			esc_html((string) $args['badgeLabel']),
+			esc_html((string) $args['title']),
 			$link
 		);
 
 		echo wp_kses($html, [
+			'p'    => ['class' => true],
 			'div'  => ['class' => true],
 			'span' => ['class' => true, 'aria-hidden' => true],
 			'a'    => [

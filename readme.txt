@@ -6,7 +6,7 @@ Tags: store locator, location finder, resource directory, business directory, go
 Requires at least: 6.5
 Requires PHP:      8.0
 Tested up to:      7.1
-Stable tag:        1.3.0
+Stable tag:        1.4.0
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Full documentation and setup guide: [https://codexalogic.com/documentation/getti
 
 = Highlights =
 * Create store locators, business directories, service listings, and resource directories.
+* Name your directory: Locations, Stores, Programs, Services, and more, or a name of your own choosing.
 * Run a searchable directory with or without Google Maps.
 * Search by keyword and filter by category.
 * Display results in a list or grid layout.
@@ -33,7 +34,7 @@ Full documentation and setup guide: [https://codexalogic.com/documentation/getti
 * Show or hide listing details, including images, descriptions, addresses, phone numbers, email addresses, websites, and hours.
 * Give each listing its own detail page.
 * Embed your directory with the Location Finder block or [locfinder] shortcode.
-* Use the automatically created Locations page or choose your own.
+* Use the automatically created directory page or choose your own.
 * Built with accessibility in mind: semantic markup, screen reader announcements for search results, and support for reduced motion.
 * Translation-ready (i18n).
 
@@ -41,7 +42,7 @@ Full documentation and setup guide: [https://codexalogic.com/documentation/getti
 * Set your own distance choices for radius search, in place of the built-in 10, 25, 50, and 75.
 * Filter listings by any registered taxonomy, beyond Location Categories, so visitors can narrow results by service area, amenity, or other custom terms.
 * Distance display on each result for geolocated or radius searches.
-* A custom HTML template for result cards, with dynamic tokens for every location field.
+* A custom result layout: choose which details each result shows, in any order, with your own text.
 * Custom map styling (JSON), custom pin icons, and per-category pin colors and icons.
 * Show an "Open Now" or "Closed Now" badge based on each listing's hours and your site's timezone.
 
@@ -65,10 +66,10 @@ Connect community members with public services, assistance programs, and local r
 == Installation ==
 
 1. In WordPress, go to Plugins > Add New, search for "Location Finder" by codexalogic, and click Install Now. Alternatively, upload the plugin ZIP through Plugins > Add New > Upload Plugin.
-2. Activate the plugin.
-3. Under Location Finder > General, turn off "Enable Google Maps" to create a directory without maps. To use Google Maps features, leave this setting enabled and enter your Google Maps API key.
-4. Add your listings under Locations in the WordPress admin.
-5. Visit the automatically created Locations page, or display your locator or directory on another page using the Location Finder block or [locfinder] shortcode.
+2. Activate the plugin. A short Setup screen asks what your directory lists and whether to show a map. You can skip it and change both later under Location Finder > General.
+3. To use Google Maps features, leave "Enable Google Maps" on under Location Finder > General and enter your Google Maps API key. The setting links to Google Cloud, where you can create one. Turn it off to create a directory without maps.
+4. Add your listings under Location Finder > All Locations.
+5. Visit the automatically created directory page, or display your locator or directory on another page using the Location Finder block or [locfinder] shortcode.
 
 == Shortcodes ==
 
@@ -160,6 +161,27 @@ Yes. Use the `locfinder` text domain and place translation files in the `/langua
 8. The Location Finder block in the WordPress editor, with every display option easily configurable.
 
 == Changelog ==
+
+= 1.4.0 =
+* New: Choose what your directory lists, such as Locations, Stores, Programs, or Services, or enter your own name. Admin menus, buttons, block editor labels, and messages visitors see follow your choice.
+* New: A short Setup screen on first activation asks what your directory lists and whether to show a map.
+* New: A setup banner on the Dashboard, Plugins, and Location Finder screens links to the Setup screen until you finish or skip it.
+* New: The page the plugin created is renamed to match your directory name, unless you have changed its title.
+* Improved: Redesigned settings pages with a card layout, on/off switches, and a cleaner header.
+* Improved: The Location Finder logo now appears in the settings header and the admin menu.
+* Improved: Map Display settings are grouped into Map Size, Map Behavior, and Map Appearance.
+* Improved: Pro feature notes now explain each feature, with a short summary and a "Learn more" link on one line.
+* Improved: Form fields on the settings pages have stronger borders, making them easier to see.
+* Improved: Clearer setting descriptions, including the custom result layout.
+* Improved: The Google Maps API key setting now links to Google Cloud to create a key.
+* Improved: The default "No results" message follows your directory name. Custom messages are kept.
+* Changed: The default address search placeholder is now "Address or postal code."
+* Changed: When Google Maps is turned off, editors and admins no longer see a "Google Maps is turned off" notice on directory and listing pages, so they see the same page as visitors.
+* Fixed: With Google Maps turned off, the search form no longer overlaps the content above it on wide screens.
+* Fixed: WordPress notices, such as update messages, now appear below the Location Finder header instead of above it.
+* Fixed: With "Delete Data on Uninstall" enabled, uninstalling no longer deletes a page you assigned yourself. Only the page the plugin created is removed.
+* Fixed: Links on the settings pages now use the brand color.
+* Fixed: Accessibility improvements on the settings pages, including a page heading for screen readers, labels for links that open in a new tab, and help text linked to the Google Maps fields.
 
 = 1.3.0 =
 * New: Address suggestions now use Google's Places API (New) and automatically fall back to the legacy Places API for older API keys.

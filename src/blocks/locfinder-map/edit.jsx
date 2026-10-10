@@ -12,7 +12,6 @@ import {
 	ToggleControl,
 } from "@wordpress/components";
 import { store as coreStore } from "@wordpress/core-data";
-import { createInterpolateElement } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import ServerSideRender from "@wordpress/server-side-render";
@@ -364,32 +363,22 @@ export default function Edit({ attributes, setAttributes }) {
 							onChange={(value) =>
 								setAttributes({ taxonomy: value })
 							}
-							help={
-								allowedTaxonomies.length > 1
-									? undefined
-									: createInterpolateElement(
-											__(
-												"Let visitors filter by any registered taxonomy. <a>Learn more</a>",
-												"locfinder"
-											),
-											{
-												a: (
-													<a
-														href={proUrl}
-														target="_blank"
-														rel="noopener noreferrer"
-													>
-														Learn more{" "}
-														<span aria-hidden="true">
-															→
-														</span>
-													</a>
-												),
-											}
-										)
-							}
 						/>
 					)}
+					{(categorySearch || showCategories) &&
+						allowedTaxonomies.length <= 1 && (
+							<ProUpsell
+								url={proUrl}
+								title={__(
+									"Filter by any taxonomy",
+									"locfinder"
+								)}
+								description={__(
+									"Let visitors filter by any taxonomy, such as service area or amenity.",
+									"locfinder"
+								)}
+							/>
+						)}
 					<TextControl
 						label={__("Search Button Label", "locfinder")}
 						help={__(
@@ -620,8 +609,9 @@ export default function Edit({ attributes, setAttributes }) {
 					) : (
 						<ProUpsell
 							url={proUrl}
-							message={__(
-								"Show an “Open Now” or “Closed Now” badge based on each location’s weekly hours",
+							title={__("Show live open status", "locfinder")}
+							description={__(
+								"Show an “Open Now” or “Closed Now” badge based on each result’s weekly hours.",
 								"locfinder"
 							)}
 						/>
